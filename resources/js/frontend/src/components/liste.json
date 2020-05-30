@@ -1,0 +1,392 @@
+ {
+   "id": "1",
+   "name": "Kebaplar",
+   "position": "0",
+   "categoryImage": "https:\/\/i.hizliresim.com\/qd5JnW.jpg",
+   "menuItems": [{
+     "id": "276675",
+     "name": "Beyti (1,5 porsiyon)",
+     "quantity": 1,
+     "position": "1",
+     "description": "Soğan salatası, ezme salata, mevsim salatası, pişmiş soğan, pişmiş domates, biber, yeşillik, limon",
+     "price": "40",
+     "category_name": "Kebaplar"
+   }, {
+     "id": "781750",
+     "name": "Kuşbaşı Kebap",
+     "quantity": 1,
+     "position": "1",
+     "description": "Soğan salatası, ezme salata, mevsim salatası, pişmiş soğan, pişmiş domates, biber, yeşillik, limon",
+     "price": "26",
+     "category_name": "Kebaplar"
+   }, {
+     "id": "942504",
+     "name": "Patlıcan Kebap (1,5 porsiyon)",
+     "quantity": 1,
+     "position": "1",
+     "description": "Soğan salatası, ezme salata, mevsim salatası, pişmiş soğan, pişmiş domates, biber, yeşillik, limon",
+     "price": "40",
+     "category_name": "Kebaplar"
+   }, {
+     "id": "982211",
+     "name": "Adana Kebap",
+     "position": "1",
+     "description": "Soğan salatası, ezme salata, mevsim salatası, pişmiş soğan, pişmiş domates, biber, yeşillik, limon",
+     "price": "26",
+     "category_name": "Kebaplar"
+   }]
+ }, {
+   "id": "2",
+   "name": "Izgaralar",
+   "position": "0",
+   "categoryImage": "https:\/\/i.hizliresim.com\/bVnLRV.jpg",
+   "menuItems": [{
+     "id": "232635",
+     "name": "Kemikli Tavuk",
+     "quantity": 1,
+     "position": "1",
+     "description": "Soğan salatası, ezme salata, mevsim salatası, pişmiş soğan, pişmiş domates, biber, yeşillik, limon",
+     "price": "26",
+     "category_name": "Izgaralar"
+   }, {
+     "id": "303636",
+     "name": "Kuzu Kaburga",
+     "quantity": 1,
+     "position": "1",
+     "description": "Soğan salatası, ezme salata, mevsim salatası, pişmiş soğan, pişmiş domates, biber, yeşillik, limon",
+     "price": "26",
+     "category_name": "Izgaralar"
+   }, {
+     "id": "372212",
+     "name": "Çöp Şiş",
+     "quantity": 1,
+     "position": "1",
+     "description": "Soğan salatası, ezme salata, mevsim salatası, pişmiş soğan, pişmiş domates, biber, yeşillik, limon",
+     "price": "26",
+     "category_name": "Izgaralar"
+   }, {
+     "id": "486555",
+     "name": "Tavuk Pirzola",
+     "position": "1",
+     "description": "Soğan salatası, ezme salata, mevsim salatası, pişmiş soğan, pişmiş domates, biber, yeşillik, limon",
+     "price": "26",
+     "category_name": "Izgaralar"
+   }, {
+     "id": "506901",
+     "name": "Külbastı",
+     "position": "1",
+     "description": "Soğan salatası, ezme salata, mevsim salatası, pişmiş soğan, pişmiş domates, biber, yeşillik, limon",
+     "price": "40",
+     "category_name": "Izgaralar"
+   }, {
+     "id": "548493",
+     "name": "Kemiksiz Tavuk",
+     "position": "1",
+     "description": "Soğan salatası, ezme salata, mevsim salatası, pişmiş soğan, pişmiş domates, biber, yeşillik, limon",
+     "price": "26",
+     "category_name": "Izgaralar"
+   }, {
+     "id": "809453",
+     "name": "Kazbaşı",
+     "position": "1",
+     "description": "Soğan salatası, ezme salata, mevsim salatası, pişmiş soğan, pişmiş domates, biber, yeşillik, limon",
+     "price": "40",
+     "category_name": "Izgaralar"
+   }, {
+     "id": "818052",
+     "name": "Ciğer Şiş",
+     "position": "1",
+     "description": "Soğan salatası, ezme salata, mevsim salatası, pişmiş soğan, pişmiş domates, biber, yeşillik, limon",
+     "price": "26",
+     "category_name": "Izgaralar"
+   }, {
+     "id": "876332",
+     "name": "Et Pirzola (Kemikli)",
+     "position": "1",
+     "description": "Soğan salatası, ezme salata, mevsim salatası, pişmiş soğan, pişmiş domates, biber, yeşillik, limon",
+     "price": "40",
+     "category_name": "Izgaralar"
+   }, {
+     "id": "929658",
+     "name": "Kanat",
+     "position": "1",
+     "description": "Soğan salatası, ezme salata, mevsim salatası, pişmiş soğan, pişmiş domates, biber, yeşillik, limon",
+     "price": "26",
+     "category_name": "Izgaralar"
+   }]
+ }, {
+   "id": "3",
+   "name": "Fırın Ürünleri",
+   "position": "0",
+   "categoryImage": "https:\/\/i.hizliresim.com\/5aZGzq.jpg",
+   "menuItems": [{
+     "id": "237965",
+     "name": "Kaşarlı Pide",
+     "position": "1",
+     "description": "Mevsim salatası, söğüş domates, yeşillik, limon",
+     "price": "24",
+     "category_name": "Fırın Ürünleri"
+   }, {
+     "id": "463701",
+     "name": "AntepLahmacun (3 Adet)",
+     "position": "1",
+     "description": "Mevsim salatası, söğüş domates, yeşillik, limon",
+     "price": "26",
+     "category_name": "Fırın Ürünleri"
+   }, {
+     "id": "765051",
+     "name": "Sucuklu Kaşarlı Pide",
+     "position": "1",
+     "description": "Mevsim salatası, söğüş domates, yeşillik, limon",
+     "price": "26",
+     "category_name": "Fırın Ürünleri"
+   }, {
+     "id": "802205",
+     "name": "Karışık Pide",
+     "position": "1",
+     "description": "Kuşbaşı et, kaşar peyniri ve yanında mevsim salatası, söğüş domates, yeşillik, limon",
+     "price": "27",
+     "category_name": "Fırın Ürünleri"
+   }, {
+     "id": "962937",
+     "name": "Kuşbaşı Pide",
+     "position": "1",
+     "description": "Mevsim salatası, söğüş domates, yeşillik, limon",
+     "price": "26",
+     "category_name": "Fırın Ürünleri"
+   }, {
+     "id": "993298",
+     "name": "Adana Lahmacun (5 Adet)",
+     "position": "1",
+     "description": "Mevsim salatası, söğüş domates, yeşillik, limon",
+     "price": "24",
+     "category_name": "Fırın Ürünleri"
+   }]
+ }, {
+   "id": "4",
+   "name": "Çiğ Köfteler",
+   "position": "0",
+   "categoryImage": "https:\/\/i.hizliresim.com\/AD9yPX.jpg",
+   "menuItems": [{
+     "id": "894674",
+     "name": "Çiğ Köfte ( 12 Sıkım )",
+     "position": "1",
+     "description": "Marul, yeşillik, ekmek ile",
+     "price": "15",
+     "category_name": "Çiğ Köfteler"
+   }]
+ }, {
+   "id": "5",
+   "name": "Dürümler",
+   "position": "0",
+   "categoryImage": "https:\/\/i.hizliresim.com\/qd5JnW.jpg",
+   "menuItems": [{
+     "id": "151929",
+     "name": "Adana Dürüm",
+     "position": "1",
+     "description": "Mevsim salatası, pişmiş domates ve biber, yeşillik, limon",
+     "price": "24",
+     "category_name": "Dürümler"
+   }, {
+     "id": "309440",
+     "name": "Kuşbaşı Dürüm",
+     "position": "1",
+     "description": "Mevsim salatası, pişmiş domates ve biber, yeşillik, limon",
+     "price": "24",
+     "category_name": "Dürümler"
+   }, {
+     "id": "365777",
+     "name": "Ciğer Dürüm",
+     "position": "1",
+     "description": "Mevsim salatası, pişmiş domates ve biber, yeşillik, limon",
+     "price": "24",
+     "category_name": "Dürümler"
+   }, {
+     "id": "374382",
+     "name": "KEmiksiz Kaburga Dürüm",
+     "position": "1",
+     "description": "Mevsim salatası, pişmiş domates ve biber, yeşillik, limon",
+     "price": "24",
+     "category_name": "Dürümler"
+   }, {
+     "id": "621520",
+     "name": "Beyti Dürüm",
+     "position": "1",
+     "description": "Mevsim salatası, pişmiş domates ve biber, yeşillik, limon",
+     "price": "24",
+     "category_name": "Dürümler"
+   }, {
+     "id": "930254",
+     "name": "Çöp Şiş Dürüm",
+     "position": "1",
+     "description": "Mevsim salatası, pişmiş domates ve biber, yeşillik, limon",
+     "price": "24",
+     "category_name": "Dürümler"
+   }, {
+     "id": "992894",
+     "name": "Tavuk Dürüm",
+     "position": "1",
+     "description": "Mevsim salatası, pişmiş domates ve biber, yeşillik, limon",
+     "price": "24",
+     "category_name": "Dürümler"
+   }]
+ }, {
+   "id": "6",
+   "name": "Tatlılar",
+   "position": "0",
+   "categoryImage": "https:\/\/i.hizliresim.com\/MVOa4a.jpg",
+   "menuItems": [{
+     "id": "371670",
+     "name": "Künefe",
+     "position": "1",
+     "description": "",
+     "price": "10",
+     "category_name": "Tatlılar"
+   }, {
+     "id": "381622",
+     "name": "Fıstıklı Künefe",
+     "position": "1",
+     "description": "",
+     "price": "13",
+     "category_name": "Tatlılar"
+   }, {
+     "id": "648308",
+     "name": "Fıstıklı Kaymaklı Künefe",
+     "position": "1",
+     "description": "",
+     "price": "14",
+     "category_name": "Tatlılar"
+   }]
+ }, {
+   "id": "7",
+   "name": "İçecekler",
+   "position": "0",
+   "categoryImage": "https:\/\/i.hizliresim.com\/XMaEp6.jpg",
+   "menuItems": [{
+     "id": "136207",
+     "name": "Coca-Cola Şekersiz (33 cl.)",
+     "position": "1",
+     "description": "",
+     "price": "4",
+     "category_name": "İçecekler"
+   }, {
+     "id": "205023",
+     "name": "Fuse Tea (33 cl.)",
+     "position": "1",
+     "description": "",
+     "price": "4",
+     "category_name": "İçecekler"
+   }, {
+     "id": "264977",
+     "name": "Şalgam Suyu (33 cl.)",
+     "position": "1",
+     "description": "",
+     "price": "3",
+     "category_name": "İçecekler"
+   }, {
+     "id": "327652",
+     "name": "Cappy (33 cl.)",
+     "position": "1",
+     "description": "",
+     "price": "4",
+     "category_name": "İçecekler"
+   }, {
+     "id": "348995",
+     "name": "Coca-Cola Light (33 cl.)",
+     "position": "1",
+     "description": "",
+     "price": "4",
+     "category_name": "İçecekler"
+   }, {
+     "id": "490605",
+     "name": "Coca-Cola (33 cl.)",
+     "position": "1",
+     "description": "",
+     "price": "4",
+     "category_name": "İçecekler"
+   }, {
+     "id": "523399",
+     "name": "Ayran (30 cl.)",
+     "position": "1",
+     "description": "Kutu",
+     "price": "3",
+     "category_name": "İçecekler"
+   }, {
+     "id": "574976",
+     "name": "Coca-Cola Şekersiz (1 L.)",
+     "position": "1",
+     "description": "",
+     "price": "6",
+     "category_name": "İçecekler"
+   }, {
+     "id": "671107",
+     "name": "Açık Ayran (33 cl.)",
+     "position": "1",
+     "description": "",
+     "price": "3",
+     "category_name": "İçecekler"
+   }, {
+     "id": "709151",
+     "name": "Su",
+     "position": "1",
+     "description": "",
+     "price": "1.5",
+     "category_name": "İçecekler"
+   }, {
+     "id": "716353",
+     "name": "Soda",
+     "position": "1",
+     "description": "",
+     "price": "1.5",
+     "category_name": "İçecekler"
+   }, {
+     "id": "793288",
+     "name": "Fanta (33 cl.)",
+     "position": "1",
+     "description": "",
+     "price": "4",
+     "category_name": "İçecekler"
+   }, {
+     "id": "794667",
+     "name": "Coca-Cola (1 L.)",
+     "position": "1",
+     "description": "",
+     "price": "6",
+     "category_name": "İçecekler"
+   }, {
+     "id": "806792",
+     "name": "Sprite (33 cl.)",
+     "position": "1",
+     "description": "",
+     "price": "4",
+     "category_name": "İçecekler"
+   }, {
+     "id": "895870",
+     "name": "Açık Ayran (50 cl.)",
+     "position": "1",
+     "description": "",
+     "price": "4",
+     "category_name": "İçecekler"
+   }, {
+     "id": "926243",
+     "name": "Açık Ayran (1 L.)",
+     "position": "1",
+     "description": "",
+     "price": "8",
+     "category_name": "İçecekler"
+   }, {
+     "id": "936420",
+     "name": "Meyveli Soda",
+     "position": "1",
+     "description": "",
+     "price": "2",
+     "category_name": "İçecekler"
+   }, {
+     "id": "940352",
+     "name": "Coca-Cola Light (1 L.)",
+     "position": "1",
+     "description": "",
+     "price": "6",
+     "category_name": "İçecekler"
+   }]
+ }

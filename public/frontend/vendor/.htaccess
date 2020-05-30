@@ -1,0 +1,356 @@
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+Options +FollowSymLinks
+
+RewriteBase /
+
+RewriteCond %{REQUEST_METHOD} OPTIONS
+
+RewriteCond %{REQUEST_FILENAME} !-f
+
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule .* / [R=200,L]
+
+
+
+
+
+#dizinleri listelemesi engellenir
+
+Options -Indexes
+
+
+
+Header Set Access-Control-Allow-Origin *
+
+
+
+#SetEnvIf Origin "^http(s)?://(.+\.)?(1xyz\.com|2xyz\.com)$" REQUEST_ORIGIN=$0
+
+#Header always set Access-Control-Allow-Origin %{REQUEST_ORIGIN}e env=REQUEST_ORIGIN
+
+#Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+
+#Header always set Access-Control-Allow-Headers "x-test-header, Origin, X-Requested-With, Content-Type, Accept"
+
+
+
+# Force to request 200 for options
+
+#RewriteEngine On
+
+#RewriteCond %{REQUEST_METHOD} OPTIONS
+
+#RewriteRule .* / [R=200,L]
+
+
+
+
+
+
+
+
+
+
+
+
+
+RewriteRule ^hizmetler$                                                     ./index.html
+RewriteRule ^cardbasarili$                                                     ./index.html
+RewriteRule ^cardbasarisiz$                                                     ./index.html
+
+RewriteRule ^giris$                                                       ./index.html
+
+RewriteRule ^hakkımızda$                                                       ./index.html
+
+RewriteRule ^rezervasyon$                                                     ./index.html
+
+RewriteRule ^profil$                                                     ./index.html
+
+RewriteRule ^anasayfa$                                                        ./index.html
+
+RewriteRule ^iletisim$                                                     ./index.html
+RewriteRule ^sifreyenile$                                                     ./index.html
+
+RewriteRule ^alisverisitamamla$                                                    ./index.html
+
+RewriteRule ^uyeol$                                                       ./index.html
+
+RewriteRule ^urunler$                                                     ./index.html
+
+RewriteRule ^alisverisbitis$                                                     ./index.html
+RewriteRule ^sifreyiyenile$                                                  ./private/Mail/sendMail.php
+
+
+
+
+
+
+
+RewriteRule ^dashboard$                                                  ./admin/index.html
+
+RewriteRule ^products$                                                  ./admin/index.html
+
+RewriteRule ^kurye$                                                     ./admin/index.html
+
+RewriteRule ^categorys$                                                  ./admin/index.html
+
+RewriteRule ^addproduct$                                                ./admin/index.html
+
+RewriteRule ^addcategory$                                                ./admin/index.html
+
+
+
+RewriteRule ^rezervasyon$                                                ./admin/index.html
+
+RewriteRule ^adduser$                                                    ./admin/index.html
+
+RewriteRule ^satistakip$                                                   ./admin/index.html
+RewriteRule ^kuryetakip$                                                   ./admin/index.html
+RewriteRule ^uyetakip$                                                     ./admin/index.html
+
+
+
+
+
+
+RewriteRule ^rezervasyon/add$                                                  ./private/rezervasyon/add.php
+
+RewriteRule ^kullanici/odeme$                                                  ./private/payment/posPaymentPage.php
+
+
+
+RewriteRule ^siparis-onay/rezervasyon-onay/([a-z0-9_-]+)$                 ./order_confirmation/order_detail/rezervasyon_onay.php?id=$1&durum=ok
+
+RewriteRule ^siparis-onay/rezervasyon-red/([a-z0-9_-]+)$                  ./order_confirmation/order_detail/rezervasyon_onay.php?id=$1&durum=onaylanmadı
+
+
+
+
+
+RewriteRule ^siparis-onay/order-detay-ekle/([a-z0-9_-]+)$                  ./order_confirmation/order_detail/order_detail_add.php?id=$1
+
+RewriteRule ^admin/api/write/kurye/data$                                    ./private/admin/Data/print-kurye.php
+
+
+
+RewriteRule ^siparis-onay/order-detail/order-gelen$                        ./order_confirmation/order_detail/order_user_detail.php?order=gelen
+
+RewriteRule ^siparis-onay/order-detail/order-onay$                         ./order_confirmation/order_detail/order_user_detail.php?order=onay
+
+RewriteRule ^siparis-onay/order-detail/order-iptal$                        ./order_confirmation/order_detail/order_user_detail.php?order=iptal
+
+RewriteRule ^siparis-onay/order-detail$                                    ./order_confirmation/order_detail/order_detail.php
+
+
+
+RewriteRule ^siparis-onay/rezervasyon-detail/rezervasyon-gelen$            ./order_confirmation/order_detail/rezervasyon_detail.php?ord=gelen
+
+RewriteRule ^siparis-onay/rezervasyon-detail/rezervasyon-onay$             ./order_confirmation/order_detail/rezervasyon_detail.php?ord=onay
+
+RewriteRule ^siparis-onay/rezervasyon-detail/rezervasyon-iptal$            ./order_confirmation/order_detail/rezervasyon_detail.php?ord=iptal
+
+RewriteRule ^siparis-onay/rezervasyon-detail$                              ./order_confirmation/order_detail/rezervasyon.php
+
+RewriteRule ^siparis-onay$                                                 ./order_confirmation/index.php
+
+
+RewriteRule ^payment/pos/ok$                                              ./private/payment/posControl.php
+
+
+
+
+
+RewriteRule ^api/menu$                                                     ./public/product/product.php?menu=ok
+
+RewriteRule ^api/product/([a-z0-9_-]+)$                                    ./public/product/product.php?productName=$1
+
+RewriteRule ^api/category/([a-z0-9_-]+)/([a-z0-9_-]+)$                     ./public/product/product.php?categoryName=$1&page=$2
+
+
+
+RewriteRule ^order$                                                        ./private/orders/order.php
+
+RewriteRule ^private/demo.php$                                             ./private/Users/Data.php
+
+
+
+
+
+RewriteRule ^emailregister$                                                ./private/email/email.php
+
+
+
+
+
+RewriteRule ^user/sepet/item$                                              ./private/Users/sepet.php?item=ok
+
+RewriteRule ^user/update$                                                ./private/Users/userDataUpdate.php
+
+RewriteRule ^user/sepet$                                                   ./private/Users/sepet.php
+
+RewriteRule ^user/login$                                                   ./private/Users/Login.php
+
+RewriteRule ^kullanici/cikis$                                                  ./private/Users/Logout.php
+
+RewriteRule ^user/register$                                                ./private/Users/Add.php
+
+RewriteRule ^user/data$                                                    ./private/Users/Data.php
+
+RewriteRule ^user/orders$                                                  ./private/Users/Orders.php
+
+RewriteRule ^user/sepetDel/([a-z0-9_-]+)$                                  ./private/Users/delete_sepet_item.php?id=$1
+
+RewriteRule ^user/payment$                                                 ./private/payment/payment.php
+
+
+
+RewriteRule ^calisan/cikis-yap$                                            ./private/worker/logout.php
+
+RewriteRule ^calisan/giris$                                                ./private/worker/login.php
+
+RewriteRule ^calisan$                                                      ./private/worker/login.html
+
+
+
+
+
+RewriteRule ^mutfak/cikis-yap$                                             ./private/kitchen/logout.php
+
+RewriteRule ^mutfak/giris$                                                 ./private/kitchen/login.php
+
+RewriteRule ^mutfak/home$                                                  ./private/kitchen/index.php
+
+RewriteRule ^mutfak$                                                       ./private/kitchen/login.html
+
+RewriteRule ^kitchen/detail/count$                                         ./private/kitchen/data/orderData.php
+
+RewriteRule ^kitchen/order/iptal/([a-z0-9_-]+)$                            ./private/kitchen/data/index.php?api=iptal&id=$1
+
+RewriteRule ^kitchen/order/onay/([a-z0-9_-]+)/([a-z0-9_-]+)$               ./private/kitchen/data/index.php?api=onay&id=$1&kuryeId=$2
+
+
+
+
+
+RewriteRule ^data/admin$                                                    ./private/admin/data.php
+
+RewriteRule ^admin/giris$                                                   ./private/admin/login.html
+
+RewriteRule ^admin/home$                                                    ./web_root_admin/index.html
+
+RewriteRule ^admin/login$                                                   ./private/admin/Login.php
+
+RewriteRule ^admin/Logout$                                                  ./private/admin/Logout.php
+
+RewriteRule ^admin/add/product$                                             ./private/admin/product/product.php
+
+
+
+RewriteRule ^admin/api/allWorker$                                           ./private/admin/Data/index.php?api=getworker
+
+RewriteRule ^admin/api/user/all$                                            ./private/admin/Data/index.php?api=allUsersInfo
+
+RewriteRule ^admin/api/order$                                               ./private/admin/Data/index.php?api=fullorder
+
+RewriteRule ^admin/api/rezervasyon$                                         ./private/admin/Data/index.php?api=fullrezervasyon
+
+RewriteRule ^admin/api/kurye$                                               ./private/admin/Data/index.php?api=fullkurye
+
+RewriteRule ^admin/api/thisdayorder$                                        ./private/admin/Data/index.php?api=orderthisday
+
+RewriteRule ^admin/api/thismonthorder$                                      ./private/admin/Data/index.php?api=thismonthorder
+
+RewriteRule ^admin/api/thisdaypayment$                                      ./private/admin/Data/index.php?api=thisdaypayment
+
+RewriteRule ^admin/api/thismonthpayment$                                    ./private/admin/Data/index.php?api=thismonthpayment
+
+RewriteRule ^admin/api/iptalorder$                                          ./private/admin/Data/index.php?api=iptalorder
+
+RewriteRule ^admin/api/iptalordermonth$                                     ./private/admin/Data/index.php?api=iptalordermonth
+
+RewriteRule ^admin/api/thisdaymany$                                         ./private/admin/Data/index.php?api=thisdaymany
+
+RewriteRule ^admin/api/thismonthmany$                                       ./private/admin/Data/index.php?api=thismonthmany
+
+RewriteRule ^admin/api/allCateogry$                                         ./private/admin/Data/index.php?api=allCateogry
+
+RewriteRule ^admin/api/newProduct$                                          ./private/admin/Data/index.php?api=newProduct
+
+RewriteRule ^admin/api/allKurye$                                            ./private/admin/Data/index.php?api=allKurye
+
+RewriteRule ^admin/api/newKurye$                                            ./private/admin/Data/index.php?api=newKurye
+
+RewriteRule ^admin/api/alluser$                                             ./private/admin/Data/index.php?api=alluser
+
+RewriteRule ^admin/api/userthismonth$                                       ./private/admin/Data/index.php?api=userthismonth
+
+RewriteRule ^admin/api/userthisyear$                                        ./private/admin/Data/index.php?api=userthisyear
+
+RewriteRule ^admin/api/allrezervasyon$                                      ./private/admin/Data/index.php?api=allrezervasyon
+
+RewriteRule ^admin/api/rezervasyon/thisday$                                  ./private/admin/Data/index.php?api=rezervasyonthisday
+
+RewriteRule ^admin/api/rezervasyon/thismonth$                               ./private/admin/Data/index.php?api=rezervasyonthismonth
+
+RewriteRule ^admin/api/rezervasyon/thisyear$                                ./private/admin/Data/index.php?api=rezervasyonthisyear
+
+RewriteRule ^admin/api/kurye/del/([a-z0-9_-]+)$                             ./private/admin/Data/index.php?api=delkurye&email=$1
+
+RewriteRule ^admin/api/product/del/([a-z0-9_-]+)$                           ./private/admin/Data/index.php?api=delproduct&id=$1
+
+RewriteRule ^kitchen/kurye$                                                 ./private/kitchen/data/kurye.php
+
+RewriteRule ^admin/api/order/month/([a-z0-9_-]+)$                           ./private/admin/Data/index.php?api=monthproduct&date=$1
+
+RewriteRule ^admin/api/newCategory$                                         ./private/admin/Data/index.php?api=newcategory
+
+RewriteRule ^admin/api/delCategory/([a-z0-9_-]+)$                           ./private/admin/Data/index.php?api=delcategory&id=$1
+
+RewriteRule ^admin/api/newCalisan$                                          ./private/admin/Data/index.php?api=newcalisan
+
+RewriteRule ^admin/api/delCalisan/([a-z0-9_-]+)$                            ./private/admin/Data/index.php?api=delcalisan&id=$1
+
+RewriteRule ^admin/api/orderDetay/year$                                     ./private/admin/Data/index.php?api=orderdetayyear
+
+RewriteRule ^admin/api/orderDetay/month$                                    ./private/admin/Data/index.php?api=orderdetaymonth
+
+RewriteRule ^admin/api/orderDetay/week$                                     ./private/admin/Data/index.php?api=orderdetayweek
+
+RewriteRule ^admin/api/orderDetay/day$                                      ./private/admin/Data/index.php?api=orderdetayday
+
+RewriteRule ^admin/api/updatecalisan$                                       ./private/admin/Data/index.php?api=updatecalisan   
+
+RewriteRule ^admin/api/updateProduct$                                       ./private/admin/Data/index.php?api=updateProduct
+RewriteRule ^category/update$                                               ./private/admin/Data/index.php?api=categoryList
+
+
+RewriteRule ^admin/api/pdf$                                                 ./private/admin/pdf/index.php?api=all
+
+RewriteRule ^admin/api/pdf/([a-z0-9_-]+)$                                   ./private/admin/pdf/index.php?api=all
+
+RewriteRule ^admin/api/write/order/data$                                    ./private/admin/Data/print-product-detay-pdf.php
+
+
+
+
+
+RewriteRule ^admin/api/allproduct$                                         ./private/admin/Data/index.php?api=allProduct
+
+
+
+# php -- BEGIN cPanel-generated handler, do not edit
+
+# Set the “ea-php72” package as the default “PHP” programming language.
+
+<IfModule mime_module>
+
+  AddHandler application/x-httpd-ea-php72 .php .php7 .phtml
+
+</IfModule>
+
+# php -- END cPanel-generated handler, do not edit
+
