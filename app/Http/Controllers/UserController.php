@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Address;
 use App\Http\Requests\UserRegisterRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\OrderItems;
 use App\Products;
 use App\Users;
@@ -16,15 +18,13 @@ class UserController extends Controller
         if($userId == ''){
             return response()->json(['status' => 'login değil']);
         }
-        $user = Users::where('id', $userId)->first();
+        $user = Users::where('id', $userId)->with(['address', 'address.address'])->first();
         $response = [
             'username' => $user->id,
             'firstname' => $user->firstname,
             'lastname' =>$user->lastname,
             'email' => $user->email,
-            'adress' => $user->adress,
-            'adress_2' => $user->adress_2,
-            'adress_3' => $user->adress_3,
+            'address' => $user->address,
             'phone' => $user->phone,
             'product' => session()->get('cart', []),
             'cardTotal' => session()->get('cartTotal', 0),
@@ -168,7 +168,9 @@ class UserController extends Controller
                 default:
                     $data['m_status'] = '';
             }
-            $data['orders'] = $value['orders'];
+            $data['totalPrice'] = $value['order_amount'];
+            $data['orders'] = json_decode($value['orders'], true);
+            $data['id'] = $value['order_id'];
             $result[] = $data;
         }
 
@@ -178,7 +180,7 @@ class UserController extends Controller
     public function register(UserRegisterRequest $request)
     {
         $user = Users::where('email', $request['username'])->first();
-        if($user) return response()->json(['status' => 'emailfailed']);
+        if($user != null) return response()->json(['status' => 'emailfailed']);
 
         if($request['password'] != $request['rePassword']){
             return response()->json(['status' => false]);
@@ -192,11 +194,13 @@ class UserController extends Controller
             'registration_date' => time(),
             'ip' => $request->ip(),
             'phone' => $request['phone'],
-            'adress' => [
-                'title' => '',
-                'content' => $request['adress']
-            ],
             'birthday' => isset($request['date']) ? $request['date'] : '' ,
+        ]);
+
+        $address = Address::create([
+            'user_id' => $user->id,
+            'content' => $request['adress'],
+            'address_id' => $request['selectedAddress']
         ]);
 
         session()->put('userId', $user->id);
@@ -208,5 +212,33 @@ class UserController extends Controller
     {
         session()->forget('userId');
         return redirect('/');
+    }
+
+    public function update(UserUpdateRequest $request)
+    {
+        $user = Users::where('id', session('userId'))->first();
+        if(isset($request['date'])){
+            $user->birthday = $request['date'];
+        }
+        if(isset($request['firstname'])){
+            $user->firstname = $request['firstname'];
+        }
+        if (isset($request['oldPassword']) && isset($request['newPassword'])){
+            if (password_verify($request['oldPassword'], $user->password)){
+                $user->password = password_hash($request['newPassword'], PASSWORD_DEFAULT);
+            }
+        }
+        if(isset($request['phone'])){
+            $user->phone = $request['phone'];
+        }
+        if(isset($request['lastname'])){
+            $user->lastname = $request['lastname'];
+        }
+        if(isset($request['email'])){
+            $user->email = $request['email'];
+        }
+        $user->save();
+
+        return response()->json(['status' => 'ok']);
     }
 }

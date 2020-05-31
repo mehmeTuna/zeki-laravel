@@ -51,7 +51,7 @@ class CategoryController extends Controller
             $img->resize(env('CATEGORY_IMG_WIDTH'), env('CATEGORY_IMG_HEIGHT'));
             $img->save(public_path('img'). '/'.$imageName);
 
-            $updateData['img'] = '/img/'.$imageName;
+            $updateData['img'] = 'img/'.$imageName;
         }
 
         $category = Category::where('id', $request['id'])->update($updateData);

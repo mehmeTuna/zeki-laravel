@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Feature;
 use App\Http\Requests\ProductCreateRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use App\ImgResize\ResizeImage;
 use App\Products;
 use Illuminate\Http\Request;
@@ -12,75 +13,170 @@ class ProductController extends Controller
 {
     public function create(ProductCreateRequest $request)
     {
-        $features = [];
-        $img = '';
-        $img_1 ='';
-        $img_2 = '';
-        $img_3 = '';
-        foreach ($request['features'] as $value ){
-            $features[] = [
-                'id' => rand(0, 1000),
-                'content' => $value
-            ];
+        $createData = [];
+
+        if(is_array($request['features']) && count($request['features']) > 0){
+            $features = [];
+            foreach ($request['features'] as $value ){
+                $features[] = [
+                    'id' => rand(0, 1000),
+                    'content' => $value
+                ];
+            }
+
+            $feature = Feature::create([
+                'id' => rand(10, 100000),
+                'content' => $features
+            ]);
+            $createData['features'] = $feature->id;
         }
 
-        $feature = Feature::create([
-            'id' => rand(10, 100000),
-            'content' => $features
-        ]);
-
         if($request->hasFile('img')){
-            $randname =  md5(time() . $_FILES['img']['name']) .".".pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION);
-            $img = '/public/img/'.$randname;
-            $image = new ResizeImage();
-            $image->load($_FILES['img']['tmp_name']);
-            $image->resize(320,300);
-            $image->save($img);
+            $imageName = time().'.'.request()->img->getClientOriginalExtension();
+            request()->img->move(public_path('img'), $imageName);
+
+            $img = new ResizeImage();
+            $img->load(public_path('img').'/'. $imageName);
+            $img->resize(env('PRODUCT_IMG_WIDTH'), env('PRODUCT_IMG_HEIGHT'));
+            $img->save(public_path('img'). '/'.$imageName);
+
+            $createData['img'] = '/img/'.$imageName;
         }
 
         if($request->hasFile('img_1')){
-            $randname =  md5(time() . $_FILES['img_1']['name']) .".".pathinfo($_FILES['img_1']['name'], PATHINFO_EXTENSION);
-            $img_1 = '/public/img/'.$randname;
-            $image = new ResizeImage();
-            $image->load($_FILES['img_1']['tmp_name']);
-            $image->resize(320,300);
-            $image->save($img_1);
+            $imageName = time().'.'.request()->image_1->getClientOriginalExtension();
+            request()->image_1->move(public_path('img'), $imageName);
+
+            $img = new ResizeImage();
+            $img->load(public_path('img').'/'. $imageName);
+            $img->resize(env('PRODUCT_IMG_WIDTH'), env('PRODUCT_IMG_HEIGHT'));
+            $img->save(public_path('img'). '/'.$imageName);
+
+            $createData['other_img'][] = '/img/'.$imageName;
         }
 
         if($request->hasFile('img_2')){
-            $randname =  md5(time() . $_FILES['img_2']['name']) .".".pathinfo($_FILES['img_2']['name'], PATHINFO_EXTENSION);
-            $img_2 = '/public/img/'.$randname;
-            $image = new ResizeImage();
-            $image->load($_FILES['img_2']['tmp_name']);
-            $image->resize(320,300);
-            $image->save($img_2);
+            $imageName = time().'.'.request()->image_2->getClientOriginalExtension();
+            request()->image_2->move(public_path('img'), $imageName);
+
+            $img = new ResizeImage();
+            $img->load(public_path('img').'/'. $imageName);
+            $img->resize(env('PRODUCT_IMG_WIDTH'), env('PRODUCT_IMG_HEIGHT'));
+            $img->save(public_path('img'). '/'.$imageName);
+
+            $createData['other_img'][] = '/img/'.$imageName;
         }
 
         if($request->hasFile('img_3')){
-            $randname =  md5(time() . $_FILES['img_3']['name']) .".".pathinfo($_FILES['img_3']['name'], PATHINFO_EXTENSION);
-            $img_3 = '/public/img/'.$randname;
-            $image = new ResizeImage();
-            $image->load($_FILES['img_3']['tmp_name']);
-            $image->resize(320,300);
-            $image->save($img_3);
+            $imageName = time().'.'.request()->image_3->getClientOriginalExtension();
+            request()->image_3->move(public_path('img'), $imageName);
+
+            $img = new ResizeImage();
+            $img->load(public_path('img').'/'. $imageName);
+            $img->resize(env('PRODUCT_IMG_WIDTH'), env('PRODUCT_IMG_HEIGHT'));
+            $img->save(public_path('img'). '/'.$imageName);
+
+            $createData['other_img'][] = '/img/'.$imageName;
         }
 
-        $product = Products::create([
+        $createData['price'] = $request['price'];
+        $createData['name'] = $request['name'];
+        $createData['date'] = time();
+        $createData['categoryId'] = $request['categoryId'];
+        $createData['card_text'] = isset($request['card_text']) ? $request['card_text'] : '';
+        $createData['long_text'] = isset($request['long_text']) ? $request['long_text'] : '';
 
-            'price' => $request['price'],
-            'features' => $feature->id,
-            'name' => $request['name'],
-            'date' => time(),
-            'categoeyId' => $request['categoryId'],
-            'card_text' => isset($request['card_text']) ? $request['card_text'] : '',
-            'img' => $img ,
-            'other_img' => json_encode([
-                1 => $img_1,
-                2 => $img_2,
-                3=> $img_3
-            ]),
-            'long_text' => isset($request['long_text']) ? $request['long_text'] : ''
-        ]);
+        $product = Products::create($createData);
+    }
+
+    public function update(ProductUpdateRequest $request)
+    {
+        $updateData = [];
+
+        if(is_array($request['features']) && count($request['features']) > 0){
+            $features = [];
+            foreach ($request['features'] as $value ){
+                $features[] = [
+                    'id' => rand(0, 1000),
+                    'content' => $value
+                ];
+            }
+
+            $feature = Feature::create([
+                'id' => rand(10, 100000),
+                'content' => $features
+            ]);
+            $updateData['features'] = $feature->id;
+        }
+
+        if($request->hasFile('img')){
+            $imageName = time().'.'.request()->img->getClientOriginalExtension();
+            request()->img->move(public_path('img'), $imageName);
+
+            $img = new ResizeImage();
+            $img->load(public_path('img').'/'. $imageName);
+            $img->resize(env('PRODUCT_IMG_WIDTH'), env('PRODUCT_IMG_HEIGHT'));
+            $img->save(public_path('img'). '/'.$imageName);
+
+            $updateData['img'] = '/img/'.$imageName;
+        }
+
+        if($request->hasFile('img_1')){
+            $imageName = time().'.'.request()->image_1->getClientOriginalExtension();
+            request()->image_1->move(public_path('img'), $imageName);
+
+            $img = new ResizeImage();
+            $img->load(public_path('img').'/'. $imageName);
+            $img->resize(env('PRODUCT_IMG_WIDTH'), env('PRODUCT_IMG_HEIGHT'));
+            $img->save(public_path('img'). '/'.$imageName);
+
+            $updateData['other_img'][] = '/img/'.$imageName;
+        }
+
+        if($request->hasFile('img_2')){
+            $imageName = time().'.'.request()->image_2->getClientOriginalExtension();
+            request()->image_2->move(public_path('img'), $imageName);
+
+            $img = new ResizeImage();
+            $img->load(public_path('img').'/'. $imageName);
+            $img->resize(env('PRODUCT_IMG_WIDTH'), env('PRODUCT_IMG_HEIGHT'));
+            $img->save(public_path('img'). '/'.$imageName);
+
+            $updateData['other_img'][] = '/img/'.$imageName;
+        }
+
+        if($request->hasFile('img_3')){
+            $imageName = time().'.'.request()->image_3->getClientOriginalExtension();
+            request()->image_3->move(public_path('img'), $imageName);
+
+            $img = new ResizeImage();
+            $img->load(public_path('img').'/'. $imageName);
+            $img->resize(env('PRODUCT_IMG_WIDTH'), env('PRODUCT_IMG_HEIGHT'));
+            $img->save(public_path('img'). '/'.$imageName);
+
+            $updateData['other_img'][] = '/img/'.$imageName;
+        }
+
+       if(isset($request['price'])){
+           $updateData['price'] = $request['price'];
+       }
+        if(isset($request['name'])){
+            $updateData['name'] = $request['name'];
+        }
+
+        if(isset($request['categoryId'])){
+            $updateData['categoryId'] = $request['categoryId'];
+        }
+        if(isset($request['card_text'])){
+            $updateData['card_text'] = isset($request['card_text']) ? $request['card_text'] : '';
+        }
+        if(isset($request)){
+            $updateData['long_text'] = isset($request['long_text']) ? $request['long_text'] : '';
+        }
+        $updateData['date'] = time();
+
+        $product = Products::where('id', $request['id'])->update($updateData);
+        return response()->json(['status' => 'ok']);
     }
 
     public function delete(Request $request)

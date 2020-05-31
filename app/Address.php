@@ -10,5 +10,6 @@ class Address extends Model
     protected $primaryKey = 'id';
     protected $hidden = ['active']; //bu kolonlarin gormez olmasini saglar
     protected $guarded = []; // tum kolonlarin degistirilebilir olmasini saglar
+    public $timestamps = false ;
 
 }

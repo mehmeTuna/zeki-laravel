@@ -38,4 +38,9 @@ class Products extends Model
     {
         return "/public/{$value}";
     }
+
+    public function setOther_ImgAttribute($value)
+    {
+        $this->attributes['other_img'] = json_encode($value, JSON_UNESCAPED_UNICODE);
+    }
 }

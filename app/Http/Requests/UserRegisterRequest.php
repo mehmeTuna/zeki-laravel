@@ -32,7 +32,8 @@ class UserRegisterRequest extends FormRequest
             'politics' => 'required',
             'rePassword' => 'required',
             'surname' => 'required',
-            'username' => 'required',
+            'username' => 'required|email',
+            'selectedAddress' => 'required'
         ];
     }
 }

@@ -11,6 +11,8 @@
 |
 */
 
+//Route::get('tasi', 'FrontendController@tasi');
+//Route::get('adress', 'FrontendController@addressKayit');
 
 Route::get('admin/giris', 'AdminController@loginPage');
 Route::post('admin/giris', 'AdminController@login');
@@ -27,7 +29,8 @@ Route::post('rezervasyon/add', 'FrontendController@registerRezervasyon');
 Route::middleware(['user'])->group(function(){
     Route::get('user/orders', 'UserController@orders');
     Route::get('kullanici/cikis', 'UserController@logout');
-
+    Route::post('user/update', 'UserController@update');
+    Route::post('user/payment', 'FrontendController@payment');
 });
 
 Route::middleware(['admin'])->group(function () {

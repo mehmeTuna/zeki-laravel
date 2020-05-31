@@ -8,16 +8,13 @@ class OrderItems extends Model
 {
     protected $table = 'order_items';
     protected $primaryKey = 'order_id';
-    protected $hidden = ['ip']; //bu kolonlarin gormez olmasini saglar
-    protected $fillable = ['*']; // tum kolonlarin degistirilebilir olmasini saglar
+    protected $hidden = ['user_id', 'address_id', 'adress', 'features', 'ip']; //bu kolonlarin gormez olmasini saglar
+    protected $guarded = []; // tum kolonlarin degistirilebilir olmasini saglar
+    public $timestamps = false ;
 
     protected $casts = [
         'orders' => 'array'
     ];
 
-    public function getOrdersAttribute($value)
-    {
-        return json_decode($value);
-    }
 
 }

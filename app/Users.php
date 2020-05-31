@@ -34,4 +34,9 @@ class Users extends Model
         $this->attributes['adress'] = json_encode($value, JSON_UNESCAPED_UNICODE);
     }
 
+    public function address()
+    {
+        return $this->hasMany('App\UserAddress', 'user_id', 'id');
+    }
+
 }
