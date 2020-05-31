@@ -9,7 +9,11 @@ class Category extends Model
     protected $table = 'category';
     protected $primaryKey = 'id';
     protected $hidden = []; //bu kolonlarin gormez olmasini saglar
-    protected $fillable = ['*']; // tum kolonlarin degistirilebilir olmasini saglar
+    protected $guarded = []; // tum kolonlarin degistirilebilir olmasini saglar
+    public $timestamps = false ;
+    protected $attributes = [
+        'queue' => 0
+    ];
 
     public function menuItems()
     {

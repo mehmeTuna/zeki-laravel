@@ -68,6 +68,9 @@ Route::middleware(['admin'])->group(function () {
     Route::get('admin/api/orderDetay/week', 'OrderController@thisWeek');
     Route::get('admin/api/orderDetay/day', 'OrderController@thisDay');
     Route::get('admin/api/allproduct', 'ProductController@allProduct');
+    Route::post('admin/api/newCategory', 'CategoryController@create');
+    Route::post('admin/api/category/update', 'CategoryController@update');
+    Route::post('category/list', 'CategoryController@list');
 
     Route::get('/{any}/{two}', 'AdminController@home')->where('any', '.*');
 });

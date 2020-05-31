@@ -369,4 +369,5 @@ class AdminController extends Controller
         $calisan = Worker::where('id', $request['id'])->delete();
         return response()->json(['status' => 'ok']);
     }
+
 }
