@@ -32,9 +32,9 @@ class ProductCreateRequest extends FormRequest
             'card_text' => 'required|min:3',
             'long_text' => 'sometimes|min:3',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
-            'img_1' => 'sometimes|nullable',
-            'img_2' => 'sometimes|nullable',
-            'img_3' => 'sometimes|nullable',
+            'img_1' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg',
+            'img_2' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg',
+            'img_3' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg',
         ];
     }
 }

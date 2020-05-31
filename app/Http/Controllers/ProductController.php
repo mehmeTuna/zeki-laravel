@@ -112,4 +112,17 @@ class ProductController extends Controller
         }
         return response()->json($result);
     }
+
+    public function list(Request $request)
+    {
+        if(!isset($request['data']) || !is_array($request['data'])){
+            return response()->json(['status' => 'hatali veri']);
+        }
+
+        foreach ($request['data'] as $key => $value){
+            $product = Products::where('id', $value)->update(['queue' => $key]);
+        }
+
+        return response()->json(['status' => 'ok']);
+    }
 }

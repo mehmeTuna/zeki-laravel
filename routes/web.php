@@ -71,6 +71,7 @@ Route::middleware(['admin'])->group(function () {
     Route::post('admin/api/newCategory', 'CategoryController@create');
     Route::post('admin/api/category/update', 'CategoryController@update');
     Route::post('category/list', 'CategoryController@list');
+    Route::post('product/list', 'ProductController@list');
 
     Route::get('/{any}/{two}', 'AdminController@home')->where('any', '.*');
 });
