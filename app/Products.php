@@ -9,7 +9,7 @@ class Products extends Model
     protected $table = 'products';
     protected $primaryKey = 'id';
     protected $hidden = []; //bu kolonlarin gormez olmasini saglar
-    protected $fillable = ['*']; // tum kolonlarin degistirilebilir olmasini saglar
+    protected $guarded = []; // tum kolonlarin degistirilebilir olmasini saglar
 
     protected $casts = [
         'other_img' => 'array'

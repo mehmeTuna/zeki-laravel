@@ -8,53 +8,53 @@ import KategoriEkle from "./components/KategoriEkle";
 import KuryeTakip from "./components/KuryeTakip";
 import UyeTakip from "./components/UyeTakip.vue";
 export const routes = [
-  {
-    path: "*",
-    component: Home
-  },
-  {
-    path: "/dashboard",
-    name: "Home",
-    component: Home
-  },
-  {
-    path: "/kurye",
-    name: "Kurye",
-    component: Kurye
-  },
-  {
-    path: "/addproduct",
-    name: "Ürün Ekle",
-    component: AddProduct
-  },
-  {
-    path: "/addcategory",
-    name: "Kategori Ekle",
-    component: KategoriEkle
-  },
-  {
-    path: "/rezervasyon",
-    name: "Rezervasyon",
-    component: Rezervasyon
-  },
-  {
-    path: "/adduser",
-    name: "Kullanici Ekle",
-    component: Kullanici
-  },
-  {
-    path: "/satistakip",
-    name: "Satis Takip ",
-    component: SatisTakip
-  },
-  {
-    path: "/kuryetakip",
-    name: "Kurye Takip ",
-    component: KuryeTakip
-  },
-  {
-    path: "/uyetakip",
-    name: "Uye Takip ",
-    component: UyeTakip
-  }
+    {
+        path: "*",
+        component: Home
+    },
+    {
+        path: "/admin",
+        name: "Home",
+        component: Home
+    },
+    {
+        path: "/admin/kurye",
+        name: "Kurye",
+        component: Kurye
+    },
+    {
+        path: "/admin/addproduct",
+        name: "Ürün Ekle",
+        component: AddProduct
+    },
+    {
+        path: "/admin/addcategory",
+        name: "Kategori Ekle",
+        component: KategoriEkle
+    },
+    {
+        path: "/admin/rezervasyon",
+        name: "Rezervasyon",
+        component: Rezervasyon
+    },
+    {
+        path: "/admin/adduser",
+        name: "Kullanici Ekle",
+        component: Kullanici
+    },
+    {
+        path: "/admin/satistakip",
+        name: "Satis Takip ",
+        component: SatisTakip
+    },
+    {
+        path: "/admin/kuryetakip",
+        name: "Kurye Takip ",
+        component: KuryeTakip
+    },
+    {
+        path: "/admin/uyetakip",
+        name: "Uye Takip ",
+        component: UyeTakip
+    }
 ];

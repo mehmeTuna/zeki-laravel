@@ -1,464 +1,439 @@
 <template>
-      <div class="main-panel" >
-       
-        <div class="row" style="margin-top:75px;margin-left:30px" >
-          <div class="col-md-2"></div>
-          <div class="col-md-10">
-            <div class="card">
-              <div class="card-header">
-                <h5 class="title">Ürün Ekle</h5>
-              </div>
-              <div class="card-body">
-                <div>
-                  <div class="row">
-                    <div class="col-md-5 pr-md-1">
-                      <div class="form-group">
-                        <label>Şirket </label>
-                        <input type="text" class="form-control" disabled="" placeholder="Zeki Usta" >
-                      </div>
-                    </div>
-                    <div class="col-md-3 px-md-1">
-                      <div class="form-group">
-                        <label>Ürün Adı</label>
-                        <input type="text" class="form-control" placeholder="Ürün Adı" v-model="product.name" >
-                      </div>
-                    </div>
-                    <div class="col-md-4 pl-md-1">
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Fiyat </label>
-                        <input type="number" class="form-control" placeholder="Fiyat" v-model="product.price">
-                      </div>
-                    </div>
-                    
+  <div class="main-panel">
+    <div class="row" style="margin-top:75px;margin-left:30px">
+      <div class="col-md-2"></div>
+      <div class="col-md-10">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="title">Ürün Ekle</h5>
+          </div>
+          <div class="card-body">
+            <div>
+              <div class="row">
+                <div class="col-md-5 pr-md-1">
+                  <div class="form-group">
+                    <label>Şirket</label>
+                    <input type="text" class="form-control" disabled placeholder="Zeki Usta" />
                   </div>
-                  <div class="row">
-                    <div class="col-md-3 pr-md-1">
-                      <div class="form-group">
-                        <label>Kategori </label>
-                       <select class="form-control"  v-model="product.categoryId">
-                         <option disabled value="">Seçiniz </option>
-                         <option  :value="category.id"   v-for="category in categoryList"  :key="category.id">{{category.id}} : {{category.name}}</option>
-                       </select>
-                      </div>
-                      
-                    </div>
-                     <div class="col-md-3 pl-md-5  ">
-                      <div class="form-group">
-                          <img height="128" class="img-responsive text-center mb-3" :src="fileUrl == null ? './admin/assets/default.png' : fileUrl " >
-                          <input class="form-control" ref="file" type="file" style="display:none" @change="onChange($event)">
-                          <button class="btn btn-outline-secondary" type="button" @click="$refs.file.click()">Resim Seç</button>
-                      </div>
-                    </div>
-                    <div class="col-md-6 pl-md-1">
-                      <div class="form-group">
-                        <label>Açıklama </label>
-                        <textarea type="text" class="form-control" placeholder="Açıklama" v-model="product.card_text" > </textarea>
-                          
-                      </div>
-                    </div>
-                     <div class="col-md-12 pl-md-2">
-                      <div class="form-group">
-                        <label>Opsiyon Ekleme-Silme </label>
-                        <ul class="nav nav-main">
-                        
-
-                     <li v-for="(option,index) in product.options" :key="option.id">
-                        <input type="text" class="form-control" placeholder="Opsiyon" v-model="option.option">
-                        
-                     
-                  <button @click="deleteRow(index)"  class="btn btn-fill btn-danger">Opsiyon Sil</button>
-
-                     </li>
-                     </ul>
-                <button @click="addRow"  class="btn btn-fill btn-info">Opsiyon Ekle</button>
-               
-        
-
-                      </div>
-                    </div>
-                   
+                </div>
+                <div class="col-md-3 px-md-1">
+                  <div class="form-group">
+                    <label>Ürün Adı</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Ürün Adı"
+                      v-model="product.name"
+                    />
                   </div>
-                 
-                 
-                 
+                </div>
+                <div class="col-md-4 pl-md-1">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Fiyat</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="Fiyat"
+                      v-model="product.price"
+                    />
+                  </div>
                 </div>
               </div>
-              <div class="card-footer">
-                <button @click="addProduct"  class="btn btn-fill btn-primary">Kaydet</button>
-              
+              <div class="row">
+                <div class="col-md-3 pr-md-1">
+                  <div class="form-group">
+                    <label>Kategori</label>
+                    <select class="form-control" v-model="product.categoryId">
+                      <option disabled value>Seçiniz</option>
+                      <option
+                        :value="category.id"
+                        v-for="category in categoryList"
+                        :key="category.id"
+                      >{{category.id}} : {{category.name}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-3 pl-md-5">
+                  <div class="form-group">
+                    <img
+                      height="128"
+                      class="img-responsive text-center mb-3"
+                      :src="fileUrl == null ? './admin/assets/default.png' : fileUrl "
+                    />
+                    <input
+                      class="form-control"
+                      ref="file"
+                      type="file"
+                      style="display:none"
+                      @change="onChange($event)"
+                    />
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      @click="$refs.file.click()"
+                    >Resim Seç</button>
+                  </div>
+                </div>
+                <div class="col-md-6 pl-md-1">
+                  <div class="form-group">
+                    <label>Açıklama</label>
+                    <textarea
+                      type="text"
+                      class="form-control"
+                      placeholder="Açıklama"
+                      v-model="product.card_text"
+                    ></textarea>
+                  </div>
+                </div>
+                <div class="col-md-12 pl-md-2">
+                  <div class="form-group">
+                    <label>Opsiyon Ekleme-Silme</label>
+                    <ul class="nav nav-main">
+                      <li v-for="(option,index) in product.options" :key="option.id">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Opsiyon"
+                          v-model="option.option"
+                        />
+
+                        <button
+                          @click="deleteRow(index)"
+                          class="btn btn-fill btn-danger"
+                        >Opsiyon Sil</button>
+                      </li>
+                    </ul>
+                    <button @click="addRow" class="btn btn-fill btn-info">Opsiyon Ekle</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-       
-        </div>
-         <div class="row">
-           <div class="col-md-2"></div>
-            <div class="col-md-9"  style="margin-left:20px">
-            <div class="card card-user">
-             <div class="card-body">
-                <div class="table-responsive" style="overflow:auto">
-                  <table class="table tablesorter " id="">
-                    <thead class=" text-primary">
-                      <tr>
-                        <th>
-                          Ürün Adı
-                        </th>
-                        <th>
-                          Fiyatı
-                        </th>
-                        <th>
-                          Kategori
-                        </th>
-                        <th class="text-center">
-                          Açıklama
-                        </th>
-                        <th class="text-center">
-                          Resim
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="product in productList" :key="product.id"  >
-                        <!--  -->
-                        <td>
-                        {{product.name}}
-                        
-                
-                        </td>
-                        <td>
-                        {{product.price}} 
-
-                        </td>
-                        <td>
-                        {{product.categoryName}}
-                        
-                        </td>
-                        <td class="text-center">
-                        {{product.cardText}} 
-                       
-                          
-                        </td>
-                         
-                        <td>
-
-                        <img height="80" class="img-responsive text-center mb-3" :src="product.img" alt="">
-
-                        </td>
-                        <td class="text-center">
-                         <button  @click="deleteProduct(product.id)" class="btn btn-fill btn-danger">Sil</button>
-                        
-                        </td>
-                        <td class="text-center">
-                           <button data-toggle="modal" @click="changeProduct(product)" data-target="#exampleModal" class="btn btn-fill btn-info">Düzenle</button>
-                         
-                        </td>
-                      </tr>
-                   
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-             
-            </div>
+          <div class="card-footer">
+            <button @click="addProduct" class="btn btn-fill btn-primary">Kaydet</button>
           </div>
         </div>
-          <!-- Modal -->
-                    <div  class=" modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                      <div class="modal-dialog " role="document">
-                        <div class="modal-content" style="height:150%;width:150%">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Ürünü Düzenle</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                          <div  class="form-group col-md-12 mt-4" >
-                            
-                             <div class="col-12">
-                               <label style="color:black"    >Fiyat </label>
-                            <input  placeholder="Yeni Fiyat" class="form-control text-center  "  style="color:#606266" type="number" v-model="editProduct.price">
-                             </div>
-                              <div class="col-12">
-                               <label style="color:black"   > İsim  </label>
-                            <input  placeholder="Yeni İsim" class="form-control text-center  "  style="color:#606266" type="text" v-model="editProduct.name">
-                             </div>
-                              <div class="col-12">
-                               <label style="color:black"   >Açıklama  </label>
-                            <input  placeholder="Yeni Açıklama" class="form-control text-center  "  style="color:#606266" type="text" v-model="editProduct.card_text">
-                             </div>
-                              <div class="col-12">
-                          <div class="col-12">
-                                 <label style="color:black"   >Resim  </label>
-                              <img height="128" class="img-responsive text-center mb-3" :src="updateFileUrl == null ? './admin/assets/default.png' : updateFileUrl " >
-                          <input class="form-control" ref="file" type="file" style="display:none" @change="onChangeUpdate($event)">
-                          <button class="btn btn-outline-secondary" type="button" @click="$refs.file.click()">Resim Seç</button>
-                          </div>
-                             </div>
-                                   
-                    
-                        
-                  
-                                    
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
-                            <button type="button" class="btn btn-info" @click="updateProduct(product.id)">Değişikleri Kaydet</button>
-                            <button type="button" class="btn btn-info" @click="updateProduct2(product.id)">Değişikleri Kaydet</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
       </div>
- 
+    </div>
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-9" style="margin-left:20px">
+        <div class="card card-user">
+          <div class="card-body">
+            <div class="table-responsive" style="overflow:auto">
+              <table class="table tablesorter" id>
+                <thead class="text-primary">
+                  <tr>
+                    <th>Ürün Adı</th>
+                    <th>Fiyatı</th>
+                    <th>Kategori</th>
+                    <th class="text-center">Açıklama</th>
+                    <th class="text-center">Resim</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="product in productList" :key="product.id">
+                    <!--  -->
+                    <td>{{product.name}}</td>
+                    <td>{{product.price}}</td>
+                    <td>{{product.categoryName}}</td>
+                    <td class="text-center">{{product.cardText}}</td>
+
+                    <td>
+                      <!-- <img
+                        height="80"
+                        class="img-responsive text-center mb-3"
+                        :src="product.img"
+                        alt
+                      />-->
+                    </td>
+                    <td class="text-center">
+                      <button @click="deleteProduct(product.id)" class="btn btn-fill btn-danger">Sil</button>
+                    </td>
+                    <td class="text-center">
+                      <button
+                        data-toggle="modal"
+                        @click="changeProduct(product)"
+                        data-target="#exampleModal"
+                        class="btn btn-fill btn-info"
+                      >Düzenle</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" style="height:150%;width:150%">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ürünü Düzenle</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="form-group col-md-12 mt-4">
+            <div class="col-12">
+              <label style="color:black">Fiyat</label>
+              <input
+                placeholder="Yeni Fiyat"
+                class="form-control text-center"
+                style="color:#606266"
+                type="number"
+                v-model="editProduct.price"
+              />
+            </div>
+            <div class="col-12">
+              <label style="color:black">İsim</label>
+              <input
+                placeholder="Yeni İsim"
+                class="form-control text-center"
+                style="color:#606266"
+                type="text"
+                v-model="editProduct.name"
+              />
+            </div>
+            <div class="col-12">
+              <label style="color:black">Açıklama</label>
+              <input
+                placeholder="Yeni Açıklama"
+                class="form-control text-center"
+                style="color:#606266"
+                type="text"
+                v-model="editProduct.card_text"
+              />
+            </div>
+            <div class="col-12">
+              <div class="col-12">
+                <label style="color:black">Resim</label>
+                <img
+                  height="128"
+                  class="img-responsive text-center mb-3"
+                  :src="updateFileUrl == null ? './admin/assets/default.png' : updateFileUrl "
+                />
+                <input
+                  class="form-control"
+                  ref="file"
+                  type="file"
+                  style="display:none"
+                  @change="onChangeUpdate($event)"
+                />
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  @click="$refs.file.click()"
+                >Resim Seç</button>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
+            <button
+              type="button"
+              class="btn btn-info"
+              @click="updateProduct(product.id)"
+            >Değişikleri Kaydet</button>
+            <button
+              type="button"
+              class="btn btn-info"
+              @click="updateProduct2(product.id)"
+            >Değişikleri Kaydet</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import swal from 'sweetalert'
-import axios from 'axios'
+import swal from "sweetalert";
+import axios from "axios";
 
 export default {
-  data(){
-    return{
-          categoryList:[],
-          productList:[],
-          kuryeList:[],
-          newArray:[],
-          file:null,
-          fileUrl:null,
-            updateFile:null,
-          updateFileUrl:null,
-          editProduct:{
-            id:'',
-            name:'',
-            price:'',
-            card_text:'',
-        selectedImage:null,
+  data() {
+    return {
+      categoryList: [],
+      productList: [],
+      kuryeList: [],
+      newArray: [],
+      file: null,
+      fileUrl: null,
+      updateFile: null,
+      updateFileUrl: null,
+      editProduct: {
+        id: "",
+        name: "",
+        price: "",
+        card_text: "",
+        selectedImage: null
+      },
 
-          },
-        
-      product:{
-        id:'',
-        name:'',
-        price:'',
-        card_text:'',
-        numberProduct:0,
-        categoryId:0,
-        store:'',
-        options:[],
-        features:[],
-        selectedImage:null,
-       
-        
+      product: {
+        id: "",
+        name: "",
+        price: "",
+        card_text: "",
+        numberProduct: 0,
+        categoryId: 0,
+        store: "",
+        options: [],
+        features: [],
+        selectedImage: null
       }
-
-
-    }
+    };
   },
-  methods:{
-
-    changeProduct(product){
-       this.product = {...product};
-       this.editProduct = {...product};
+  methods: {
+    changeProduct(product) {
+      this.product = { ...product };
+      this.editProduct = { ...product };
     },
-    updateProduct(id){
-         console.log(id);
-         
-      const url = 'admin/api/updateProduct'
-      axios.post(url,{id:id,price:this.newPrice})
-      .then((response) =>{
-        if(response.data.status == "ok"){
+    updateProduct(id) {
+      console.log(id);
+
+      const url = "/admin/api/updateProduct";
+      axios.post(url, { id: id, price: this.newPrice }).then(response => {
+        if (response.data.status == "ok") {
           location.reload();
-        }else{
-               swal("Ürün Düzenlenemedi!", "", "warning", {
-        button: "Devam Et!",
-        timer:1500
-      });
-
+        } else {
+          swal("Ürün Düzenlenemedi!", "", "warning", {
+            button: "Devam Et!",
+            timer: 1500
+          });
         }
-        
-      })
-      
-      
+      });
     },
-    onChange(e){
-
+    onChange(e) {
       this.file = e.target.files[0];
       this.fileUrl = URL.createObjectURL(this.file);
-      
-      
     },
-      onChangeUpdate(e){
-
+    onChangeUpdate(e) {
       this.updateFile = e.target.files[0];
       this.updateFileUrl = URL.createObjectURL(this.updateFile);
-      
-      
     },
-    addRow(){
-           
-        this.product.options.push({
-          option:'',
-          
-        })
+    addRow() {
+      this.product.options.push({
+        option: ""
+      });
 
+      // this.product.options.map((e) =>{
+      //     if(e.option != '' ){
+      //       this.newArray.push(e.option);
+      //     }
 
-        // this.product.options.map((e) =>{
-        //     if(e.option != '' ){
-        //       this.newArray.push(e.option); 
-        //     }
-            
-            
-            
-          
-        // });
-        
-
-        
-    },
-   
-
-  
-    deleteRow(index){
-      this.product.options.splice(index,1)
-      this.newArray.shift(index,1)
+      // });
     },
 
-    deleteProduct(id){
-       const url = 'admin/api/product/del/'+id;
-
-       axios.get(url)
+    deleteRow(index) {
+      this.product.options.splice(index, 1);
+      this.newArray.shift(index, 1);
     },
-  updateProduct2(id){
-    this.editProduct.id = id;
 
-        const fd = new FormData();
-         fd.append("image",this.updateFile,this.updateFile.name);
-         fd.append('product',JSON.stringify(this.editProduct));
-       
-         console.log(this.updateFile)
-         this.updateFile = null;
-         this.updateFileUrl = null;
-         
-  },
-    addProduct(){
-        this.product.options.map((e) =>{
-        if(e.option != '' )
-            this.newArray.push(e.option);
-            
+    deleteProduct(id) {
+      const url = "/admin/api/product/del/" + id;
+
+      axios.get(url);
+    },
+    updateProduct2(id) {
+      this.editProduct.id = id;
+
+      const fd = new FormData();
+      fd.append("image", this.updateFile, this.updateFile.name);
+      fd.append("product", JSON.stringify(this.editProduct));
+
+      console.log(this.updateFile);
+      this.updateFile = null;
+      this.updateFileUrl = null;
+    },
+    addProduct() {
+      this.product.options.map(e => {
+        if (e.option != "") this.newArray.push(e.option);
+      });
+
+      this.product.features = this.newArray;
+      console.log(this.product.features);
+
+      const fd = new FormData();
+      fd.append("image", this.file, this.file.name);
+      fd.append("product", JSON.stringify(this.product));
+      console.log(this.product.selectedImage);
+
+      const url = "/admin/api/newProduct";
+      if (
+        this.product.name != "" &&
+        this.product.price != "" &&
+        this.product.categoryId != null
+      ) {
+        axios
+          .post(url, fd, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
           })
-         
-         this.product.features = this.newArray;
-         console.log(this.product.features);
-         
-      
-         const fd = new FormData();
-         fd.append("image",this.file,this.file.name);
-         fd.append('product',JSON.stringify(this.product));
-         console.log(this.product.selectedImage);
-         
-      const url = 'admin/api/newProduct'
-      if(this.product.name != '' && this.product.price !='' && this.product.categoryId !=null ){
-        
-        axios.post(url,fd, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-              })
-      .then((res) =>{
-        console.log(res);
-        
-           if(res.data.status == "ok"){
-                 swal("Ürün Başarıyla Eklendi!", "", "success", {
+          .then(res => {
+            console.log(res);
+
+            if (res.data.status == "ok") {
+              swal("Ürün Başarıyla Eklendi!", "", "success", {
                 button: "Devam Et!",
-                timer:1500
-      }).then(() =>{
-        location.reload();
-      })
-              
-                
-             }
-          
-      })
-
+                timer: 1500
+              }).then(() => {
+                location.reload();
+              });
+            }
+          });
+      } else {
+        swal("Ürün Eklenemedi!", "", "warning", {
+          button: "Devam Et!",
+          timer: 1500
+        });
       }
-      else{
-
-      swal("Ürün Eklenemedi!", "", "warning", {
-        button: "Devam Et!",
-        timer:1500
-      });
-      }
-     
-    
-      
     },
-    deleteProduct(id){
-      const url = 'admin/api/product/del/'+id;
-      
-      axios.get(url)
-      .then((res) => {
-          console.log(res);
+    deleteProduct(id) {
+      const url = "/admin/api/product/del/" + id;
 
-           if(res.data.status == "ok"){
-                 swal("Ürün Başarıyla Silindi!", "", "success", {
-                button: "Devam Et!",
-                timer:1500
-      }).then(() =>{
-        location.reload();
-      })
-              
-                
-             }else{
-                swal("Ürün Silinemedi!", "", "warning", {
-        button: "Devam Et!",
-        timer:1500
+      axios.get(url).then(res => {
+        console.log(res);
+
+        if (res.data.status == "ok") {
+          swal("Ürün Başarıyla Silindi!", "", "success", {
+            button: "Devam Et!",
+            timer: 1500
+          }).then(() => {
+            location.reload();
+          });
+        } else {
+          swal("Ürün Silinemedi!", "", "warning", {
+            button: "Devam Et!",
+            timer: 1500
+          });
+        }
       });
-
-             }
-          
-      })
-
     }
-  
-
-   
-
   },
-  created(){
-    const url = 'admin/api/allCategory'
-    axios.get(url)
-    .then((response) =>{
-    
-    
-        this.categoryList = response.data;
-       
-  
-
-    });
-    const url3 = 'https://next.json-generator.com/api/json/get/N1jJbysPu'
-    const url2 = 'admin/api/allproduct'
-    axios.get(url3)
-    .then((res) =>{
-    
-          
-        this.productList = res.data;
-          
-          
-        
-      
-      
-
+  created() {
+    const url = "/admin/api/allCategory";
+    axios.get(url).then(response => {
+      this.categoryList = response.data;
     });
 
-
-
-
+    const url2 = "/admin/api/allproduct";
+    axios.get(url2).then(res => {
+      this.productList = res.data;
+    });
   }
-
-
-}
+};
 </script>
 
 <style>
-
 </style>

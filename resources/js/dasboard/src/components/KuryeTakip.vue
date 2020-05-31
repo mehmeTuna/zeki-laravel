@@ -62,7 +62,7 @@ export default {
 
   methods: {},
   created() {
-    const url = "admin/api/write/kurye/data";
+    const url = "/admin/api/write/kurye/data";
     axios.get(url).then(res => {
       console.log(res.data);
       this.tableData = res.data;

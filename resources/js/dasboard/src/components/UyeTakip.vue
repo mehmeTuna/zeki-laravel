@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     fetchUserInfo() {
-      const url = "admin/api/user/all";
+      const url = "/admin/api/user/all";
       axios.get(url).then(res => {
         this.tableData = res.data;
       });

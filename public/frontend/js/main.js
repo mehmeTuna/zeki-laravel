@@ -3471,98 +3471,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      cupon: 0,
       months: [],
       years: [],
       secondAdress: "",
@@ -3735,9 +3650,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.$store.dispatch("deleteCartItem", productId).then(function () {
         location.reload();
       });
+    },
+    getCupon: function getCupon() {
+      var _this2 = this;
+
+      var url = "/cart/cupon";
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (res) {
+        _this2.cupon = res.data.cartCupon;
+      });
     }
   }),
   created: function created() {
+    this.getCupon();
     this.getYears();
     this.fetchCartItems();
   }
@@ -4307,14 +4231,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      adressTitle: '',
-      adress: '',
+      adressTitle: "",
+      adress: "",
       oldPassword: null,
       newPassword: null,
       newPassword2: null,
@@ -4325,7 +4270,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       url: "https://ui-avatars.com/api/?name=`{userInfos.firstname +userInfos.lastname}`"
     };
   },
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['fetchUserInfo', 'fetchUserOrder'])), {}, {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["fetchUserInfo", "fetchUserOrder"])), {}, {
     sendNewPassword: function sendNewPassword() {
       var url = "user/update";
 
@@ -4344,9 +4289,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     sendAdress: function sendAdress() {
-      var url = '/user/update';
+      var url = "/user/update";
 
-      if (this.adressTitle != '' && this.adress != '') {
+      if (this.adressTitle != "" && this.adress != "") {
         axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, {
           adress: {
             id: 0,
@@ -4393,7 +4338,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.email = e.target.value;
     }
   }),
-  computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['userInfos', 'userOrderInfos']),
+  computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(["userInfos", "userOrderInfos"]),
   created: function created() {
     this.fetchUserInfo();
     this.fetchUserOrder();
@@ -5827,6 +5772,67 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5834,16 +5840,18 @@ __webpack_require__.r(__webpack_exports__);
     return {
       errors: [],
       userData: {
-        username: '',
-        password: '',
+        username: "",
+        password: "",
         rePassword: null,
-        adress: '',
-        name: '',
-        surname: '',
+        adress: "",
+        name: "",
+        surname: "",
         date: 0,
         politics: null,
-        phone: ''
-      }
+        phone: "",
+        selectedAddress: ""
+      },
+      streets: []
     };
   },
   methods: {
@@ -5860,19 +5868,19 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       if (!this.userData.name) {
-        this.errors.push('Ad giriniz');
+        this.errors.push("Ad giriniz");
       }
 
       if (!this.userData.adress) {
-        this.errors.push('Adress giriniz');
+        this.errors.push("Adress giriniz");
       }
 
       if (!this.userData.surname) {
-        this.errors.push('Soyad giriniz');
+        this.errors.push("Soyad giriniz");
       }
 
       if (!this.userData.politics) {
-        this.errors.push('Sözleşmeyi Kabul Ediniz');
+        this.errors.push("Sözleşmeyi Kabul Ediniz");
       }
 
       if (this.validEmail(this.userData.username)) {
@@ -5880,7 +5888,7 @@ __webpack_require__.r(__webpack_exports__);
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, this.userData).then(function (response) {
           console.log(response);
 
-          if (response.data.status == 'registered') {
+          if (response.data.status == "registered") {
             //this.$router.go(this.$router.currentRoute)
             sweetalert__WEBPACK_IMPORTED_MODULE_1___default()({
               title: "Kayıt Olundu!",
@@ -5890,7 +5898,7 @@ __webpack_require__.r(__webpack_exports__);
             }).then(function () {
               window.location.href = "anasayfa";
             });
-          } else if (response.data.status == 'emailfailed') {
+          } else if (response.data.status == "emailfailed") {
             //this.$router.go(this.$router.currentRoute)
             sweetalert__WEBPACK_IMPORTED_MODULE_1___default()({
               title: "E-posta Zaten Kayıtlı!",
@@ -5898,7 +5906,7 @@ __webpack_require__.r(__webpack_exports__);
               icon: "warning",
               timer: 1500
             });
-          } else if (response.data.status == 'erroneousData') {
+          } else if (response.data.status == "erroneousData") {
             //this.$router.go(this.$router.currentRoute)
             sweetalert__WEBPACK_IMPORTED_MODULE_1___default()({
               title: "Hatalı Veri!",
@@ -5924,17 +5932,20 @@ __webpack_require__.r(__webpack_exports__);
     validEmail: function validEmail(email) {
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(email);
+    },
+    adressInfo: function adressInfo() {
+      var _this = this;
+
+      var url = "addressList";
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url).then(function (res) {
+        _this.streets = res.data;
+      });
     }
+  },
+  created: function created() {
+    this.adressInfo();
   }
 });
-/* 
-axios.post("https://vue-deneme-1fa03.firebaseio.com/posts.json",this.userData)
-      .then(response => {
-        console.log(response);
-        
-      }) 
-      .catch(e => console.log(e));
-*/
 
 /***/ }),
 
@@ -28377,13 +28388,7 @@ var render = function() {
                                 "data-toggle": "modal"
                               }
                             },
-                            [
-                              _vm._v(
-                                "\n                      " +
-                                  _vm._s(cartItem.name) +
-                                  "\n                    "
-                              )
-                            ]
+                            [_vm._v(_vm._s(cartItem.name))]
                           )
                         ]),
                         _vm._v(" "),
@@ -28466,11 +28471,7 @@ var render = function() {
                           _c(
                             "div",
                             { staticClass: "col-7 text-right text-muted" },
-                            [
-                              _vm._v(
-                                "\n                    İndirimsiz Toplam:\n                  "
-                              )
-                            ]
+                            [_vm._v("İndirimsiz Toplam:")]
                           ),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-5" }, [
@@ -28480,7 +28481,17 @@ var render = function() {
                           ])
                         ]),
                         _vm._v(" "),
-                        _vm._m(2),
+                        _c("div", { staticClass: "row" }, [
+                          _c(
+                            "div",
+                            { staticClass: "col-7 text-right text-muted" },
+                            [_vm._v("İndirim Oranı:")]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-5" }, [
+                            _c("strong", [_vm._v("%" + _vm._s(_vm.cupon))])
+                          ])
+                        ]),
                         _vm._v(" "),
                         _c("hr", { staticClass: "hr-sm" }),
                         _vm._v(" "),
@@ -28494,12 +28505,12 @@ var render = function() {
                           _c("div", { staticClass: "col-5" }, [
                             _c("strong", [
                               _vm._v(
-                                "\n                      " +
-                                  _vm._s(
+                                _vm._s(
+                                  (
                                     _vm.userInfos.cardTotal -
-                                      _vm.userInfos.cardTotal * 0.1
-                                  ) +
-                                  "₺\n                    "
+                                    _vm.userInfos.cardTotal * (_vm.cupon / 100)
+                                  ).toFixed(2)
+                                ) + "₺"
                               )
                             ])
                           ])
@@ -28523,17 +28534,17 @@ var render = function() {
                         )
                       ])
                     : _c("div", { staticClass: "cart-summary" }, [
+                        _vm._m(2),
+                        _vm._v(" "),
                         _vm._m(3),
                         _vm._v(" "),
                         _vm._m(4),
                         _vm._v(" "),
                         _vm._m(5),
                         _vm._v(" "),
-                        _vm._m(6),
-                        _vm._v(" "),
                         _c("hr", { staticClass: "hr-sm" }),
                         _vm._v(" "),
-                        _vm._m(7),
+                        _vm._m(6),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -28559,7 +28570,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-xl-8 pull-xl-4 col-lg-7 pull-lg-5" }, [
             _c("div", { staticClass: "bg-white p-4 p-md-5 mb-4" }, [
-              _vm._m(8),
+              _vm._m(7),
               _vm._v(" "),
               _c("div", { staticClass: "row mb-5" }, [
                 _c(
@@ -28577,7 +28588,7 @@ var render = function() {
                       },
                       [
                         _c("div", { staticClass: "modal-content" }, [
-                          _vm._m(9),
+                          _vm._m(8),
                           _vm._v(" "),
                           _c("div", { staticClass: "modal-body" }, [
                             _c("h4", { staticClass: "border-bottom pb-4" }, [
@@ -28586,11 +28597,7 @@ var render = function() {
                               }),
                               _vm._v(" "),
                               _c("span", { staticClass: "text-primary" }, [
-                                _vm._v(
-                                  "\n                          " +
-                                    _vm._s(_vm.userInfos.adress) +
-                                    "\n                        "
-                                )
+                                _vm._v(_vm._s(_vm.userInfos.adress))
                               ])
                             ]),
                             _vm._v(" "),
@@ -28601,11 +28608,7 @@ var render = function() {
                                   staticClass: "modal-title text-danger pb-4",
                                   attrs: { id: "myModalLabel" }
                                 },
-                                [
-                                  _vm._v(
-                                    "\n                          Açık Adres Giriniz\n                        "
-                                  )
-                                ]
+                                [_vm._v("Açık Adres Giriniz")]
                               ),
                               _vm._v(" "),
                               _c("input", {
@@ -28645,11 +28648,7 @@ var render = function() {
                                   "data-dismiss": "modal"
                                 }
                               },
-                              [
-                                _vm._v(
-                                  "\n                        Kapat\n                      "
-                                )
-                              ]
+                              [_vm._v("Kapat")]
                             ),
                             _vm._v(" "),
                             _c(
@@ -28659,11 +28658,7 @@ var render = function() {
                                 attrs: { type: "button" },
                                 on: { click: _vm.sendNewAdress }
                               },
-                              [
-                                _vm._v(
-                                  "\n                        Kaydet\n                      "
-                                )
-                              ]
+                              [_vm._v("Kaydet")]
                             )
                           ])
                         ])
@@ -28725,7 +28720,7 @@ var render = function() {
                           ])
                         ]),
                         _vm._v(" "),
-                        _vm._m(10),
+                        _vm._m(9),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group" }, [
                           _vm.userInfos.adress != null
@@ -28782,11 +28777,9 @@ var render = function() {
                                           { staticClass: "text-dark" },
                                           [
                                             _vm._v(
-                                              "\n                              " +
-                                                _vm._s(
-                                                  _vm.userInfos.adress.content
-                                                ) +
-                                                "\n                            "
+                                              _vm._s(
+                                                _vm.userInfos.adress.content
+                                              )
                                             )
                                           ]
                                         ),
@@ -28854,11 +28847,9 @@ var render = function() {
                                           { staticClass: "text-dark" },
                                           [
                                             _vm._v(
-                                              "\n                              " +
-                                                _vm._s(
-                                                  _vm.userInfos.adress_2.content
-                                                ) +
-                                                "\n                            "
+                                              _vm._s(
+                                                _vm.userInfos.adress_2.content
+                                              )
                                             )
                                           ]
                                         ),
@@ -28926,11 +28917,9 @@ var render = function() {
                                           { staticClass: "text-dark" },
                                           [
                                             _vm._v(
-                                              "\n                              " +
-                                                _vm._s(
-                                                  _vm.userInfos.adress_3.content
-                                                ) +
-                                                "\n                            "
+                                              _vm._s(
+                                                _vm.userInfos.adress_3.content
+                                              )
                                             )
                                           ]
                                         ),
@@ -28960,12 +28949,12 @@ var render = function() {
                       ],
                       staticClass: "col-md-12"
                     },
-                    [_vm._m(11)]
+                    [_vm._m(10)]
                   )
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(12),
+              _vm._m(11),
               _vm._v(" "),
               _c("div", { staticClass: "row mb-5" }, [
                 _c("div", { staticClass: "form-group col-sm-6" }, [
@@ -29060,7 +29049,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(13),
+              _vm._m(12),
               _vm._v(" "),
               _c("div", { staticClass: "row text-lg" }, [
                 _c("div", { staticClass: "col-md-4 col-sm-6 form-group" }, [
@@ -29097,11 +29086,7 @@ var render = function() {
                         staticClass: "text-md",
                         staticStyle: { "font-weight": "400" }
                       },
-                      [
-                        _vm._v(
-                          "\n                    Kapıda Kart İle\n                  "
-                        )
-                      ]
+                      [_vm._v("Kapıda Kart İle")]
                     )
                   ])
                 ]),
@@ -29180,7 +29165,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(14),
+              _vm._m(13),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("article", { staticClass: "card" }, [
@@ -29192,7 +29177,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "input-group" }, [
-                          _vm._m(15),
+                          _vm._m(14),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -29229,7 +29214,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "input-group" }, [
-                          _vm._m(16),
+                          _vm._m(15),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -29266,7 +29251,7 @@ var render = function() {
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-sm-8" }, [
                           _c("div", { staticClass: "form-group" }, [
-                            _vm._m(17),
+                            _vm._m(16),
                             _vm._v(" "),
                             _c("div", { staticClass: "form-inline" }, [
                               _c(
@@ -29307,11 +29292,7 @@ var render = function() {
                                 },
                                 _vm._l(_vm.months, function(month) {
                                   return _c("option", { key: month }, [
-                                    _vm._v(
-                                      "\n                            " +
-                                        _vm._s(month) +
-                                        "\n                          "
-                                    )
+                                    _vm._v(_vm._s(month))
                                   ])
                                 }),
                                 0
@@ -29366,11 +29347,7 @@ var render = function() {
                                 },
                                 _vm._l(_vm.years, function(year) {
                                   return _c("option", { key: year }, [
-                                    _vm._v(
-                                      "\n                            " +
-                                        _vm._s(year) +
-                                        "\n                          "
-                                    )
+                                    _vm._v(_vm._s(year))
                                   ])
                                 }),
                                 0
@@ -29381,7 +29358,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("div", { staticClass: "col-sm-4" }, [
                           _c("div", { staticClass: "form-group" }, [
-                            _vm._m(18),
+                            _vm._m(17),
                             _vm._v(" "),
                             _c("input", {
                               directives: [
@@ -29419,11 +29396,7 @@ var render = function() {
                           attrs: { type: "button" },
                           on: { click: _vm.sendCardDetail }
                         },
-                        [
-                          _vm._v(
-                            "\n                  Tamamla\n                "
-                          )
-                        ]
+                        [_vm._v("Tamamla")]
                       )
                     ])
                   ])
@@ -29471,18 +29444,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-7 text-right text-muted" }, [
-        _vm._v("\n                    İndirim Oranı:\n                  ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-5" }, [_c("strong", [_vm._v("%10")])])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-7 text-right text-muted" }, [
         _vm._v("Ara Toplam:")
       ]),
       _vm._v(" "),
@@ -29507,7 +29468,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-7 text-right text-muted" }, [
-        _vm._v("\n                    İndirimsiz Toplam:\n                  ")
+        _vm._v("İndirimsiz Toplam:")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-5" }, [_c("strong", [_vm._v("0 ₺")])])
@@ -29519,7 +29480,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-7 text-right text-muted" }, [
-        _vm._v("\n                    İndirim Oranı:\n                  ")
+        _vm._v("İndirim Oranı:")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-5" }, [_c("strong", [_vm._v("%10")])])
@@ -29552,9 +29513,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
       _c("h4", { staticClass: "modal-title", attrs: { id: "myModalLabel" } }, [
-        _vm._v(
-          "\n                        Adres Değiştir\n                      "
-        )
+        _vm._v("Adres Değiştir")
       ]),
       _vm._v(" "),
       _c(
@@ -29621,7 +29580,7 @@ var staticRenderFns = [
       _c(
         "h5",
         { staticClass: "modal-title", attrs: { id: "exampleModalLongTitle" } },
-        [_vm._v("\n            Kart Bilgilerini Giriniz\n          ")]
+        [_vm._v("Kart Bilgilerini Giriniz")]
       ),
       _vm._v(" "),
       _c(
@@ -30206,11 +30165,11 @@ var render = function() {
             { staticClass: "tab-pane active", attrs: { id: "profile" } },
             [
               _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-12 " }, [
-                  _c("div", { staticClass: "card " }, [
+                _c("div", { staticClass: "col-12" }, [
+                  _c("div", { staticClass: "card" }, [
                     _c("div", { staticClass: "card-body border--primary" }, [
                       _c("div", { staticClass: "row" }, [
-                        _c("div", { staticClass: "col-lg-8 " }, [
+                        _c("div", { staticClass: "col-lg-8" }, [
                           _c(
                             "h3",
                             {
@@ -30226,9 +30185,11 @@ var render = function() {
                                 staticClass: "ti ti-user icon icon-primary"
                               }),
                               _vm._v(
-                                _vm._s(_vm.userInfos.firstname) +
-                                  "\n                                                   " +
-                                  _vm._s(_vm.userInfos.lastname)
+                                "\n                        " +
+                                  _vm._s(_vm.userInfos.firstname) +
+                                  "\n                        " +
+                                  _vm._s(_vm.userInfos.lastname) +
+                                  "\n                      "
                               )
                             ]
                           ),
@@ -30248,8 +30209,9 @@ var render = function() {
                                 staticClass: "ti ti-mobile icon icon-primary"
                               }),
                               _vm._v(
-                                _vm._s(_vm.userInfos.phone) +
-                                  "\n                                               "
+                                "\n                        " +
+                                  _vm._s(_vm.userInfos.phone) +
+                                  "\n                      "
                               )
                             ]
                           ),
@@ -30258,7 +30220,7 @@ var render = function() {
                             ? _c(
                                 "p",
                                 {
-                                  staticClass: "text-truncated ",
+                                  staticClass: "text-truncated",
                                   staticStyle: {
                                     color: "222",
                                     "font-weight": "500",
@@ -30271,9 +30233,9 @@ var render = function() {
                                       "ti ti-location-pin icon icon-primary"
                                   }),
                                   _vm._v(
-                                    "\n                                                   " +
+                                    "\n                        " +
                                       _vm._s(_vm.userInfos.adress.content) +
-                                      " \n                                               "
+                                      "\n                      "
                                   )
                                 ]
                               )
@@ -30293,7 +30255,11 @@ var render = function() {
                               _c("i", {
                                 staticClass: "ti ti-bookmark icon icon-primary"
                               }),
-                              _vm._v(_vm._s(_vm.userInfos.email))
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(_vm.userInfos.email) +
+                                  "\n                      "
+                              )
                             ]
                           )
                         ]),
@@ -30321,11 +30287,19 @@ var render = function() {
                           ]
                         ),
                         _vm._v(" "),
-                        _vm._m(1),
-                        _vm._v(" "),
-                        _vm._m(2),
-                        _vm._v(" "),
-                        _vm._m(3)
+                        _c("div", { staticClass: "col-12 col-lg-4 ml-4" }, [
+                          _c("h3", { staticClass: "mb-0" }, [
+                            _vm._v(
+                              _vm._s(
+                                _vm.$store.state.products.userInfos.orderCount
+                              )
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("small", { staticClass: "text-primary" }, [
+                            _vm._v("Sipariş Sayısı")
+                          ])
+                        ])
                       ])
                     ])
                   ])
@@ -30343,39 +30317,36 @@ var render = function() {
             [
               _c("h4", { staticClass: "m-y-2" }, [_vm._v("Sipariş Takip")]),
               _vm._v(" "),
-              _c("table", { staticClass: "table " }, [
-                _vm._m(4),
+              _c("table", { staticClass: "table" }, [
+                _vm._m(1),
                 _vm._v(" "),
                 _c(
                   "tbody",
                   _vm._l(_vm.userOrderInfos, function(infos, index) {
                     return _c("tr", { key: infos.id }, [
-                      _c("td", [
-                        _vm._v(
-                          _vm._s(index) +
-                            "\n                                   "
-                        )
-                      ]),
+                      _c("td", [_vm._v(_vm._s(index))]),
+                      _vm._v(" "),
                       _c("td"),
-                      _c("td", [_vm._v(_vm._s(infos.order_id))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(infos.id))]),
                       _vm._v(" "),
                       _c(
                         "td",
                         _vm._l(infos.orders, function(order) {
                           return _c("label", { key: order.id }, [
                             _vm._v(
-                              " " +
+                              "\n                    " +
                                 _vm._s(order.count) +
-                                "x -\n                                           " +
+                                "x -\n                    " +
                                 _vm._s(order.name) +
-                                " "
+                                "\n                  "
                             )
                           ])
                         }),
                         0
                       ),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(infos.order_amount))]),
+                      _c("td", [_vm._v(_vm._s(infos.totalPrice))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(infos.m_status))])
                     ])
@@ -30388,9 +30359,14 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "tab-pane", attrs: { id: "edit" } }, [
             _c("div", { staticClass: "bg-white col-8" }, [
-              _vm._m(5),
+              _vm._m(2),
               _vm._v(" "),
               _c("div", { staticClass: "row mb-5" }, [
+                _vm._v(
+                  "\n              " +
+                    _vm._s(_vm.firstname) +
+                    "\n              "
+                ),
                 _c("div", { staticClass: "form-group col-sm-8" }, [
                   _c("label", [_vm._v("Ad")]),
                   _vm._v(" "),
@@ -30477,7 +30453,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group col-sm-8" }, [
-                  _c("label", [_vm._v("E-posta ")]),
+                  _c("label", [_vm._v("E-posta")]),
                   _vm._v(" "),
                   _c("input", {
                     directives: [
@@ -30507,7 +30483,7 @@ var render = function() {
                   _c(
                     "button",
                     {
-                      staticClass: "btn btn-primary ",
+                      staticClass: "btn btn-primary",
                       on: { click: _vm.sendNewInfo }
                     },
                     [_vm._v("Değişiklikleri Kaydet")]
@@ -30522,7 +30498,7 @@ var render = function() {
             { staticClass: "tab-pane", attrs: { id: "passwordEdit" } },
             [
               _c("div", { staticClass: "bg-white col-8" }, [
-                _vm._m(6),
+                _vm._m(3),
                 _vm._v(" "),
                 _c("div", { staticClass: "row mb-5" }, [
                   _c("div", { staticClass: "form-group col-sm-8" }, [
@@ -30607,12 +30583,12 @@ var render = function() {
                     _c(
                       "button",
                       {
-                        staticClass: "btn btn-primary ",
+                        staticClass: "btn btn-primary",
                         on: { click: _vm.sendNewPassword }
                       },
                       [
                         _vm._v(
-                          "Değişiklikleri\n                                       Kaydet"
+                          "\n                  Değişiklikleri\n                  Kaydet\n                "
                         )
                       ]
                     )
@@ -30624,172 +30600,71 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "tab-pane", attrs: { id: "adressEdit" } }, [
             _c("div", { staticClass: "container col-md-12" }, [
-              _c("div", { staticClass: "bg-white " }, [
-                _vm._m(7),
+              _c("div", { staticClass: "bg-white" }, [
+                _vm._m(4),
                 _vm._v(" "),
-                _c("div", { staticClass: "row mb-5" }, [
-                  _vm.userInfos.adress_3 == null
-                    ? _c(
+                _c(
+                  "div",
+                  { staticClass: "row mb-5" },
+                  [
+                    _vm.userInfos.adress == null
+                      ? _c(
+                          "div",
+                          {
+                            staticClass: "col-md-4",
+                            staticStyle: { width: "18rem" }
+                          },
+                          [_vm._m(5)]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm._l(_vm.userInfos.adress, function(adress) {
+                      return _c(
                         "div",
                         {
-                          staticClass: " col-md-4",
-                          staticStyle: { width: "18rem" }
-                        },
-                        [_vm._m(8)]
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.userInfos.adress != null
-                    ? _c(
-                        "div",
-                        {
-                          staticClass: "col-md-4 ",
-                          staticStyle: { width: "18rem" }
-                        },
-                        [
-                          _c(
-                            "div",
-                            {
-                              staticClass: "border--primary",
-                              staticStyle: { height: "10.9rem" }
-                            },
-                            [
-                              _c(
-                                "span",
-                                {
-                                  staticClass: "text-center",
-                                  staticStyle: {
-                                    "font-weight": "700",
-                                    color: "#484848",
-                                    "font-size": "20px"
-                                  }
-                                },
-                                [_vm._v("Evim")]
-                              ),
-                              _vm._v(" "),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                {
-                                  staticClass: "text-center",
-                                  staticStyle: {
-                                    "font-weight": "700",
-                                    color: "#484848"
-                                  }
-                                },
-                                [_vm._v(_vm._s(_vm.userInfos.adress.content))]
-                              ),
-                              _vm._v(" "),
-                              _c("br"),
-                              _vm._v(" "),
-                              _vm._m(9)
-                            ]
-                          )
-                        ]
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.userInfos.adress_2 != null
-                    ? _c(
-                        "div",
-                        {
-                          staticClass: "col-md-4 ",
-                          staticStyle: { width: "18rem" }
+                          key: adress.id,
+                          staticClass: "col-md-4 border--primary",
+                          staticStyle: { width: "18rem", height: "20rem" }
                         },
                         [
-                          _c(
-                            "div",
-                            {
-                              staticClass: "border--primary",
-                              staticStyle: { height: "10.9rem" }
-                            },
-                            [
-                              _c(
-                                "span",
-                                {
-                                  staticClass: "text-center",
-                                  staticStyle: {
-                                    "font-weight": "700",
-                                    color: "#484848",
-                                    "font-size": "20px"
-                                  }
-                                },
-                                [_vm._v(_vm._s(_vm.userInfos.adress_2.title))]
-                              ),
-                              _vm._v(" "),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                {
-                                  staticClass: "text-center",
-                                  staticStyle: {
-                                    "font-weight": "700",
-                                    color: "#484848"
-                                  }
-                                },
-                                [_vm._v(_vm._s(_vm.userInfos.adress_2.content))]
-                              ),
-                              _vm._v(" "),
-                              _c("br"),
-                              _vm._v(" "),
-                              _vm._m(10)
-                            ]
-                          )
+                          _c("div", { staticClass: "mt-4" }, [
+                            _c(
+                              "span",
+                              {
+                                staticClass: "text-center",
+                                staticStyle: {
+                                  "font-weight": "700",
+                                  color: "#484848",
+                                  "font-size": "20px"
+                                }
+                              },
+                              [_vm._v(_vm._s(adress.title))]
+                            ),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                staticClass: "text-center",
+                                staticStyle: {
+                                  "font-weight": "700",
+                                  color: "#484848"
+                                }
+                              },
+                              [_vm._v(_vm._s(adress.content))]
+                            ),
+                            _vm._v(" "),
+                            _c("br")
+                          ]),
+                          _vm._v(" "),
+                          _vm._m(6, true)
                         ]
                       )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "col-md-4 ",
-                      staticStyle: { width: "18rem" }
-                    },
-                    [
-                      _vm.userInfos.adress_3 != null
-                        ? _c(
-                            "div",
-                            {
-                              staticClass: "border--primary",
-                              staticStyle: { height: "10.9rem" }
-                            },
-                            [
-                              _c(
-                                "span",
-                                {
-                                  staticClass: "text-center",
-                                  staticStyle: {
-                                    "font-weight": "700",
-                                    color: "#484848",
-                                    "font-size": "20px"
-                                  }
-                                },
-                                [_vm._v(_vm._s(_vm.userInfos.adress_3.title))]
-                              ),
-                              _vm._v(" "),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                {
-                                  staticClass: "text-center",
-                                  staticStyle: {
-                                    "font-weight": "700",
-                                    color: "#484848"
-                                  }
-                                },
-                                [_vm._v(_vm._s(_vm.userInfos.adress_3.content))]
-                              ),
-                              _vm._v(" "),
-                              _c("br")
-                            ]
-                          )
-                        : _vm._e()
-                    ]
-                  )
-                ])
+                    })
+                  ],
+                  2
+                )
               ])
             ])
           ])
@@ -30814,7 +30689,7 @@ var render = function() {
             { staticClass: "modal-dialog", attrs: { role: "document" } },
             [
               _c("div", { staticClass: "modal-content" }, [
-                _vm._m(11),
+                _vm._m(7),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("form", [
@@ -30822,7 +30697,7 @@ var render = function() {
                       _c(
                         "label",
                         { attrs: { for: "exampleFormControlInput1" } },
-                        [_vm._v("Adres İsmi ")]
+                        [_vm._v("Adres İsmi")]
                       ),
                       _vm._v(" "),
                       _c("input", {
@@ -31013,40 +30888,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 col-lg-4" }, [
-      _c("h3", { staticClass: "mb-0" }, [_vm._v("20")]),
-      _vm._v(" "),
-      _c("small", { staticClass: "text-primary" }, [_vm._v("Sipariş Sayısı")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 col-lg-4" }, [
-      _c("h3", { staticClass: "mb-0" }, [_vm._v("0")]),
-      _vm._v(" "),
-      _c("small", { staticClass: "text-primary" }, [
-        _vm._v("İptal Olan Siparişler")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 col-lg-4" }, [
-      _c("h3", { staticClass: "mb-0" }, [_vm._v("1")]),
-      _vm._v(" "),
-      _c("small", { staticClass: "text-primary" }, [
-        _vm._v("Devam Etmekte Olan Siparişler")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
@@ -31067,27 +30908,27 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("h4", { staticClass: " pb-4" }, [
+    return _c("h4", { staticClass: "pb-4" }, [
       _c("i", { staticClass: "ti ti-user mr-3 text-primary" }),
-      _vm._v("Kişisel Bilgiler")
+      _vm._v("Kişisel Bilgiler\n            ")
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("h4", { staticClass: " pb-4" }, [
+    return _c("h4", { staticClass: "pb-4" }, [
       _c("i", { staticClass: "ti ti-user mr-3 text-primary" }),
-      _vm._v("Kişisel Bilgiler")
+      _vm._v("Kişisel Bilgiler\n            ")
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("h4", { staticClass: " pb-4" }, [
+    return _c("h4", { staticClass: "pb-4" }, [
       _c("i", { staticClass: "ti ti-location-pin mr-3 text-primary" }),
-      _vm._v("Adres Bilgileri\n                               ")
+      _vm._v("Adres Bilgileri\n              ")
     ])
   },
   function() {
@@ -31098,7 +30939,7 @@ var staticRenderFns = [
       _c(
         "div",
         {
-          staticClass: " mt-5",
+          staticClass: "mt-5",
           attrs: { "data-toggle": "modal", "data-target": "#addAdress" }
         },
         [
@@ -31125,45 +30966,22 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { attrs: { "data-toggle": "modal", "data-target": "#addAdress" } },
-      [
-        _c(
-          "a",
-          {
-            staticStyle: {
-              "pointer-events": "none",
-              "font-weight": "700",
-              color: "#444"
-            }
-          },
-          [_vm._v("Düzenle")]
-        )
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { attrs: { "data-toggle": "modal", "data-target": "#addAdress" } },
-      [
-        _c(
-          "a",
-          {
-            staticStyle: {
-              "pointer-events": "none",
-              "font-weight": "700",
-              color: "#444"
-            }
-          },
-          [_vm._v("Düzenle")]
-        )
-      ]
-    )
+    return _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        {
+          staticClass: "mt-4",
+          attrs: { "data-toggle": "modal", "data-target": "#addAdress" }
+        },
+        [
+          _c(
+            "button",
+            { staticClass: "btn btn-info btn-sm", attrs: { type: "button" } },
+            [_c("span", [_vm._v("Düzenle")])]
+          )
+        ]
+      )
+    ])
   },
   function() {
     var _vm = this
@@ -33952,19 +33770,21 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-3" }, [
-        _vm.errors.length
-          ? _c("p", [
-              _c("b", [_vm._v("Lütfen hatayı düzeltin:")]),
-              _vm._v(" "),
-              _c(
-                "ul",
-                _vm._l(_vm.errors, function(error) {
-                  return _c("li", { key: error.id }, [_vm._v(_vm._s(error))])
-                }),
-                0
-              )
-            ])
-          : _vm._e()
+        _c("div", [
+          _vm.errors.length
+            ? _c("div", [
+                _c("b", [_vm._v("Lütfen hatayı düzeltin:")]),
+                _vm._v(" "),
+                _c(
+                  "ul",
+                  _vm._l(_vm.errors, function(error) {
+                    return _c("li", { key: error.id }, [_vm._v(_vm._s(error))])
+                  }),
+                  0
+                )
+              ])
+            : _vm._e()
+        ])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-6" }, [
@@ -34104,7 +33924,7 @@ var render = function() {
             _vm._v(" "),
             _c("i", { staticClass: "ti ti-mobile text-primary mr-2" }),
             _vm._v(" "),
-            _c("label", [_vm._v("Telefon ")]),
+            _c("label", [_vm._v("Telefon")]),
             _vm._v(" "),
             _c("input", {
               directives: [
@@ -34127,6 +33947,60 @@ var render = function() {
                 }
               }
             }),
+            _vm._v(" "),
+            _c("i", { staticClass: "ti ti-location-pin text-primary mr-2" }),
+            _vm._v(" "),
+            _c("label", [_vm._v("Şehir")]),
+            _vm._v(" "),
+            _vm._m(0),
+            _vm._v(" "),
+            _c("i", { staticClass: "ti ti-location-pin text-primary mr-2" }),
+            _vm._v(" "),
+            _c("label", [_vm._v("Mahalle")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "select-container" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.userData.selectedAddress,
+                      expression: "userData.selectedAddress"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.userData,
+                        "selectedAddress",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                _vm._l(_vm.streets, function(street) {
+                  return _c(
+                    "option",
+                    { key: street.id, domProps: { value: street.id } },
+                    [_vm._v(_vm._s(street.name))]
+                  )
+                }),
+                0
+              )
+            ]),
             _vm._v(" "),
             _c("i", { staticClass: "ti ti-location-pin text-primary mr-2" }),
             _vm._v(" "),
@@ -34220,13 +34094,13 @@ var render = function() {
                   _vm._v(" "),
                   _c("span", { staticClass: "custom-control-indicator" }),
                   _vm._v(" "),
-                  _vm._m(0)
+                  _vm._m(1)
                 ])
               ]
             )
           ]),
           _vm._v(" "),
-          _vm._m(1),
+          _vm._m(2),
           _vm._v(" "),
           _c("div", [
             _c(
@@ -34235,7 +34109,7 @@ var render = function() {
                 staticClass: "btn btn-success btn-block",
                 on: { click: _vm.checkForm }
               },
-              [_c("span", [_vm._v("Üye Ol!\n          ")])]
+              [_c("span", [_vm._v("Üye Ol!")])]
             )
           ])
         ])
@@ -34249,12 +34123,12 @@ var render = function() {
         _c(
           "h4",
           [
-            _vm._v(" Zaten üyeliğiniz var mı?  "),
+            _vm._v("\n        Zaten üyeliğiniz var mı?\n        "),
             _c("router-link", { attrs: { tag: "a", to: "/giris" } }, [
               _c(
                 "span",
                 { staticClass: "lead", staticStyle: { color: "blue" } },
-                [_vm._v("  Giriş Yap!")]
+                [_vm._v("Giriş Yap!")]
               )
             ])
           ],
@@ -34265,6 +34139,16 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "select-container" }, [
+      _c("select", { staticClass: "form-control", attrs: { disabled: "" } }, [
+        _c("option", { attrs: { selected: "", value: "" } }, [_vm._v("Adana")])
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -34281,13 +34165,11 @@ var staticRenderFns = [
         },
         [
           _c("span", { staticStyle: { color: "blue" } }, [
-            _vm._v(" Kullanıcı Sözleşmesini ")
+            _vm._v("Kullanıcı Sözleşmesini")
           ]),
           _vm._v(" "),
           _c("span", { staticClass: "lead" }, [
-            _vm._v(
-              "\n                                          ve Kişisel Verilerin Korunması Politikasını kabul ediyorum"
-            )
+            _vm._v("ve Kişisel Verilerin Korunması Politikasını kabul ediyorum")
           ])
         ]
       )
@@ -34348,7 +34230,7 @@ var staticRenderFns = [
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _vm._v(
-                  "\n     1. Sözleşmenin Onaylanması\nKullanıcı kayıt formu doldurularak veya sosyal medya ağları üyeliği (Facebook, Twitter, Instagram, Pinterest ve benzerleri) aracılığıyla www.zekiustakebap.com adresinden veya bu adres üzerinden erişilebilen web-sitelerini kapsayan siteler üzerinden zekiustakebap.com sistemine üye olunabilir. Her zekiustakebap.com kullanıcısı, Zeki Usta Yemek Gıda  Ziraat İnşaat Otomotiv Üretim Ticaret Pazarlama Ltd. Şti. (“zekiustakebap.com”) ile akdetmiş olduğu işbu Kullanıcı Sözleşmesi (“Sözleşme”) hükümlerine uyacağını kabul ve taahhüt eder.\n2. Hizmetler\nzekiustakebap.com kullanıcılarına internet ortamında, mobil telefonlarda, akıllı TV sistemlerinde veya benzer platformlarda geliştirilebilen uygulamalardan yemek siparişi verme imkanı ve buna ilişkin sair hizmetler sunar.\n3. zekiustakebap.com Kullanıcı Sistemi\nHer zekiustakebap.com kullanıcısı, kendisinin belirleyeceği bir “kullanıcı adı” veya e-posta adresi ile “şifre”ye sahip olur.\n“Kullanıcı adı” e-posta adreslerinde olduğu gibi her üyeye özeldir ve aynı kullanıcı adı farklı üyelere verilmez.\nHer kullanıcının zekiustakebap.com üyeliği gerektiren sistemlere bağlanabilmesi için kullanıcı adını veya kayıtlı e-posta adresi ile şifresini girmesi gereklidir. Bu işlem zekiustakebap.com sistemine giriş yapmak şeklinde tanımlanmıştır. Kullanıcılar, diledikleri takdirde ilgili kullanıcı sözleşmelerini onaylamak kaydıyla zekiustakebap.com sistemine giriş yaptıkları kullanıcı adı veya e-posta adresi ve şifre ile zekiustakebap.com sistemine dahil diğer sitelere de giriş yapabilirler.\n“Şifre” sadece ilgili kullanıcının bilgisi dâhilindedir. Kullanıcı şifresi unutulduğu takdirde zekiustakebap.com, talep üzerine kullanıcının zekiustakebap.com sisteminde kayıtlı e-posta adresine yeni şifre oluşturabilmek için bir bağlantı gönderecektir. Şifre'nin belirlenmesi ve korunması tamamıyla kullanıcının kendi sorumluluğundadır ve zekiustakebap.com şifre kullanımından doğacak problemlerden veya oluşabilecek zararlardan kesinlikle sorumlu değildir.\nzekiustakebap.com kullanıcılarını zekiustakebap.com’da kayıtlı adreslerinin bulunduğu bölgelerdeki ve sair şekilde yararlanabilecekleri promosyonlar ile zekiustakebap.com sistemi dahilindeki yeni hizmet veya projelerden e-posta yolu ile haberdar edebilecektir. Ayrıca zekiustakebap.com kullanıcılarına sosyal medya kanalları dahil olmak üzere kullanıcıların zekiustakebap.com com sistemi ile paylaştıkları her türlü iletişim kanalı üzerinden ulaşabilir ve çeşitli promosyon, kampanya ve benzer bilgileri paylaşabilecektir.\nKullanıcıların belirlemiş oldukları zekiustakebap.com sisteminde kayıtlı isim, adres ve telefon numarası, siparişin daha çabuk ve doğru teslimi amacıyla siparişi teslim eden motorlu ekip ile paylaşılacaktır.\nzekiustakebap.com, sisteminde kayıtlı isim, adres ve telefon numarasının siparişi teslim eden motorlu ekip ile paylaşılmasından dolayı kullanıcı ve üye işyeri arasında ortaya çıkabilecek her türlü problemden veya oluşabilecek zarardan kesinlikle sorumlu değildir.\nzekiustakebap.com sisteminin kullanılması ile oluşacak data ve verilerin tüm fikri haklarına sahiptir. zekiustakebap.com, söz konusu bilgilerle kullanıcı üyelik bilgilerini açıklamadan demografik bilgiler içeren raporlar düzenleyebilir veya bu tarz bilgileri veya raporları kendisi kullanabilir ve bu rapor ve/veya istatistikleri iş ortakları ile üçüncü kişilerle bedelli veya bedelsiz paylaşabilir. Bu işlemler zekiustakebap.com Gizlilik Politikası hükümlerine aykırılık teşkil etmez.\n4. Kullanıcının Yükümlülükleri\nKullanıcı, zekiustakebap.com hizmetlerinden yararlandığı sırada, \n\nKullanıcı kayıt formunda yer alan bilgilerin doğru olduğunu ve ve zekiustakebap.com da oluşturulmuş her bir Kullanıcı adı için yalnızca bir adet e-posta tanımlanabileceğini, tanımlanan e-posta adresinin değiştirilemeyeceğini , yeni bir e-posta adresinin ancak zekiustakebap.com üzerinde yeni bir kullanıcı oluşturulması halinde tanımlanılabileceğini; bu bilgilerin gerekli olduğu durumlarda bilginin hatalı veya noksan olmasından (şifre unutma gibi) doğacak kendisinin ya da üçüncü kişilerin zararlarından dolayı sorumluluğun kendisine ait olduğunu, bu hallerde zekiustakebap.com üyeliğinin sona erebileceğini;\n“Kullanıcı adı” veya kayıtlı e-posta adresiyle yapacağı her türlü işlemden bizzat kendisinin sorumlu olduğunu;\nzekiustakebap.com tarafından verilen hizmetlerin ve yazılımların telif hakkının zekiustakebap.com'a ait olduğunu, bu yazılımları hiçbir şekilde çoğaltıp, dağıtmayacağını;\nzekiustakebap.com hizmetlerini kullandığında ileri sürdüğü şahsi fikir, düşünce, ifade, zekiustakebap.com ortamına eklediği dosyaların, gönderdiği kişisel bilgilerinin sorumluluğunun kendisine ait olduğunu ve üye işyeri ile kullanıcı arasında oluşabilecek ihtilaflar dahil ancak bunlarla sınırlı olmamak üzere zekiustakebap.com'un bu dosyalardan dolayı hiçbir şekilde sorumlu tutulamayacağını, zekiustakebap.com’un bu görüş ve düşünceleri yayımlayıp, yayımlamamakta serbest olduğunu ayrıca bu görüş ve yorumları moderatörler aracılığıyla düzenleyip, imla hatalarını düzeltme hakkı bulunduğunu;\nzekiustakebap.com servislerinin kullanımı sırasında kaybolacak ve/veya eksik alınacak, yanlış adrese iletilecek bilgi mesaj ve dosyalardan zekiustakebap.com'un sorumlu olmayacağını;\nKullanıcı verilerinin yetkisiz kişilerce okunmasından veya kullanılmasından dolayı gelebilecek zararlardan ötürü zekiustakebap.com'un sorumlu tututalamayacağını;\nKullanıcı paylaşımlarının üçüncü kişiler tarafından izinsiz şekilde kullanılmasından, paylaşılmasından veya yayınlanmasından dolayı gelebilecek zararlardan zekiustakebap.com’un sorumlu olmayacağını;\nTehdit edici, ahlak dışı, ırkçı, Türkiye Cumhuriyeti kanunlarına, uluslararası anlaşmalara aykırı, politik mesajlar içeren, 3. kişilerin fikri veya sınai mülkiyet haklarını ihlal eder nitelikte kullanıcı adı, fotoğraf ve rumuz kullanmamayı; mesaj veya yorum göndermemeyi;\nOrtama eklenecek kullanıcı adları, fotoğraflar, yazışmalar, konu başlıkları ve rumuzların genel ahlak, görgü ve hukuk kurallarına uygun olmasını; politik mesajlar içermemesini; ve söz konusu ibareler, yazışmalar ve fotoğraflar ile ilgili tüm yayımlama, işleme ve çoğaltma, yayma, temsil, işaret, ses ve/veya görüntü nakline yarayan araçlarla umuma iletim, üçüncü kişilere devir ve temlik hakları dâhil olmak üzere 5846 sayılı ve 5.12.1951 tarihli Fikir ve Sanat Eserleri Kanunu’nda sayılan tüm mali hakların zekiustakebap.com’a devredildiğini;\nDiğer kullanıcıları taciz ve tehdit etmemeyi;\nDiğer kullanıcıların zekiustakebap.com sistemini kullanmasını olumsuz etkileyecek şekilde davranmamayı;\nzekiustakebap.com sistemi veya ona bağlı olarak geliştirilen sistem ve uygulamalarda yer alan hizmetleri kötüye kullanmayacağını ve bu sistemi kullanan diğer kullanıcıların haklarını ihlal eden nitelikte veya zarar veren hiçbir davranışta bulunmayacağını ve söz konusu kötüye kullanım neticesinde zekiustakebap’ın veya ilgili kullanıcının uğrayacağı tüm zararlardan sorumluluğun tamamen kendisine ait olduğunu ve böyle bir kullanımın tespit edilmesi halinde zekiustakebap’ın bu kullanıcının ilgili hizmetteki hesabını ya da hesabının kullanıcı adı, profil fotoğrafı ve benzeri kısımlarını kapatma veya limitleme veya zekiustakebap üyeliğini sona erdirme hakkının bulunduğunu;\nzekiustakebap.com hizmetleri kullanarak elde edilen herhangi bir kayıt veya elde edilmiş malzemelerin tamamen kullanıcının rızası dâhilinde olduğunu, kendi bilgisayarında yaratacağı arızalar, bilgi kaybı ve diğer kayıpların sorumluluğunun tamamen kendisine ait olduğunu, zekiustakebap.com sisteminin kullanımından dolayı uğrayabileceği zararlardan dolayı zekiustakebap.com'dan tazminat talep etmemeyi;\nzekiustakebap.com'un, dilediği zaman veya sürekli olarak tüm sistemi izleyebileceğini;\nKurallara aykırı davrandığı takdirde zekiustakebap.com'un gerekli müdahalelerde bulunma ve kullanıcıyı hizmet dışına çıkarma ve üyeliğine son verme hakkına sahip olduğunu,\nzekiustakebap.com'un, kendi sistemini ticari amaçla kullanabileceğini;\nKanunlara göre iletilmesi yasak olan bilgileri iletmemeyi ve zincir posta (chain mail), yazılım virüsü (vb.) gibi gönderilme yetkisi olmayan verileri paylaşmamayı;\nBaşkalarına ait kişisel bilgileri kayıt etmemeyi, yaymamayı, kötüye kullanmamayı;\nOnline Ödeme Yöntemi ile ödeme yapılmadığı durumda sipariş teslimi sırasında hizmetin daha önceden kendilerine bildirilmiş olan ücretini seçilen ödeme aracıyla ödemek durumunda olduğunu aksi takdirde ürünün kendilerine teslim edilmeyebileceğini;\nzekiustakebap.com sisteminde çerez (cookie/tanımlama bilgileri) kullanıldığını, çerezlerin bir internet sitesinin kullanıcının bilgisayarındaki sabit diskte çerez dosyasına aktardığı bilgi parçaları olduğunu, bunların kullanıcıların zekiustakebap.com’da gezinmesine olanak sağladığını ve gerektiğinde siteye erişen kullanıcıların ihtiyaçlarına uygun içeriklerin hazırlanmasına yardımcı olduğunu beyan, taahhüt ve kabul eder.\n5. zekiustakebap.com'a Tanınan Yetkiler\nzekiustakebap.com herhangi bir zamanda sistemin çalışmasını geçici bir süre askıya alabilir veya tamamen durdurabilir. zekiustakebap.com güvenliği şüphesi doğuran kullanıcı işlemlerinden dolayı ilgili kullanıcıların Online Ödeme Yöntemi aracılığı ile ödeme yapma imkânını geçici bir süre askıya alabilir veya tamamen durdurabilir. Sistemin veya Online Ödeme Yöntemi kullanımının geçici bir süre askıya alınması veya tamamen durdurulmasından dolayı zekiustakebap.com’un kullanıcılarına veya üçüncü kişilere karşı hiçbir sorumluluğu olmayacaktır. Kullanıcı adı veya e-posta ile şifre zekiustakebap.com tarafından sunulan başvuru alanlarının doldurulmasından sonra görüntülenecek ve onaylanacaktır. zekiustakebap.com kullanıcı kayıt formunu eksiksiz doldurmuş üyelerin veya zekiustakebap.com sistemine giriş yapan kullanıcıların yeni bir şifreye sahip olmalarını veya şifrelerini kullanmalarını münhasıran süresiz olarak engelleyebilecektir. zekiustakebap.com, hizmetlerinin zamanında, güvenli ve hatasız olarak sunulması, hizmet kullanımından elde edilen sonuçların doğru ve güvenilir olması, hizmet kalitesinin beklentilere cevap vermesi için gerekli özeni gösterecektir ancak bunları taahhüt etmemektedir. zekiustakebap.com kullanıcıların sistemden yararlanmaları sırasında ortamda bulunduracakları dosyaların, mesajların bazılarını veya tamamını uygun göreceği periyotlarla yedekleme ve silme yetkisine sahiptir. Yedekleme ve silme işlemlerinden dolayı zekiustakebap.com sorumlu tutulmayacaktır. zekiustakebap.com kendi ürettiği ve/veya dışardan satın aldığı bilgi, belge, yazılım, tasarım, grafik vb. eserlerin mülkiyet ve mülkiyetten doğan telif haklarına sahiptir. zekiustakebap.com kullanıcılarının ürettiği ve yayınlanmak üzere kendi iradesiyle sisteme yüklediği (örneğin kullanıcı resimleri, panoya eklediği mesaj, şiir, haber, dosya gibi) bilgi, belge, yazılım, tasarım, grafik vb. eserlerin her türlü yazılı ve görsel mecrada yayınlanma, işleme, sosyal medya ağlarında paylaşma ve/veya zekiustakebap.com sistemi içinde zekiustakebap.com tarafından uygun görülecek başka bir adrese taşıma veya kendi takdirinde olmak üzere internet sitesinden kaldırma haklarına sahiptir. Yayınlanan bu bilgilerin başka kullanıcılar tarafından kopyalanması, işlenmesi ve/veya yayınlanması ihtimal dâhilindedir. Bu hallerde kullanıcı, zekiustakebap.com'dan hiçbir telif ücreti talep etmeyecektir. Fiyat ve ürün özellik bilgilerinde hata oluştuğu takdirde zekiustakebap.com kullanıcıları bilgilendirerek, bu hatayı düzeltecek şekilde ürün teslimatı yapabilir veya siparişi iptal edebilir. zekiustakebap.com sisteminde satışa sunulan ürünlerin içeriğine dair doğru ve dürüst açıklama yapılmasına dair zekiustakebap.com gerekli özeni gösterecektir ancak üye işyerlerinin sipariş içeriklerine dair yaptıkları eksik ve/veya hatalı açıklamalardan dolayı oluşacak problemlerden veya zararlardan zekiustakebap.com sorumlu değildir. zekiustakebap.com, kullanıcının zekiustakebap.com com sistemi dışındaki web-sitelerine geçişini sağlayabilir. Bu takdirde kullanıcı geçiş yapacağı sitelerin içeriğinden zekiustakebap.com'un sorumlu olmadığını peşinen kabul eder. zekiustakebap.com kullanıcı üyeliği gerektirmeyen hizmetleri zaman içinde üyelik gerektiren bir hale dönüştürülebilir, ilave hizmetler açabilir, bazı hizmetlerini kısmen veya tamamen değiştirebilir veya ücretli hale dönüştürebilir. Bu durumda kullanıcının Sözleşme’yi feshederek, üyelikten ayrılma hakkı saklıdır. zekiustakebap.com, ileride doğacak teknik zaruretler ve mevzuata uyum amacıyla kullanıcıların aleyhine olmamak kaydıyla işbu Sözleşme’nin uygulamasında değişiklikler yapabilir, mevcut maddelerini değiştirebilir veya yeni maddeler ilave edebilir. \n6. Kullanım Amacı\nKullanıcılar, zekiustakebap.com sistemi üzerinde verilen tüm siparişlerin, yapılan tüm alışverişlerin kişisel kullanım amaçlı olduğunu, bunların tekrar satış amaçlı olmadığını kabul ederler.\n7. Ödeme\nzekiustakebap.com kullanıcıları zekiustakebap.com sisteminden verdikleri siparişin ücretini, sipariş verirken seçtikleri şekilde teslim esnasında ödeyebilir. Kullanıcılar ayrıca Online Ödeme Yöntemi kullanarak banka kartı, kredi kartı veya benzer bir ödeme aracı ile diğer ödeme sistemleri (örneğin PayPal) vasıtasıyla anında online ödeme de yapabileceklerdir. Online Ödeme Yöntemi seçeneği kullanılarak yapılan ödemelerde, kartın hamili haricinde bir başkası tarafından hukuka aykırı şekilde kullanılması halinde 23.02.2006 tarihli 5464 sayılı Banka Kartları ve Kredi Kartları Kanunu ve 10.03.2007 tarihli ve 26458 sayılı Resmi Gazete’de yayımlanan Banka Kartları ve Kredi Kartları Hakkında Yönetmelik hükümlerine göre işlem yapılır. Kullanıcılar, Online Ödeme Yöntemi kullanılarak verilen siparişlerde ödemeyi zekiustakebap.com ‘a yapmakla ödeme yükümlülüklerini ifa etmiş olmaktadır. Vale Hizmeti kullanılarak online ödeme yöntemi, kapıda kredi kartı/banka kartıyla ödeme yöntemi, kapıda nakit ödeme yöntemi dahil fakat bunlarla sınırlı olmamak üzere her türlü ödeme yöntemiyle gerçekleşen siparişlerde, zekiustakebap.com, sipariş edilen ürünlere ilişkin bedelleri motorlu kuryelerine tahsil etmek için münhasır olarak yetkilendirilmiştir. Kullanıcılar, vale hizmeti kullanılarak verilen siparişlerde ödemeyi online ödeme yöntemi, kapıda kredi kartı/banka kartıyla ödeme yöntemi, kapıda nakit ödeme yöntemi dahil fakat bunlarla sınırlı olmamak üzere her türlü ödeme yöntemiyle yapmakla, restorana ve zekiustakebap.com'a karşı ödeme yükümlülüklerini ifa etmiş olmaktadırlar.\n8. Kişisel Veri\nKullanıcı zekiustakebap.com’a üye olurken Kullanıcı Sözleşmesini onaylamak ve üyelik sonrası Web Sitesi içerisindeki hareketleri esnasında, veri sorumlusu zekiustakebap.com ile paylaştıkları ad, soyad, elektronik posta adresi, sipariş adres/adresleri, telefon numarası gibi kişisel verilerinin (“Kişisel Veri/ler”) Kişisel Verilerin Korunması Hakkındaki Kanun’da belirlenmiş olan esaslar çerçevesinde işlenmesini kabul ve beyan eder. Kişisel Veriler zekiustakebap.com ve zekiustakebap.com iştirakleri tarafından işbu sözleşmesel ilişki kapsamında ve zekiustakebap.com ve iştiraklerinin sözleşmesel ilişkisi bulunan iş ortakları tarafından pazarlama, analiz, istatistik gibi amaçlarla işlenebilir. Ek olarak Kullanıcılar Kişisel Verileri dışındaki sipariş bilgileri (sipariş verdikleri restoranlar, sipariş verilen ürün tipi, sipariş adedi, sipariş saati, sipariş verilen bölge gibi Web Sitesi (veya kullanılan benzeri mobil veya elektronik mecra) üzerindeki tüm davranışları, sipariş detayları gibi) ve benzeri verilerinin (“Veri/er”) zekiustakebap.com, zekiustakebap.com iştirakleri ve iş ortakları tarafından kaydedilmesi, işlenmesi ve listelenmesinde ve/veya anonimleştirilerek analizlerde 3. kişilerle hizmetin daha iyi sağlanması veya çeşitli uygulamaların veya programların zekiustakebap.com üzerinde çalıştırılabilmesi için anonim şekilde kullanılmasına açık rızalarının olduğunu kabul ve beyan ederler.\n10. Ürün Teslimatı\nzekiustakebap.com sisteminde seçtiği adreste bulunamaz ise siparişi kesinlikle başka bir adrese bırakılmayacaktır. Bu durum çerçevesinde kullanıcı kendisinin bulunmadığı bir adrese sipariş vermiş olduğu için doğacak kanuni yükümlülükleri kabul etmek durumundadır.\n11. Ücret İadesi\nOnline Ödeme Yöntemi ile ödemesi yapılmış siparişlerle sınırlı olmak üzere kullanıcıya ücret iadesi ancak \n\nkullanıcı adresinin sipariş verilen restoranın gönderim alanı dışında olması nedeniyle siparişin zorunlu iptali;\nsiparişin bir kısmının veya tamamının restoranda mevcut olmaması nedeniyle siparişin kısmen veya tamamen zorunlu iptali;\nSipariş edilen üründen memnun kalınmaması nedeniyle zekiustakebap.com onayının alınmasının akabinde yapılan sipariş iptali; ve\nSipariş edilen ürünün teslimatının gecikmesi durumunda iptal yapılacaktır. İptale konu siparişe ilişkin zekiustakebap.com bir fiş veya fatura düzenlemiş ve bu kullanıcıya teslim edilmiş ise ilgili restoran görevlisine iadesi gerekmektedir.\n\nzekiustakebap.com, yalnızca kullanıcıdan kaynaklanan sebeplerden dolayı (örneğin kullanıcının evde olmaması, yanlış adres bilgisi vermesi, siparişi teslim almaması gibi) ücret iadesi yapmama hakkını saklı tutar.\nOnline Ödeme Yöntemi dışındaki ödeme vasıtaları ile ödemesi yapılmış siparişlerde ücret iadesi, zekiustakebap.com tarafından doğrudan yapılmaktadır. \n12. Bilgilerin Saklanması ve İspat Yükümlülüğü:\nzekiustakebap.com sisteminde kayıtlı kullanıcı bilgileri, siparişleri, yorum/değerlendirmeleri vb. zekiustakebap.com Gizlilik Politikası’na tabi olacak şekilde en az üç (3) yıl boyunca saklanır. İşbu Sözleşme’nin ifasından doğacak her türlü uyuşmazlıkta zekiustakebap.com sisteminde saklanan veriler ile kullanıcı kayıtları bağlayıcı ve kesin delil teşkil eder. İşbu Sözleşme Türkiye Cumhuriyeti kanunlarına tabidir. Sözleşme’nin ifasından doğabilecek her türlü uyuşmazlığın çözümünde Adana Merkez Mahkeme ve İcra Müdürlükleri yetkilidir.\n14. Yürürlük\nİşbu Sözleşme taraflar arasında kullanıcının, kullanıcı kayıt formunu doldurmasından itibaren süresiz olarak yürürlüğe girer.\n15. Fesih\nTaraflar işbu Sözleşme’yi diledikleri zaman sona erdirebileceklerdir. Sözleşme’nin feshi anında tarafların birbirlerinden olan alacak hakları etkilenmez.\n\n      "
+                  "\n                1. Sözleşmenin Onaylanması\n                Kullanıcı kayıt formu doldurularak veya sosyal medya ağları üyeliği (Facebook, Twitter, Instagram, Pinterest ve benzerleri) aracılığıyla www.zekiustakebap.com adresinden veya bu adres üzerinden erişilebilen web-sitelerini kapsayan siteler üzerinden zekiustakebap.com sistemine üye olunabilir. Her zekiustakebap.com kullanıcısı, Zeki Usta Yemek Gıda Ziraat İnşaat Otomotiv Üretim Ticaret Pazarlama Ltd. Şti. (“zekiustakebap.com”) ile akdetmiş olduğu işbu Kullanıcı Sözleşmesi (“Sözleşme”) hükümlerine uyacağını kabul ve taahhüt eder.\n                2. Hizmetler\n                zekiustakebap.com kullanıcılarına internet ortamında, mobil telefonlarda, akıllı TV sistemlerinde veya benzer platformlarda geliştirilebilen uygulamalardan yemek siparişi verme imkanı ve buna ilişkin sair hizmetler sunar.\n                3. zekiustakebap.com Kullanıcı Sistemi\n                Her zekiustakebap.com kullanıcısı, kendisinin belirleyeceği bir “kullanıcı adı” veya e-posta adresi ile “şifre”ye sahip olur.\n                “Kullanıcı adı” e-posta adreslerinde olduğu gibi her üyeye özeldir ve aynı kullanıcı adı farklı üyelere verilmez.\n                Her kullanıcının zekiustakebap.com üyeliği gerektiren sistemlere bağlanabilmesi için kullanıcı adını veya kayıtlı e-posta adresi ile şifresini girmesi gereklidir. Bu işlem zekiustakebap.com sistemine giriş yapmak şeklinde tanımlanmıştır. Kullanıcılar, diledikleri takdirde ilgili kullanıcı sözleşmelerini onaylamak kaydıyla zekiustakebap.com sistemine giriş yaptıkları kullanıcı adı veya e-posta adresi ve şifre ile zekiustakebap.com sistemine dahil diğer sitelere de giriş yapabilirler.\n                “Şifre” sadece ilgili kullanıcının bilgisi dâhilindedir. Kullanıcı şifresi unutulduğu takdirde zekiustakebap.com, talep üzerine kullanıcının zekiustakebap.com sisteminde kayıtlı e-posta adresine yeni şifre oluşturabilmek için bir bağlantı gönderecektir. Şifre'nin belirlenmesi ve korunması tamamıyla kullanıcının kendi sorumluluğundadır ve zekiustakebap.com şifre kullanımından doğacak problemlerden veya oluşabilecek zararlardan kesinlikle sorumlu değildir.\n                zekiustakebap.com kullanıcılarını zekiustakebap.com’da kayıtlı adreslerinin bulunduğu bölgelerdeki ve sair şekilde yararlanabilecekleri promosyonlar ile zekiustakebap.com sistemi dahilindeki yeni hizmet veya projelerden e-posta yolu ile haberdar edebilecektir. Ayrıca zekiustakebap.com kullanıcılarına sosyal medya kanalları dahil olmak üzere kullanıcıların zekiustakebap.com com sistemi ile paylaştıkları her türlü iletişim kanalı üzerinden ulaşabilir ve çeşitli promosyon, kampanya ve benzer bilgileri paylaşabilecektir.\n                Kullanıcıların belirlemiş oldukları zekiustakebap.com sisteminde kayıtlı isim, adres ve telefon numarası, siparişin daha çabuk ve doğru teslimi amacıyla siparişi teslim eden motorlu ekip ile paylaşılacaktır.\n                zekiustakebap.com, sisteminde kayıtlı isim, adres ve telefon numarasının siparişi teslim eden motorlu ekip ile paylaşılmasından dolayı kullanıcı ve üye işyeri arasında ortaya çıkabilecek her türlü problemden veya oluşabilecek zarardan kesinlikle sorumlu değildir.\n                zekiustakebap.com sisteminin kullanılması ile oluşacak data ve verilerin tüm fikri haklarına sahiptir. zekiustakebap.com, söz konusu bilgilerle kullanıcı üyelik bilgilerini açıklamadan demografik bilgiler içeren raporlar düzenleyebilir veya bu tarz bilgileri veya raporları kendisi kullanabilir ve bu rapor ve/veya istatistikleri iş ortakları ile üçüncü kişilerle bedelli veya bedelsiz paylaşabilir. Bu işlemler zekiustakebap.com Gizlilik Politikası hükümlerine aykırılık teşkil etmez.\n                4. Kullanıcının Yükümlülükleri\n                Kullanıcı, zekiustakebap.com hizmetlerinden yararlandığı sırada,\n                Kullanıcı kayıt formunda yer alan bilgilerin doğru olduğunu ve ve zekiustakebap.com da oluşturulmuş her bir Kullanıcı adı için yalnızca bir adet e-posta tanımlanabileceğini, tanımlanan e-posta adresinin değiştirilemeyeceğini , yeni bir e-posta adresinin ancak zekiustakebap.com üzerinde yeni bir kullanıcı oluşturulması halinde tanımlanılabileceğini; bu bilgilerin gerekli olduğu durumlarda bilginin hatalı veya noksan olmasından (şifre unutma gibi) doğacak kendisinin ya da üçüncü kişilerin zararlarından dolayı sorumluluğun kendisine ait olduğunu, bu hallerde zekiustakebap.com üyeliğinin sona erebileceğini;\n                “Kullanıcı adı” veya kayıtlı e-posta adresiyle yapacağı her türlü işlemden bizzat kendisinin sorumlu olduğunu;\n                zekiustakebap.com tarafından verilen hizmetlerin ve yazılımların telif hakkının zekiustakebap.com'a ait olduğunu, bu yazılımları hiçbir şekilde çoğaltıp, dağıtmayacağını;\n                zekiustakebap.com hizmetlerini kullandığında ileri sürdüğü şahsi fikir, düşünce, ifade, zekiustakebap.com ortamına eklediği dosyaların, gönderdiği kişisel bilgilerinin sorumluluğunun kendisine ait olduğunu ve üye işyeri ile kullanıcı arasında oluşabilecek ihtilaflar dahil ancak bunlarla sınırlı olmamak üzere zekiustakebap.com'un bu dosyalardan dolayı hiçbir şekilde sorumlu tutulamayacağını, zekiustakebap.com’un bu görüş ve düşünceleri yayımlayıp, yayımlamamakta serbest olduğunu ayrıca bu görüş ve yorumları moderatörler aracılığıyla düzenleyip, imla hatalarını düzeltme hakkı bulunduğunu;\n                zekiustakebap.com servislerinin kullanımı sırasında kaybolacak ve/veya eksik alınacak, yanlış adrese iletilecek bilgi mesaj ve dosyalardan zekiustakebap.com'un sorumlu olmayacağını;\n                Kullanıcı verilerinin yetkisiz kişilerce okunmasından veya kullanılmasından dolayı gelebilecek zararlardan ötürü zekiustakebap.com'un sorumlu tututalamayacağını;\n                Kullanıcı paylaşımlarının üçüncü kişiler tarafından izinsiz şekilde kullanılmasından, paylaşılmasından veya yayınlanmasından dolayı gelebilecek zararlardan zekiustakebap.com’un sorumlu olmayacağını;\n                Tehdit edici, ahlak dışı, ırkçı, Türkiye Cumhuriyeti kanunlarına, uluslararası anlaşmalara aykırı, politik mesajlar içeren, 3. kişilerin fikri veya sınai mülkiyet haklarını ihlal eder nitelikte kullanıcı adı, fotoğraf ve rumuz kullanmamayı; mesaj veya yorum göndermemeyi;\n                Ortama eklenecek kullanıcı adları, fotoğraflar, yazışmalar, konu başlıkları ve rumuzların genel ahlak, görgü ve hukuk kurallarına uygun olmasını; politik mesajlar içermemesini; ve söz konusu ibareler, yazışmalar ve fotoğraflar ile ilgili tüm yayımlama, işleme ve çoğaltma, yayma, temsil, işaret, ses ve/veya görüntü nakline yarayan araçlarla umuma iletim, üçüncü kişilere devir ve temlik hakları dâhil olmak üzere 5846 sayılı ve 5.12.1951 tarihli Fikir ve Sanat Eserleri Kanunu’nda sayılan tüm mali hakların zekiustakebap.com’a devredildiğini;\n                Diğer kullanıcıları taciz ve tehdit etmemeyi;\n                Diğer kullanıcıların zekiustakebap.com sistemini kullanmasını olumsuz etkileyecek şekilde davranmamayı;\n                zekiustakebap.com sistemi veya ona bağlı olarak geliştirilen sistem ve uygulamalarda yer alan hizmetleri kötüye kullanmayacağını ve bu sistemi kullanan diğer kullanıcıların haklarını ihlal eden nitelikte veya zarar veren hiçbir davranışta bulunmayacağını ve söz konusu kötüye kullanım neticesinde zekiustakebap’ın veya ilgili kullanıcının uğrayacağı tüm zararlardan sorumluluğun tamamen kendisine ait olduğunu ve böyle bir kullanımın tespit edilmesi halinde zekiustakebap’ın bu kullanıcının ilgili hizmetteki hesabını ya da hesabının kullanıcı adı, profil fotoğrafı ve benzeri kısımlarını kapatma veya limitleme veya zekiustakebap üyeliğini sona erdirme hakkının bulunduğunu;\n                zekiustakebap.com hizmetleri kullanarak elde edilen herhangi bir kayıt veya elde edilmiş malzemelerin tamamen kullanıcının rızası dâhilinde olduğunu, kendi bilgisayarında yaratacağı arızalar, bilgi kaybı ve diğer kayıpların sorumluluğunun tamamen kendisine ait olduğunu, zekiustakebap.com sisteminin kullanımından dolayı uğrayabileceği zararlardan dolayı zekiustakebap.com'dan tazminat talep etmemeyi;\n                zekiustakebap.com'un, dilediği zaman veya sürekli olarak tüm sistemi izleyebileceğini;\n                Kurallara aykırı davrandığı takdirde zekiustakebap.com'un gerekli müdahalelerde bulunma ve kullanıcıyı hizmet dışına çıkarma ve üyeliğine son verme hakkına sahip olduğunu,\n                zekiustakebap.com'un, kendi sistemini ticari amaçla kullanabileceğini;\n                Kanunlara göre iletilmesi yasak olan bilgileri iletmemeyi ve zincir posta (chain mail), yazılım virüsü (vb.) gibi gönderilme yetkisi olmayan verileri paylaşmamayı;\n                Başkalarına ait kişisel bilgileri kayıt etmemeyi, yaymamayı, kötüye kullanmamayı;\n                Online Ödeme Yöntemi ile ödeme yapılmadığı durumda sipariş teslimi sırasında hizmetin daha önceden kendilerine bildirilmiş olan ücretini seçilen ödeme aracıyla ödemek durumunda olduğunu aksi takdirde ürünün kendilerine teslim edilmeyebileceğini;\n                zekiustakebap.com sisteminde çerez (cookie/tanımlama bilgileri) kullanıldığını, çerezlerin bir internet sitesinin kullanıcının bilgisayarındaki sabit diskte çerez dosyasına aktardığı bilgi parçaları olduğunu, bunların kullanıcıların zekiustakebap.com’da gezinmesine olanak sağladığını ve gerektiğinde siteye erişen kullanıcıların ihtiyaçlarına uygun içeriklerin hazırlanmasına yardımcı olduğunu beyan, taahhüt ve kabul eder.\n                5. zekiustakebap.com'a Tanınan Yetkiler\n                zekiustakebap.com herhangi bir zamanda sistemin çalışmasını geçici bir süre askıya alabilir veya tamamen durdurabilir. zekiustakebap.com güvenliği şüphesi doğuran kullanıcı işlemlerinden dolayı ilgili kullanıcıların Online Ödeme Yöntemi aracılığı ile ödeme yapma imkânını geçici bir süre askıya alabilir veya tamamen durdurabilir. Sistemin veya Online Ödeme Yöntemi kullanımının geçici bir süre askıya alınması veya tamamen durdurulmasından dolayı zekiustakebap.com’un kullanıcılarına veya üçüncü kişilere karşı hiçbir sorumluluğu olmayacaktır. Kullanıcı adı veya e-posta ile şifre zekiustakebap.com tarafından sunulan başvuru alanlarının doldurulmasından sonra görüntülenecek ve onaylanacaktır. zekiustakebap.com kullanıcı kayıt formunu eksiksiz doldurmuş üyelerin veya zekiustakebap.com sistemine giriş yapan kullanıcıların yeni bir şifreye sahip olmalarını veya şifrelerini kullanmalarını münhasıran süresiz olarak engelleyebilecektir. zekiustakebap.com, hizmetlerinin zamanında, güvenli ve hatasız olarak sunulması, hizmet kullanımından elde edilen sonuçların doğru ve güvenilir olması, hizmet kalitesinin beklentilere cevap vermesi için gerekli özeni gösterecektir ancak bunları taahhüt etmemektedir. zekiustakebap.com kullanıcıların sistemden yararlanmaları sırasında ortamda bulunduracakları dosyaların, mesajların bazılarını veya tamamını uygun göreceği periyotlarla yedekleme ve silme yetkisine sahiptir. Yedekleme ve silme işlemlerinden dolayı zekiustakebap.com sorumlu tutulmayacaktır. zekiustakebap.com kendi ürettiği ve/veya dışardan satın aldığı bilgi, belge, yazılım, tasarım, grafik vb. eserlerin mülkiyet ve mülkiyetten doğan telif haklarına sahiptir. zekiustakebap.com kullanıcılarının ürettiği ve yayınlanmak üzere kendi iradesiyle sisteme yüklediği (örneğin kullanıcı resimleri, panoya eklediği mesaj, şiir, haber, dosya gibi) bilgi, belge, yazılım, tasarım, grafik vb. eserlerin her türlü yazılı ve görsel mecrada yayınlanma, işleme, sosyal medya ağlarında paylaşma ve/veya zekiustakebap.com sistemi içinde zekiustakebap.com tarafından uygun görülecek başka bir adrese taşıma veya kendi takdirinde olmak üzere internet sitesinden kaldırma haklarına sahiptir. Yayınlanan bu bilgilerin başka kullanıcılar tarafından kopyalanması, işlenmesi ve/veya yayınlanması ihtimal dâhilindedir. Bu hallerde kullanıcı, zekiustakebap.com'dan hiçbir telif ücreti talep etmeyecektir. Fiyat ve ürün özellik bilgilerinde hata oluştuğu takdirde zekiustakebap.com kullanıcıları bilgilendirerek, bu hatayı düzeltecek şekilde ürün teslimatı yapabilir veya siparişi iptal edebilir. zekiustakebap.com sisteminde satışa sunulan ürünlerin içeriğine dair doğru ve dürüst açıklama yapılmasına dair zekiustakebap.com gerekli özeni gösterecektir ancak üye işyerlerinin sipariş içeriklerine dair yaptıkları eksik ve/veya hatalı açıklamalardan dolayı oluşacak problemlerden veya zararlardan zekiustakebap.com sorumlu değildir. zekiustakebap.com, kullanıcının zekiustakebap.com com sistemi dışındaki web-sitelerine geçişini sağlayabilir. Bu takdirde kullanıcı geçiş yapacağı sitelerin içeriğinden zekiustakebap.com'un sorumlu olmadığını peşinen kabul eder. zekiustakebap.com kullanıcı üyeliği gerektirmeyen hizmetleri zaman içinde üyelik gerektiren bir hale dönüştürülebilir, ilave hizmetler açabilir, bazı hizmetlerini kısmen veya tamamen değiştirebilir veya ücretli hale dönüştürebilir. Bu durumda kullanıcının Sözleşme’yi feshederek, üyelikten ayrılma hakkı saklıdır. zekiustakebap.com, ileride doğacak teknik zaruretler ve mevzuata uyum amacıyla kullanıcıların aleyhine olmamak kaydıyla işbu Sözleşme’nin uygulamasında değişiklikler yapabilir, mevcut maddelerini değiştirebilir veya yeni maddeler ilave edebilir.\n                6. Kullanım Amacı\n                Kullanıcılar, zekiustakebap.com sistemi üzerinde verilen tüm siparişlerin, yapılan tüm alışverişlerin kişisel kullanım amaçlı olduğunu, bunların tekrar satış amaçlı olmadığını kabul ederler.\n                7. Ödeme\n                zekiustakebap.com kullanıcıları zekiustakebap.com sisteminden verdikleri siparişin ücretini, sipariş verirken seçtikleri şekilde teslim esnasında ödeyebilir. Kullanıcılar ayrıca Online Ödeme Yöntemi kullanarak banka kartı, kredi kartı veya benzer bir ödeme aracı ile diğer ödeme sistemleri (örneğin PayPal) vasıtasıyla anında online ödeme de yapabileceklerdir. Online Ödeme Yöntemi seçeneği kullanılarak yapılan ödemelerde, kartın hamili haricinde bir başkası tarafından hukuka aykırı şekilde kullanılması halinde 23.02.2006 tarihli 5464 sayılı Banka Kartları ve Kredi Kartları Kanunu ve 10.03.2007 tarihli ve 26458 sayılı Resmi Gazete’de yayımlanan Banka Kartları ve Kredi Kartları Hakkında Yönetmelik hükümlerine göre işlem yapılır. Kullanıcılar, Online Ödeme Yöntemi kullanılarak verilen siparişlerde ödemeyi zekiustakebap.com ‘a yapmakla ödeme yükümlülüklerini ifa etmiş olmaktadır. Vale Hizmeti kullanılarak online ödeme yöntemi, kapıda kredi kartı/banka kartıyla ödeme yöntemi, kapıda nakit ödeme yöntemi dahil fakat bunlarla sınırlı olmamak üzere her türlü ödeme yöntemiyle gerçekleşen siparişlerde, zekiustakebap.com, sipariş edilen ürünlere ilişkin bedelleri motorlu kuryelerine tahsil etmek için münhasır olarak yetkilendirilmiştir. Kullanıcılar, vale hizmeti kullanılarak verilen siparişlerde ödemeyi online ödeme yöntemi, kapıda kredi kartı/banka kartıyla ödeme yöntemi, kapıda nakit ödeme yöntemi dahil fakat bunlarla sınırlı olmamak üzere her türlü ödeme yöntemiyle yapmakla, restorana ve zekiustakebap.com'a karşı ödeme yükümlülüklerini ifa etmiş olmaktadırlar.\n                8. Kişisel Veri\n                Kullanıcı zekiustakebap.com’a üye olurken Kullanıcı Sözleşmesini onaylamak ve üyelik sonrası Web Sitesi içerisindeki hareketleri esnasında, veri sorumlusu zekiustakebap.com ile paylaştıkları ad, soyad, elektronik posta adresi, sipariş adres/adresleri, telefon numarası gibi kişisel verilerinin (“Kişisel Veri/ler”) Kişisel Verilerin Korunması Hakkındaki Kanun’da belirlenmiş olan esaslar çerçevesinde işlenmesini kabul ve beyan eder. Kişisel Veriler zekiustakebap.com ve zekiustakebap.com iştirakleri tarafından işbu sözleşmesel ilişki kapsamında ve zekiustakebap.com ve iştiraklerinin sözleşmesel ilişkisi bulunan iş ortakları tarafından pazarlama, analiz, istatistik gibi amaçlarla işlenebilir. Ek olarak Kullanıcılar Kişisel Verileri dışındaki sipariş bilgileri (sipariş verdikleri restoranlar, sipariş verilen ürün tipi, sipariş adedi, sipariş saati, sipariş verilen bölge gibi Web Sitesi (veya kullanılan benzeri mobil veya elektronik mecra) üzerindeki tüm davranışları, sipariş detayları gibi) ve benzeri verilerinin (“Veri/er”) zekiustakebap.com, zekiustakebap.com iştirakleri ve iş ortakları tarafından kaydedilmesi, işlenmesi ve listelenmesinde ve/veya anonimleştirilerek analizlerde 3. kişilerle hizmetin daha iyi sağlanması veya çeşitli uygulamaların veya programların zekiustakebap.com üzerinde çalıştırılabilmesi için anonim şekilde kullanılmasına açık rızalarının olduğunu kabul ve beyan ederler.\n                10. Ürün Teslimatı\n                zekiustakebap.com sisteminde seçtiği adreste bulunamaz ise siparişi kesinlikle başka bir adrese bırakılmayacaktır. Bu durum çerçevesinde kullanıcı kendisinin bulunmadığı bir adrese sipariş vermiş olduğu için doğacak kanuni yükümlülükleri kabul etmek durumundadır.\n                11. Ücret İadesi\n                Online Ödeme Yöntemi ile ödemesi yapılmış siparişlerle sınırlı olmak üzere kullanıcıya ücret iadesi ancak\n                kullanıcı adresinin sipariş verilen restoranın gönderim alanı dışında olması nedeniyle siparişin zorunlu iptali;\n                siparişin bir kısmının veya tamamının restoranda mevcut olmaması nedeniyle siparişin kısmen veya tamamen zorunlu iptali;\n                Sipariş edilen üründen memnun kalınmaması nedeniyle zekiustakebap.com onayının alınmasının akabinde yapılan sipariş iptali; ve\n                Sipariş edilen ürünün teslimatının gecikmesi durumunda iptal yapılacaktır. İptale konu siparişe ilişkin zekiustakebap.com bir fiş veya fatura düzenlemiş ve bu kullanıcıya teslim edilmiş ise ilgili restoran görevlisine iadesi gerekmektedir.\n                zekiustakebap.com, yalnızca kullanıcıdan kaynaklanan sebeplerden dolayı (örneğin kullanıcının evde olmaması, yanlış adres bilgisi vermesi, siparişi teslim almaması gibi) ücret iadesi yapmama hakkını saklı tutar.\n                Online Ödeme Yöntemi dışındaki ödeme vasıtaları ile ödemesi yapılmış siparişlerde ücret iadesi, zekiustakebap.com tarafından doğrudan yapılmaktadır.\n                12. Bilgilerin Saklanması ve İspat Yükümlülüğü:\n                zekiustakebap.com sisteminde kayıtlı kullanıcı bilgileri, siparişleri, yorum/değerlendirmeleri vb. zekiustakebap.com Gizlilik Politikası’na tabi olacak şekilde en az üç (3) yıl boyunca saklanır. İşbu Sözleşme’nin ifasından doğacak her türlü uyuşmazlıkta zekiustakebap.com sisteminde saklanan veriler ile kullanıcı kayıtları bağlayıcı ve kesin delil teşkil eder. İşbu Sözleşme Türkiye Cumhuriyeti kanunlarına tabidir. Sözleşme’nin ifasından doğabilecek her türlü uyuşmazlığın çözümünde Adana Merkez Mahkeme ve İcra Müdürlükleri yetkilidir.\n                14. Yürürlük\n                İşbu Sözleşme taraflar arasında kullanıcının, kullanıcı kayıt formunu doldurmasından itibaren süresiz olarak yürürlüğe girer.\n                15. Fesih\n                Taraflar işbu Sözleşme’yi diledikleri zaman sona erdirebileceklerdir. Sözleşme’nin feshi anında tarafların birbirlerinden olan alacak hakları etkilenmez.\n              "
                 )
               ])
             ])
@@ -53455,84 +53337,7 @@ var actions = {
 
             case 3:
               response = _context.sent;
-              commit("setProducts", response.data); // const fakeData = [
-              //   {
-              //     id:"11",name:"Kebaplar",position:"0",categoryImage:"https://www.tiklagelsin.com/cmsfiles/categories/usta-donerci/menuler-urunler/menuler.png?v=153",
-              //     menuItems:[
-              //       {id:"577194",name:"Çöp Şiş",position:"1",price:"25",category_name:"Kebaplar",quantity:"1",
-              //         options:[
-              //           {id:929,content:"Acılı"},{id:583,content:"Soğanlı"},{id:557,content:"Bol ekmek"}
-              //         ],
-              //         description:"Soğan salatası, ezme salata, mevsim salatası, közlenmiş soğan, közlenmiş domates, biber, yeşillik, limon",
-              //         img:"http://www.aysoftdemo.site/img/724f9498462e2d43240e861a77a5edff.jpg"
-              //       },
-              //       {id:"577194",name:"Çöp Şiş",position:"1",price:"25",category_name:"Kebaplar",quantity:"1",
-              //       options:[
-              //         {id:929,content:"Acılı"},{id:583,content:"Soğanlı"},{id:557,content:"Bol ekmek"}
-              //       ],
-              //       description:"Soğan salatası, ezme salata, mevsim salatası, közlenmiş soğan, közlenmiş domates, biber, yeşillik, limon",
-              //       img:"http://www.aysoftdemo.site/img/724f9498462e2d43240e861a77a5edff.jpg"
-              //     },
-              //     {id:"577194",name:"Çöp Şiş",position:"1",price:"25",category_name:"Kebaplar",quantity:"1",
-              //     options:[
-              //       {id:929,content:"Acılı"},{id:583,content:"Soğanlı"},{id:557,content:"Bol ekmek"}
-              //     ],
-              //     description:"Soğan salatası, ezme salata, mevsim salatası, közlenmiş soğan, közlenmiş domates, biber, yeşillik, limon",
-              //     img:"http://www.aysoftdemo.site/img/724f9498462e2d43240e861a77a5edff.jpg"
-              //   }]
-              //   },
-              //   {id:"12",name:"Izgaralar",position:"1",categoryImage:"https://www.tiklagelsin.com/cmsfiles/categories/usta-donerci/menuler-urunler/tek-urunler.png?v=153",
-              //     menuItems:[
-              //       {id:"577194",name:"Çöp Şişşşşş",position:"1",price:"25",category_name:"Kebaplar",quantity:"1",
-              //         options:[
-              //           {id:929,content:"Acılı"},{id:583,content:"Soğanlı"},{id:557,content:"Bol ekmek"}
-              //         ],
-              //         description:"Soğan salatası, ezme salata, mevsim salatası, közlenmiş soğan, közlenmiş domates, biber, yeşillik, limon",
-              //         img:"http://www.aysoftdemo.site/img/724f9498462e2d43240e861a77a5edff.jpg"
-              //       }]
-              //   },
-              //   {id:"13",name:"Çiğköfte",position:"2",categoryImage:"https://www.tiklagelsin.com/cmsfiles/categories/usta-donerci/menuler-urunler/cocuk-menuleri.png?v=153",
-              //     menuItems:[
-              //       {id:"577194",name:"Çöp Şişşşşş",position:"1",price:"25",category_name:"Kebaplar",quantity:"1",
-              //         options:[
-              //           {id:929,content:"Acılı"},{id:583,content:"Soğanlı"},{id:557,content:"Bol ekmek"}
-              //         ],
-              //         description:"Soğan salatası, ezme salata, mevsim salatası, közlenmiş soğan, közlenmiş domates, biber, yeşillik, limon",
-              //         img:"http://www.aysoftdemo.site/img/724f9498462e2d43240e861a77a5edff.jpg"
-              //       }]
-              //   },
-              //   {id:"14",name:"Dürümler",position:"1",categoryImage:"https://www.tiklagelsin.com/cmsfiles/categories/usta-donerci/menuler-urunler/ek-lezzetler-ve-yan-urunler-product-bg.png?v=153",
-              //     menuItems:[
-              //       {id:"577194",name:"Çöp Şişşşşş",position:"1",price:"25",category_name:"Kebaplar",quantity:"1",
-              //         options:[
-              //           {id:929,content:"Acılı"},{id:583,content:"Soğanlı"},{id:557,content:"Bol ekmek"}
-              //         ],
-              //         description:"Soğan salatası, ezme salata, mevsim salatası, közlenmiş soğan, közlenmiş domates, biber, yeşillik, limon",
-              //         img:"http://www.aysoftdemo.site/img/724f9498462e2d43240e861a77a5edff.jpg"
-              //       }]
-              //   },
-              //   {id:"15",name:"Tatlılar",position:"1",categoryImage:"https://www.tiklagelsin.com/cmsfiles/categories/usta-donerci/menuler-urunler/tatlilar-1.png?v=153",
-              //     menuItems:[
-              //       {id:"577194",name:"Çöp Şişşşşş",position:"1",price:"25",category_name:"Kebaplar",quantity:"1",
-              //         options:[
-              //           {id:929,content:"Acılı"},{id:583,content:"Soğanlı"},{id:557,content:"Bol ekmek"}
-              //         ],
-              //         description:"Soğan salatası, ezme salata, mevsim salatası, közlenmiş soğan, közlenmiş domates, biber, yeşillik, limon",
-              //         img:"http://www.aysoftdemo.site/img/724f9498462e2d43240e861a77a5edff.jpg"
-              //       }]
-              //   },
-              //   {id:"16",name:"İçecekler",position:"1",categoryImage:"https://www.tiklagelsin.com/cmsfiles/categories/usta-donerci/menuler-urunler/icecekler.png?v=153",
-              //     menuItems:[
-              //       {id:"577194",name:"Çöp Şişşşşş",position:"1",price:"25",category_name:"Kebaplar",quantity:"1",
-              //         options:[
-              //           {id:929,content:"Acılı"},{id:583,content:"Soğanlı"},{id:557,content:"Bol ekmek"}
-              //         ],
-              //         description:"Soğan salatası, ezme salata, mevsim salatası, közlenmiş soğan, közlenmiş domates, biber, yeşillik, limon",
-              //         img:"http://www.aysoftdemo.site/img/724f9498462e2d43240e861a77a5edff.jpg"
-              //       }]
-              //   }
-              // ]
-              // commit('setProducts',fakeData)
+              commit("setProducts", response.data);
 
             case 5:
             case "end":
@@ -53731,7 +53536,7 @@ var mutations = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Mehmet\Desktop\zeki-usta-laravel\resources\js\frontend\src\main.js */"./resources/js/frontend/src/main.js");
+module.exports = __webpack_require__(/*! C:\Users\BoraaacaY\Desktop\zeki-usta-laravel\resources\js\frontend\src\main.js */"./resources/js/frontend/src/main.js");
 
 
 /***/ })

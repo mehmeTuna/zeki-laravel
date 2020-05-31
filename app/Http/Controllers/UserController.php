@@ -8,6 +8,7 @@ use App\Http\Requests\UserUpdateRequest;
 use App\OrderItems;
 use App\Products;
 use App\Users;
+use App\UserAddress;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -169,7 +170,7 @@ class UserController extends Controller
                     $data['m_status'] = '';
             }
             $data['totalPrice'] = $value['order_amount'];
-            $data['orders'] = json_decode($value['orders'], true);
+            $data['orders'] = $value['orders'];
             $data['id'] = $value['order_id'];
             $result[] = $data;
         }
@@ -197,7 +198,7 @@ class UserController extends Controller
             'birthday' => isset($request['date']) ? $request['date'] : '' ,
         ]);
 
-        $address = Address::create([
+        $address = UserAddress::create([
             'user_id' => $user->id,
             'content' => $request['adress'],
             'address_id' => $request['selectedAddress']

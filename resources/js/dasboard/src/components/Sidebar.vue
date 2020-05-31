@@ -10,7 +10,7 @@
       </div>
       <ul class="nav" style="margin-bottom:100px">
         <li>
-          <router-link tag="a" to="/dashboard">
+          <router-link tag="a" to="/admin">
             <i class="tim-icons icon-chart-bar-32"></i>
 
             <p>Dashboard</p>
@@ -25,51 +25,51 @@
           </li>
         -->
         <li>
-          <router-link tag="a" to="/adduser">
+          <router-link tag="a" to="/admin/adduser">
             <i class="tim-icons icon-single-02"></i>
             <p>Kullanıcı Ayarları</p>
           </router-link>
         </li>
 
         <li>
-          <router-link tag="a" to="/kurye">
+          <router-link tag="a" to="/admin/kurye">
             <i class="tim-icons icon-simple-add"></i>
             <p>Kurye Ekleme</p>
           </router-link>
         </li>
         <li>
-          <router-link tag="a" to="/addproduct">
+          <router-link tag="a" to="/admin/addproduct">
             <i class="tim-icons icon-simple-add"></i>
             <p>Ürün Ekleme</p>
           </router-link>
         </li>
         <li>
-          <router-link tag="a" to="/addcategory">
+          <router-link tag="a" to="/admin/addcategory">
             <i class="tim-icons icon-simple-add"></i>
             <p>Kategori Ekleme</p>
           </router-link>
         </li>
 
         <li>
-          <router-link tag="a" to="/rezervasyon">
+          <router-link tag="a" to="/admin/rezervasyon">
             <i class="tim-icons icon-align-center"></i>
             <p>Rezervasyon</p>
           </router-link>
         </li>
         <li>
-          <router-link tag="a" to="/satistakip">
+          <router-link tag="a" to="/admin/satistakip">
             <i class="tim-icons icon-basket-simple"></i>
             <p>Satış Takip</p>
           </router-link>
         </li>
         <li>
-          <router-link tag="a" to="/kuryetakip">
+          <router-link tag="a" to="/admin/kuryetakip">
             <i class="tim-icons icon-basket-simple"></i>
             <p>Kurye Takip</p>
           </router-link>
         </li>
         <li>
-          <router-link tag="a" to="/uyetakip">
+          <router-link tag="a" to="/admin/uyetakip">
             <i class="tim-icons icon-notes"></i>
             <p>Üye Takip</p>
           </router-link>
