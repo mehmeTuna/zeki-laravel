@@ -29,9 +29,7 @@
                 <tr v-for="cartItem in allCartItems" :key="cartItem.id">
                   <td class="title">
                     <span class="name">
-                      <a href="#productModal" data-toggle="modal">
-                        {{ cartItem.name }}
-                      </a>
+                      <a href="#productModal" data-toggle="modal">{{ cartItem.name }}</a>
                     </span>
                     <span class="caption text-muted"></span>
                   </td>
@@ -39,11 +37,7 @@
                   <td class="actions">
                     <!--     <a href="#productModal" data-toggle="modal" class="action-icon"><i class="ti ti-pencil"></i></a>
                     -->
-                    <a
-                      href="#"
-                      class="action-icon"
-                      @click="deleteCartItem(cartItem.id)"
-                    >
+                    <a href="#" class="action-icon" @click="deleteCartItem(cartItem.id)">
                       <i class="ti ti-close"></i>
                     </a>
                   </td>
@@ -51,10 +45,7 @@
               </table>
 
               <div>
-                <div
-                  class="cart-summary"
-                  v-if="userInfos.cardTotal !== undefined"
-                >
+                <div class="cart-summary" v-if="userInfos.cardTotal !== undefined">
                   <div class="row">
                     <div class="col-7 text-right text-muted">Ara Toplam:</div>
                     <div class="col-5">
@@ -69,37 +60,31 @@
                     <div class="col-5">
                       <strong>
                         {{
-                          parseFloat(
-                            userInfos.cardTotal - userInfos.cardTotal / 1.18
-                          ).toFixed(2)
+                        parseFloat(
+                        userInfos.cardTotal - userInfos.cardTotal / 1.18
+                        ).toFixed(2)
                         }}
                         ₺
                       </strong>
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-7 text-right text-muted">
-                      İndirimsiz Toplam:
-                    </div>
+                    <div class="col-7 text-right text-muted">İndirimsiz Toplam:</div>
                     <div class="col-5">
                       <strong>{{ userInfos.cardTotal }}</strong>
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-7 text-right text-muted">
-                      İndirim Oranı:
-                    </div>
+                    <div class="col-7 text-right text-muted">İndirim Oranı:</div>
                     <div class="col-5">
-                      <strong>%10</strong>
+                      <strong>%{{cupon}}</strong>
                     </div>
                   </div>
                   <hr class="hr-sm" />
                   <div class="row text-lg">
                     <div class="col-7 text-right text-muted">Toplam:</div>
                     <div class="col-5">
-                      <strong>
-                        {{ userInfos.cardTotal - userInfos.cardTotal * 0.1 }}₺
-                      </strong>
+                      <strong>{{ (userInfos.cardTotal - userInfos.cardTotal * (cupon/100)).toFixed(2) }}₺</strong>
                     </div>
                   </div>
 
@@ -125,17 +110,13 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-7 text-right text-muted">
-                      İndirimsiz Toplam:
-                    </div>
+                    <div class="col-7 text-right text-muted">İndirimsiz Toplam:</div>
                     <div class="col-5">
                       <strong>0 ₺</strong>
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-7 text-right text-muted">
-                      İndirim Oranı:
-                    </div>
+                    <div class="col-7 text-right text-muted">İndirim Oranı:</div>
                     <div class="col-5">
                       <strong>%10</strong>
                     </div>
@@ -173,33 +154,22 @@
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel">
-                          Adres Değiştir
-                        </h4>
-                        <button
-                          type="button"
-                          class="close"
-                          data-dismiss="modal"
-                          aria-label="Close"
-                        >
+                        <h4 class="modal-title" id="myModalLabel">Adres Değiştir</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <i class="ti-close"></i>
                         </button>
                       </div>
                       <div class="modal-body">
                         <h4 class="border-bottom pb-4">
                           <i class="ti ti-location-pin mr-3 text-dark"></i>
-                          <span class="text-primary">
-                            {{ userInfos.adress }}
-                          </span>
+                          <span class="text-primary">{{ userInfos.adress }}</span>
                         </h4>
 
                         <div>
                           <h4
                             class="modal-title text-danger pb-4"
                             id="myModalLabel"
-                          >
-                            Açık Adres Giriniz
-                          </h4>
+                          >Açık Adres Giriniz</h4>
 
                           <input
                             class="form-control"
@@ -215,30 +185,20 @@
                           type="button"
                           class="btn btn-outline-danger"
                           data-dismiss="modal"
-                        >
-                          Kapat
-                        </button>
+                        >Kapat</button>
                         <button
                           type="button"
                           @click="sendNewAdress"
                           class="btn btn-outline-info"
-                        >
-                          Kaydet
-                        </button>
+                        >Kaydet</button>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <div
-                    class="col-md-12"
-                    v-show="userInfos.cardTotal !== undefined"
-                  >
-                    <div
-                      class="bg-dark dark example-box-title"
-                      style="color: white;"
-                    >
+                  <div class="col-md-12" v-show="userInfos.cardTotal !== undefined">
+                    <div class="bg-dark dark example-box-title" style="color: white;">
                       Adres Bilgileri
                       <!-- <a href="#" data-target="#demoModal" data-toggle="modal"  style="float:right"   class="action-icon text-primary"><i class="text-lg ti ti-pencil"></i></a>
                       -->
@@ -268,10 +228,7 @@
                                   <h4 class=" pb-4"><i class="ti ti-location-pin mr-3 text-dark"></i><span class="text-dark">{{userInfos.adress}}</span><h2></h2></h4>
 
                         </label>-->
-                        <div
-                          class="col-md-12 form-group text-lg"
-                          v-if="userInfos.adress != null"
-                        >
+                        <div class="col-md-12 form-group text-lg" v-if="userInfos.adress != null">
                           <label class="custom-radio custom-control">
                             <input
                               type="radio"
@@ -283,17 +240,12 @@
 
                             <h4 class="pb-4">
                               <i class="ti ti-location-pin mr-3 text-dark"></i>
-                              <span class="text-dark">
-                                {{ userInfos.adress.content }}
-                              </span>
+                              <span class="text-dark">{{ userInfos.adress.content }}</span>
                               <h2></h2>
                             </h4>
                           </label>
                         </div>
-                        <div
-                          class="col-md-12 form-group text-lg"
-                          v-if="userInfos.adress_2 != null"
-                        >
+                        <div class="col-md-12 form-group text-lg" v-if="userInfos.adress_2 != null">
                           <label class="custom-radio custom-control">
                             <input
                               type="radio"
@@ -306,17 +258,12 @@
 
                             <h4 class="pb-4">
                               <i class="ti ti-location-pin mr-3 text-dark"></i>
-                              <span class="text-dark">
-                                {{ userInfos.adress_2.content }}
-                              </span>
+                              <span class="text-dark">{{ userInfos.adress_2.content }}</span>
                               <h2></h2>
                             </h4>
                           </label>
                         </div>
-                        <div
-                          class="col-md-12 form-group text-lg"
-                          v-if="userInfos.adress_3 != null"
-                        >
+                        <div class="col-md-12 form-group text-lg" v-if="userInfos.adress_3 != null">
                           <label class="custom-radio custom-control">
                             <input
                               type="radio"
@@ -329,9 +276,7 @@
 
                             <h4 class="pb-4">
                               <i class="ti ti-location-pin mr-3 text-dark"></i>
-                              <span class="text-dark">
-                                {{ userInfos.adress_3.content }}
-                              </span>
+                              <span class="text-dark">{{ userInfos.adress_3.content }}</span>
                               <h2></h2>
                             </h4>
                           </label>
@@ -349,10 +294,7 @@
                       </div>
                     </div>
                   </div>
-                  <div
-                    class="col-md-12"
-                    v-show="userInfos.cardTotal == undefined"
-                  >
+                  <div class="col-md-12" v-show="userInfos.cardTotal == undefined">
                     <div class="example-box-content">
                       <h4 class="pb-4">
                         <span class="text-dark">Lütfen Giriş Yapınız!</span>
@@ -407,9 +349,7 @@
                     />
 
                     <span class="n"></span>
-                    <p class="text-md" style="font-weight: 400;">
-                      Kapıda Kart İle
-                    </p>
+                    <p class="text-md" style="font-weight: 400;">Kapıda Kart İle</p>
                   </label>
                 </div>
                 <!-- <div class="col-md-4 col-sm-6 form-group">
@@ -460,15 +400,8 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">
-              Kart Bilgilerini Giriniz
-            </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+            <h5 class="modal-title" id="exampleModalLongTitle">Kart Bilgilerini Giriniz</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -527,25 +460,13 @@
                           <span class="hidden-xs">Tarih</span>
                         </label>
                         <div class="form-inline">
-                          <select
-                            v-model="order.month"
-                            class="form-control"
-                            style="width: 45%;"
-                          >
-                            <option v-for="month in months" :key="month">
-                              {{ month }}
-                            </option>
+                          <select v-model="order.month" class="form-control" style="width: 45%;">
+                            <option v-for="month in months" :key="month">{{ month }}</option>
                           </select>
                           <span style="width: 10%; text-align: center;">/</span>
 
-                          <select
-                            v-model="order.year"
-                            class="form-control"
-                            style="width: 45%;"
-                          >
-                            <option v-for="year in years" :key="year">
-                              {{ year }}
-                            </option>
+                          <select v-model="order.year" class="form-control" style="width: 45%;">
+                            <option v-for="year in years" :key="year">{{ year }}</option>
                           </select>
                         </div>
                       </div>
@@ -560,12 +481,7 @@
                           CVV
                           <i class="fa fa-question-circle"></i>
                         </label>
-                        <input
-                          v-model="order.cvv"
-                          class="form-control"
-                          required
-                          type="text"
-                        />
+                        <input v-model="order.cvv" class="form-control" required type="text" />
                       </div>
                       <!-- form-group.// -->
                     </div>
@@ -575,9 +491,7 @@
                     class="subscribe btn btn-primary btn-block"
                     type="button"
                     @click="sendCardDetail"
-                  >
-                    Tamamla
-                  </button>
+                  >Tamamla</button>
                 </form>
               </div>
               <!-- card-body.// -->
@@ -597,6 +511,7 @@ import swal from "sweetalert";
 export default {
   data() {
     return {
+      cupon: 0,
       months: [],
       years: [],
       secondAdress: "",
@@ -611,8 +526,8 @@ export default {
         cardNumber: null,
         name: null,
         content: "",
-        adress: "",
-      },
+        adress: ""
+      }
     };
   },
 
@@ -646,7 +561,7 @@ export default {
 
               icon: "success",
               button: "Devam Et!",
-              timer: 1500,
+              timer: 1500
             }).then(() => {
               location.reload();
             });
@@ -666,7 +581,7 @@ export default {
           text: "",
           icon: "warning",
           button: "Devam Et!",
-          timer: 1500,
+          timer: 1500
         });
       }
     },
@@ -687,7 +602,7 @@ export default {
               text: "",
               icon: "success",
               button: "Devam Et!",
-              timer: 2500,
+              timer: 2500
             }).then(() => {
               console.log("çalıştı", order);
               this.$router.push("alisverisbitis");
@@ -700,7 +615,7 @@ export default {
             text: "",
             icon: "warning",
             button: "Devam Et!",
-            timer: 1500,
+            timer: 1500
           });
         }
       } catch (error) {
@@ -714,12 +629,19 @@ export default {
         location.reload();
       });
     },
+    getCupon() {
+      const url = "/cart/cupon";
+      axios.get(url).then(res => {
+        this.cupon = res.data.cartCupon;
+      });
+    }
   },
 
   created() {
+    this.getCupon();
     this.getYears();
     this.fetchCartItems();
-  },
+  }
 };
 </script>
 

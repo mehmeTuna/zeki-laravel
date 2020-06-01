@@ -198,7 +198,7 @@ class ProductController extends Controller
             $product['name'] = $data['name'];
             $product['price'] = $data['price'];
             $product['numberOfProduct'] = $data['numberOfProduct'];
-            $product['categoryName'] = $data['category']['name'];
+            $product['categoryName'] = isset($data['category']['name']) ? $data['category']['name'] : 'Kategori Silindi';
             $product['live'] = $data['live'];
             $product['cardText'] = $data['cardText'];
             $product['stores'] = $data['stores'];

@@ -238,6 +238,21 @@ class UserController extends Controller
         if(isset($request['email'])){
             $user->email = $request['email'];
         }
+
+        if(isset($request['address'])){
+            $updateAddress = [];
+            if(isset($request['address']['title'])){
+                $updateAddress['title'] = $request['address']['title'];
+            }
+            if(isset($request['address']['content'])){
+                $updateAddress['content'] = $request['address']['content'];
+            }
+           if(isset($request['address']['address'])){
+               $updateAddress['address_id'] = $request['address']['address']['id'];
+           }
+          
+            $adress = UserAddress::where('user_id', session('userId'))->where('id', $request['address']['id'])->update($updateAddress);
+        }
         $user->save();
 
         return response()->json(['status' => 'ok']);
