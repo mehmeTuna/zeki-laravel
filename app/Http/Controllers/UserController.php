@@ -146,7 +146,7 @@ class UserController extends Controller
     {
         $userId= session()->get('userId');
         $result = [];
-        $orders = OrderItems::where('user_id', $userId)->whereIn('m_status', [0,1,3,5])->orderBy('m_date')->get();
+        $orders = OrderItems::where('user_id', $userId)->whereIn('m_status', [0,1,3,5])->orderBy('m_date', 'DESC')->get();
 
         foreach ($orders as $key => $value){
             $data = [];
@@ -170,7 +170,7 @@ class UserController extends Controller
                     $data['m_status'] = '';
             }
             $data['totalPrice'] = $value['order_amount'];
-            $data['orders'] = $value['orders'];
+            $data['orders'] = json_decode($value['orders']);
             $data['id'] = $value['order_id'];
             $result[] = $data;
         }

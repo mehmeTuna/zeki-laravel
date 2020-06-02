@@ -3437,40 +3437,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -3492,7 +3458,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         cardNumber: null,
         name: null,
         content: "",
-        adress: ""
+        adress: {}
       }
     };
   },
@@ -28789,214 +28755,87 @@ var render = function() {
                         _vm._m(9),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group" }, [
-                          _vm.userInfos.adress != null
+                          _vm.userInfos.address != null
                             ? _c(
                                 "div",
                                 { staticClass: "col-md-12 form-group text-lg" },
-                                [
-                                  _c(
-                                    "label",
-                                    {
-                                      staticClass: "custom-radio custom-control"
-                                    },
-                                    [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.order.adress,
-                                            expression: "order.adress"
-                                          }
-                                        ],
-                                        staticClass: "span-indikator",
-                                        attrs: {
-                                          type: "radio",
-                                          name: "adress_type",
-                                          value: "adress"
-                                        },
-                                        domProps: {
-                                          checked: _vm._q(
-                                            _vm.order.adress,
-                                            "adress"
-                                          )
-                                        },
-                                        on: {
-                                          change: function($event) {
-                                            return _vm.$set(
-                                              _vm.order,
-                                              "adress",
-                                              "adress"
+                                _vm._l(_vm.userInfos.address, function(
+                                  adress,
+                                  index
+                                ) {
+                                  return _c("div", { key: adress.id }, [
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass:
+                                          "custom-radio custom-control"
+                                      },
+                                      [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.order.adress,
+                                              expression: "order.adress"
+                                            }
+                                          ],
+                                          staticClass: "span-indikator",
+                                          attrs: {
+                                            type: "radio",
+                                            name: "adress_type"
+                                          },
+                                          domProps: {
+                                            value: adress.id,
+                                            checked: _vm._q(
+                                              _vm.order.adress,
+                                              adress.id
                                             )
+                                          },
+                                          on: {
+                                            change: function($event) {
+                                              return _vm.$set(
+                                                _vm.order,
+                                                "adress",
+                                                adress.id
+                                              )
+                                            }
                                           }
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("h4", { staticClass: "pb-4" }, [
-                                        _c("i", {
-                                          staticClass:
-                                            "ti ti-location-pin mr-3 text-dark"
                                         }),
                                         _vm._v(" "),
-                                        _c(
-                                          "span",
-                                          { staticClass: "text-dark" },
-                                          [
-                                            _vm._v(
-                                              _vm._s(
-                                                _vm.userInfos.adress.content
+                                        _c("h4", { staticClass: "pb-4" }, [
+                                          _c("i", {
+                                            staticClass:
+                                              "ti ti-location-pin mr-3 text-dark"
+                                          }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "span",
+                                            { staticClass: "text-dark" },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.userInfos.address[index]
+                                                    .content
+                                                )
                                               )
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c("h2")
-                                      ])
-                                    ]
-                                  )
-                                ]
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("h2")
+                                        ])
+                                      ]
+                                    )
+                                  ])
+                                }),
+                                0
                               )
                             : _vm._e(),
-                          _vm._v(" "),
-                          _vm.userInfos.adress_2 != null
-                            ? _c(
-                                "div",
-                                { staticClass: "col-md-12 form-group text-lg" },
-                                [
-                                  _c(
-                                    "label",
-                                    {
-                                      staticClass: "custom-radio custom-control"
-                                    },
-                                    [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.order.adress,
-                                            expression: "order.adress"
-                                          }
-                                        ],
-                                        staticClass: "span-indikator",
-                                        attrs: {
-                                          type: "radio",
-                                          id: "adressTwo",
-                                          name: "adress_type",
-                                          value: "adress_2"
-                                        },
-                                        domProps: {
-                                          checked: _vm._q(
-                                            _vm.order.adress,
-                                            "adress_2"
-                                          )
-                                        },
-                                        on: {
-                                          change: function($event) {
-                                            return _vm.$set(
-                                              _vm.order,
-                                              "adress",
-                                              "adress_2"
-                                            )
-                                          }
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("h4", { staticClass: "pb-4" }, [
-                                        _c("i", {
-                                          staticClass:
-                                            "ti ti-location-pin mr-3 text-dark"
-                                        }),
-                                        _vm._v(" "),
-                                        _c(
-                                          "span",
-                                          { staticClass: "text-dark" },
-                                          [
-                                            _vm._v(
-                                              _vm._s(
-                                                _vm.userInfos.adress_2.content
-                                              )
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c("h2")
-                                      ])
-                                    ]
-                                  )
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.userInfos.adress_3 != null
-                            ? _c(
-                                "div",
-                                { staticClass: "col-md-12 form-group text-lg" },
-                                [
-                                  _c(
-                                    "label",
-                                    {
-                                      staticClass: "custom-radio custom-control"
-                                    },
-                                    [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.order.adress,
-                                            expression: "order.adress"
-                                          }
-                                        ],
-                                        staticClass: "span-indikator",
-                                        attrs: {
-                                          type: "radio",
-                                          id: "adressThree",
-                                          name: "adress_type",
-                                          value: "adress_3"
-                                        },
-                                        domProps: {
-                                          checked: _vm._q(
-                                            _vm.order.adress,
-                                            "adress_3"
-                                          )
-                                        },
-                                        on: {
-                                          change: function($event) {
-                                            return _vm.$set(
-                                              _vm.order,
-                                              "adress",
-                                              "adress_3"
-                                            )
-                                          }
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("h4", { staticClass: "pb-4" }, [
-                                        _c("i", {
-                                          staticClass:
-                                            "ti ti-location-pin mr-3 text-dark"
-                                        }),
-                                        _vm._v(" "),
-                                        _c(
-                                          "span",
-                                          { staticClass: "text-dark" },
-                                          [
-                                            _vm._v(
-                                              _vm._s(
-                                                _vm.userInfos.adress_3.content
-                                              )
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c("h2")
-                                      ])
-                                    ]
-                                  )
-                                ]
-                              )
-                            : _vm._e()
+                          _vm._v(
+                            "\n                      " +
+                              _vm._s(_vm.order.adress) +
+                              "\n                      "
+                          )
                         ])
                       ])
                     ]
