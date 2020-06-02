@@ -7,6 +7,7 @@ import SatisTakip from "./components/SatisTakip.vue";
 import KategoriEkle from "./components/KategoriEkle";
 import KuryeTakip from "./components/KuryeTakip";
 import UyeTakip from "./components/UyeTakip.vue";
+import Magaza from "./components/Magaza.vue";
 export const routes = [
     {
         path: "*",
@@ -56,5 +57,10 @@ export const routes = [
         path: "/admin/uyetakip",
         name: "Uye Takip ",
         component: UyeTakip
+    },
+    {
+        path: "/admin/magaza",
+        name: "Magaza Takip ",
+        component: Magaza
     }
 ];

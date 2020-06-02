@@ -74,6 +74,12 @@
             <p>Üye Takip</p>
           </router-link>
         </li>
+        <li>
+          <router-link tag="a" to="/admin/magaza">
+            <i class="tim-icons icon-notes"></i>
+            <p>Magaza Takip</p>
+          </router-link>
+        </li>
       </ul>
     </div>
   </div>

@@ -228,60 +228,26 @@
                                   <h4 class=" pb-4"><i class="ti ti-location-pin mr-3 text-dark"></i><span class="text-dark">{{userInfos.adress}}</span><h2></h2></h4>
 
                         </label>-->
-                        <div class="col-md-12 form-group text-lg" v-if="userInfos.adress != null">
-                          <label class="custom-radio custom-control">
-                            <input
-                              type="radio"
-                              name="adress_type"
-                              class="span-indikator"
-                              v-model="order.adress"
-                              value="adress"
-                            />
+                        <div class="col-md-12 form-group text-lg" v-if="userInfos.address != null">
+                          <div v-for="(adress,index) in userInfos.address" :key="adress.id">
+                            <label class="custom-radio custom-control">
+                              <input
+                                type="radio"
+                                name="adress_type"
+                                class="span-indikator"
+                                v-model="order.adress"
+                                :value="adress.id"
+                              />
 
-                            <h4 class="pb-4">
-                              <i class="ti ti-location-pin mr-3 text-dark"></i>
-                              <span class="text-dark">{{ userInfos.adress.content }}</span>
-                              <h2></h2>
-                            </h4>
-                          </label>
+                              <h4 class="pb-4">
+                                <i class="ti ti-location-pin mr-3 text-dark"></i>
+                                <span class="text-dark">{{ userInfos.address[index].content}}</span>
+                                <h2></h2>
+                              </h4>
+                            </label>
+                          </div>
                         </div>
-                        <div class="col-md-12 form-group text-lg" v-if="userInfos.adress_2 != null">
-                          <label class="custom-radio custom-control">
-                            <input
-                              type="radio"
-                              id="adressTwo"
-                              name="adress_type"
-                              class="span-indikator"
-                              v-model="order.adress"
-                              value="adress_2"
-                            />
-
-                            <h4 class="pb-4">
-                              <i class="ti ti-location-pin mr-3 text-dark"></i>
-                              <span class="text-dark">{{ userInfos.adress_2.content }}</span>
-                              <h2></h2>
-                            </h4>
-                          </label>
-                        </div>
-                        <div class="col-md-12 form-group text-lg" v-if="userInfos.adress_3 != null">
-                          <label class="custom-radio custom-control">
-                            <input
-                              type="radio"
-                              id="adressThree"
-                              name="adress_type"
-                              class="span-indikator"
-                              v-model="order.adress"
-                              value="adress_3"
-                            />
-
-                            <h4 class="pb-4">
-                              <i class="ti ti-location-pin mr-3 text-dark"></i>
-                              <span class="text-dark">{{ userInfos.adress_3.content }}</span>
-                              <h2></h2>
-                            </h4>
-                          </label>
-                        </div>
-
+                        {{order.adress}}
                         <!-- <div  v-if="userInfos.adress_2 != null " >
 
                                         <label  class="custom-control custom-radio">
@@ -526,7 +492,7 @@ export default {
         cardNumber: null,
         name: null,
         content: "",
-        adress: ""
+        adress: {}
       }
     };
   },
