@@ -25,6 +25,7 @@ Route::get('user/sepetDel/{id}', 'UserController@sepetDeleteItem');
 Route::get('addressList', 'FrontendController@getAddress');
 Route::post('user/register', 'UserController@register');
 Route::post('rezervasyon/add', 'FrontendController@registerRezervasyon');
+Route::get('cart/cupon', 'FrontendController@cartCupon');
 
 Route::middleware(['user'])->group(function(){
     Route::get('user/orders', 'UserController@orders');
@@ -75,6 +76,7 @@ Route::middleware(['admin'])->group(function () {
     Route::post('admin/api/category/update', 'CategoryController@update');
     Route::post('category/list', 'CategoryController@list');
     Route::post('product/list', 'ProductController@list');
+    Route::get('store/list', 'StoreController@list');
 
     Route::get('/{any}/{two}', 'AdminController@home')->where('any', '.*');
 });

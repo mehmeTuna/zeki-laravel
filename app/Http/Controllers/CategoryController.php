@@ -42,6 +42,7 @@ class CategoryController extends Controller
             'name' => $request['name']
         ];
 
+
         if($request->hasFile('image')){
             $imageName = time().'.'.request()->image->getClientOriginalExtension();
             request()->image->move(public_path('img'), $imageName);

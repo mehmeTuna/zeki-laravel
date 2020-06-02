@@ -15,7 +15,6 @@
       <div class="col-md-6">
         <div class="validate-form">
           <div class="form-group">
-            <i class="ti ti-email text-primary mr-2"></i>
             <label>E-mail</label>
             <input
               v-model="userData.username"

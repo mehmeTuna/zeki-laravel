@@ -139,6 +139,9 @@ class FrontendController extends Controller
 
         $orderData['ip'] = $request->ip();
         $orderData['m_date'] = time();
+        if(count(session('cart', [])) == 0){
+            return response()->json(['status' => 'sepet bos']);
+        }
         $orders = OrderItems::create($orderData);
 
         session()->forget(['cart', 'cartTotal']);
