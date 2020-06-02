@@ -13,9 +13,12 @@
 
 //Route::get('tasi', 'FrontendController@tasi');
 //Route::get('adress', 'FrontendController@addressKayit');
+Route::get('fis', 'OrderController@orderFis');
+
 
 Route::get('admin/giris', 'AdminController@loginPage');
 Route::post('admin/giris', 'AdminController@login');
+Route::get('calisan', 'WorkerController@index');
 
 Route::get('user/me', 'UserController@me');
 Route::get('api/menu', 'FrontendController@menu');
@@ -25,7 +28,6 @@ Route::get('user/sepetDel/{id}', 'UserController@sepetDeleteItem');
 Route::get('addressList', 'FrontendController@getAddress');
 Route::post('user/register', 'UserController@register');
 Route::post('rezervasyon/add', 'FrontendController@registerRezervasyon');
-Route::get('cart/cupon', 'FrontendController@cartCupon');
 
 Route::middleware(['user'])->group(function(){
     Route::get('user/orders', 'UserController@orders');
@@ -40,7 +42,7 @@ Route::middleware(['admin'])->group(function () {
     Route::get('admin/Logout', 'AdminController@logout');
 
     Route::post('admin/add/product', 'ProductController@create');
-    Route::get('admin/api/allWorker', 'AdminController@getAllWorker');
+    Route::get('admin/api/allWorker', 'WorkerController@list');
     Route::get('admin/api/user/all', 'AdminController@getAllUser');
     Route::get('admin/api/order', 'AdminController@getFullOrder');
     Route::get('admin/api/thisdayorder', 'AdminController@thisDayOrder');
@@ -64,9 +66,9 @@ Route::middleware(['admin'])->group(function () {
     Route::get('admin/api/kurye/del/{id}', 'KuryeController@delete');
     Route::get('admin/api/product/del/{id}', 'ProductController@delete');
     Route::get('admin/api/delCategory/{id}', 'CategoryController@delete');
-    Route::post('admin/api/newCalisan', 'AdminController@newCalisan');
-    Route::post('admin/api/updatecalisan', 'AdminController@updateCalisan');
-    Route::get('admin/api/delCalisan/{id}', 'AdminController@deleteCalisan');
+    Route::post('admin/api/newCalisan', 'WorkerController@create');
+    Route::post('admin/api/updatecalisan', 'WorkerController@update');
+    Route::get('admin/api/delCalisan/{id}', 'WorkerController@delete');
     Route::get('admin/api/orderDetay/year', 'OrderController@thisYear');
     Route::get('admin/api/orderDetay/month', 'OrderController@thisMonth');
     Route::get('admin/api/orderDetay/week', 'OrderController@thisWeek');
@@ -76,7 +78,12 @@ Route::middleware(['admin'])->group(function () {
     Route::post('admin/api/category/update', 'CategoryController@update');
     Route::post('category/list', 'CategoryController@list');
     Route::post('product/list', 'ProductController@list');
+    Route::post('product/update', 'ProductController@update');
     Route::get('store/list', 'StoreController@list');
+    Route::post('store/create', 'StoreController@create');
+    Route::delete('store/delete/{id}', 'StoreController@delete');
+    Route::post('store/update', 'StoreController@update');
+    Route::post('site/update', 'AdminController@siteUpdate');
 
     Route::get('/{any}/{two}', 'AdminController@home')->where('any', '.*');
 });

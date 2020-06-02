@@ -11,5 +11,10 @@ class Store extends Model
     protected $hidden = ['active']; //bu kolonlarin gormez olmasini saglar
     protected $guarded = ['id']; // tum kolonlarin degistirilebilir olmasini saglar
     public $timestamps = false ;
-   
+
+    public function locations()
+    {
+        return $this->hasMany('App\StoreAddress',  'store_id', 'id');
+    }
+
 }

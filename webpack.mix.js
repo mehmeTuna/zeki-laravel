@@ -13,3 +13,4 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/dasboard/src/main.js', 'public/dasboard/js')
 mix.js('resources/js/frontend/src/main.js', 'public/frontend/js')
+mix.js('resources/js/worker/main.js', 'public/worker/js')

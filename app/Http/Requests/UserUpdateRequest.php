@@ -24,7 +24,7 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'address' => 'sometimes|min:3',
+            'adress' => 'sometimes|min:3',
             'date' => 'sometimes',
             'name' => 'sometimes|min:3',
             'oldPassword' => 'sometimes|min:5',

@@ -8,7 +8,7 @@ class Feature extends Model
 {
     protected $table = 'feature';
     protected $primaryKey = 'id';
-    protected $hidden = ['id']; //bu kolonlarin gormez olmasini saglar
+    protected $hidden = []; //bu kolonlarin gormez olmasini saglar
     protected $guarded = []; // tum kolonlarin degistirilebilir olmasini saglar
 
     protected $casts = [

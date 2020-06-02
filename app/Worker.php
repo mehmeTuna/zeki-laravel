@@ -12,4 +12,9 @@ class Worker extends Model
     protected $guarded = []; // tum kolonlarin degistirilebilir olmasini saglar
     public $timestamps = false ;
 
+    public function store()
+    {
+        return $this->hasOne('App\Store', 'id', 'store_id');
+    }
+
 }

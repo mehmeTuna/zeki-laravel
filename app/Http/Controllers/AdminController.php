@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Admin;
 use App\Category;
 use App\Http\Requests\AdminLogin;
+use App\Http\Requests\SiteUpdateRequest;
 use App\Http\Requests\UpdateWorkerRequest;
 use App\Kurye;
 use App\KuryeTakip;
 use App\OrderItems;
 use App\Rezervasyon;
+use App\Site;
 use App\Users;
 use App\Worker;
 use Carbon\Carbon;
@@ -54,12 +56,6 @@ class AdminController extends Controller
     public function home()
     {
         return view('admin.admin');
-    }
-
-    public function getAllWorker(Request $request)
-    {
-        $worker = Worker::all();
-        return response()->json($worker);
     }
 
     public function getAllUser(Request $request)
@@ -341,33 +337,10 @@ class AdminController extends Controller
         return response()->json($result);
     }
 
-    public function newCalisan(Request $request)
+    public function siteUpdate(SiteUpdateRequest $request)
     {
-        $calisan = Worker::create([
-            'email' => $request['email'],
-            'password' => password_hash($request['password'], PASSWORD_DEFAULT),
-            'name' => $request['name'],
-            'm_date' => time(),
-            'ip' => $request->getClientIp(),
-            'authority' => $request['authority']
-        ]);
-        return response()->json(['status' => 'ok']);
-    }
-
-    public function updateCalisan(UpdateWorkerRequest $request)
-    {
-        $authority = [0, 1, 2];
-        if(!in_array($request['authority'], $authority)){
-            return response()->json(['status' => 'tanimlanmayan yetki']);
-        }
-        $worker = Worker::where('id', $request['id'])->update(['authority' => $request['authority'] ]);
-        return response()->json(['status' => 'ok']);
-    }
-
-    public function deleteCalisan(Request $request)
-    {
-        $calisan = Worker::where('id', $request['id'])->delete();
-        return response()->json(['status' => 'ok']);
+        $site = Site::where('id', 1)->update(['site_online', $request['online']]);
+        return response()->json(['status' => true]);
     }
 
 }

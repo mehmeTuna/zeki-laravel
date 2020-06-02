@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Address;
 use App\Http\Requests\UserRegisterRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\OrderItems;
@@ -170,7 +169,7 @@ class UserController extends Controller
                     $data['m_status'] = '';
             }
             $data['totalPrice'] = $value['order_amount'];
-            $data['orders'] = json_decode($value['orders']);
+            $data['orders'] = $value['orders'];
             $data['id'] = $value['order_id'];
             $result[] = $data;
         }
@@ -250,8 +249,7 @@ class UserController extends Controller
            if(isset($request['address']['address'])){
                $updateAddress['address_id'] = $request['address']['address']['id'];
            }
-          
-            $adress = UserAddress::where('user_id', session('userId'))->where('id', $request['address']['id'])->update($updateAddress);
+            $adress = UserAddress::where('user_id', session('userId'))->where('id', $request['address']['address']['id'])->update($updateAddress);
         }
         $user->save();
 

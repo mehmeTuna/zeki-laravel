@@ -93,6 +93,9 @@ class ProductController extends Controller
     {
         $updateData = [];
 
+        if(isset($request['online'])){
+            $updateData['live'] = $request['online'];
+        }
         if(is_array($request['features']) && count($request['features']) > 0){
             $features = [];
             foreach ($request['features'] as $value ){
@@ -157,9 +160,10 @@ class ProductController extends Controller
             $updateData['other_img'][] = '/img/'.$imageName;
         }
 
-       if(isset($request['price'])){
+       if(isset($request['price']) && (int)$request['price'] > 0){
            $updateData['price'] = $request['price'];
        }
+
         if(isset($request['name'])){
             $updateData['name'] = $request['name'];
         }
@@ -168,11 +172,12 @@ class ProductController extends Controller
             $updateData['categoryId'] = $request['categoryId'];
         }
         if(isset($request['card_text'])){
-            $updateData['card_text'] = isset($request['card_text']) ? $request['card_text'] : '';
+            $updateData['card_text'] = $request['card_text'];
         }
-        if(isset($request)){
-            $updateData['long_text'] = isset($request['long_text']) ? $request['long_text'] : '';
+        if(isset($request['long_text'])){
+            $updateData['long_text'] = $request['long_text'];
         }
+
         $updateData['date'] = time();
 
         $product = Products::where('id', $request['id'])->update($updateData);

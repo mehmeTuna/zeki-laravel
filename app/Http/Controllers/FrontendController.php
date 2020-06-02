@@ -131,7 +131,7 @@ class FrontendController extends Controller
         }
 
         $orderData['m_status'] = 0;
-        $orderData['address_id'] = $request['adress'];
+        $orderData['address_id'] = $request['address'];
         $orderData['user_id'] = session('userId');
         $orderData['order_status'] = $request['picked'];
         $orderData['order_amount'] = session('cartTotal');
@@ -142,8 +142,6 @@ class FrontendController extends Controller
         if(count(session('cart', [])) == 0){
             return response()->json(['status' => 'sepet bos']);
         }
-
-       
         $orders = OrderItems::create($orderData);
 
         session()->forget(['cart', 'cartTotal']);

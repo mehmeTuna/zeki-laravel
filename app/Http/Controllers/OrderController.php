@@ -6,6 +6,7 @@ use App\OrderItems;
 use App\Products;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use PDF ;
 
 class OrderController extends Controller
 {
@@ -115,5 +116,24 @@ class OrderController extends Controller
             ];
         }
         return response()->json($response);
+    }
+
+    public function orderFis()
+    {
+        $data = [
+            'foo' => 'bar'
+        ];
+        $pdf = PDF::loadView('pdfTemplate.orderFis', $data,[], [
+            'mode' => 'utf-8',
+            'format' => [1200, 75],
+            "default_font_size"=>10,
+            "margin_top"=>1,
+            "margin_left"=>1,
+            "margin_right"=>4,
+            "margin_bottom"=>3,
+            'orientation' => 'L'
+        ]);
+        return $pdf->stream('Fis.pdf');
+
     }
 }

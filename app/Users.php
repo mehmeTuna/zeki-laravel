@@ -24,8 +24,6 @@ class Users extends Model
         'verification_code' => ''
     ];
 
-
-  
     public function orderCount()
     {
         return $this->hasMany('App\OrderItems', 'user_id', 'id')->where('order_items.m_status', 5)->count();

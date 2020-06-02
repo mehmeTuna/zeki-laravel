@@ -25,6 +25,7 @@ class ProductUpdateRequest extends FormRequest
     {
         return [
             'id' => 'required',
+            'online' => 'sometimes',
             'features' => 'sometimes',
             'price' => 'sometimes',
             'name' => 'sometimes|min:3',

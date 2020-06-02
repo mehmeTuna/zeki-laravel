@@ -24,8 +24,11 @@ class UpdateWorkerRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required',
-            'authority' => 'required'
+            'email' => 'sometimes|email',
+            'password' => 'sometimes|min:5',
+            'name' => 'sometimes|min:3',
+            'authority' => 'sometimes',
+            'storeId' => 'sometimes'
         ];
     }
 }
