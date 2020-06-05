@@ -2,7 +2,7 @@
   <div class="main-panel">
     <div class="row" style="margin-top:75px;margin-left:30px">
       <div class="col-md-2"></div>
-      <div class="col-md-10">
+      <div class="col-md-9">
         <div class="card">
           <div class="card-header">
             <h5 class="title">Ürün Ekle</h5>
@@ -132,21 +132,16 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="product in productList" :key="product.id">
-                    <!--  -->
+                  <tr
+                    v-for="product in productList.slice((page-1)*displayAmount,displayAmount*page)"
+                    :key="product.id"
+                  >
                     <td>{{product.name}}</td>
                     <td>{{product.price}}</td>
                     <td>{{product.categoryName}}</td>
                     <td class="text-center">{{product.cardText}}</td>
 
-                    <td>
-                      <!-- <img
-                        height="80"
-                        class="img-responsive text-center mb-3"
-                        :src="product.img"
-                        alt
-                      />-->
-                    </td>
+                    <td></td>
                     <td class="text-center">
                       <button @click="deleteProduct(product.id)" class="btn btn-fill btn-danger">Sil</button>
                     </td>
@@ -161,6 +156,31 @@
                   </tr>
                 </tbody>
               </table>
+              <el-pagination
+                @current-change="handleCurrentChange"
+                background
+                :current-page="page"
+                layout="pager"
+                :page-count="Math.ceil(productList.length/displayAmount)"
+              ></el-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-9" style="margin-left:20px">
+        <div class="card card-user">
+          <div class="card-body">
+            <div>
+              <button
+                @click="sortCategory(category)"
+                v-for="category in categoryList"
+                :key="category.id"
+                type="button"
+                class="btn btn-fill btn-info btn-sm m-1"
+              >{{category.name}}</button>
             </div>
           </div>
         </div>
@@ -242,13 +262,9 @@
             <button
               type="button"
               class="btn btn-info"
-              @click="updateProduct(product.id)"
+              @click="updateProduct(editProduct.id)"
             >Değişikleri Kaydet</button>
-            <button
-              type="button"
-              class="btn btn-info"
-              @click="updateProduct2(product.id)"
-            >Değişikleri Kaydet</button>
+            {{editProduct}}
           </div>
         </div>
       </div>
@@ -263,6 +279,8 @@ import axios from "axios";
 export default {
   data() {
     return {
+      page: 1,
+      displayAmount: 10,
       categoryList: [],
       productList: [],
       kuryeList: [],
@@ -294,25 +312,25 @@ export default {
     };
   },
   methods: {
+    sortCategory(category) {
+      console.log(category);
+      const result = this.productList.filter(
+        product => category.name == product.name
+      );
+      console.log(result);
+    },
+    filterCategory() {},
+    handleCurrentChange(value) {
+      this.page = value;
+    },
+    test(e) {
+      console.log(e);
+      console.log(this.row);
+    },
     changeProduct(product) {
-      this.product = { ...product };
       this.editProduct = { ...product };
     },
-    updateProduct(id) {
-      console.log(id);
 
-      const url = "/admin/api/updateProduct";
-      axios.post(url, { id: id, price: this.newPrice }).then(response => {
-        if (response.data.status == "ok") {
-          location.reload();
-        } else {
-          swal("Ürün Düzenlenemedi!", "", "warning", {
-            button: "Devam Et!",
-            timer: 1500
-          });
-        }
-      });
-    },
     onChange(e) {
       this.file = e.target.files[0];
       this.fileUrl = URL.createObjectURL(this.file);
@@ -344,16 +362,18 @@ export default {
 
       axios.get(url);
     },
-    updateProduct2(id) {
+    updateProduct(id) {
+      const url = "/product/update";
       this.editProduct.id = id;
-
-      const fd = new FormData();
-      fd.append("image", this.updateFile, this.updateFile.name);
-      fd.append("product", JSON.stringify(this.editProduct));
-
-      console.log(this.updateFile);
-      this.updateFile = null;
-      this.updateFileUrl = null;
+      console.log(id);
+      // const fd = new FormData();
+      // fd.append("image", this.updateFile, this.updateFile.name);
+      // fd.append("product", JSON.stringify(this.editProduct));
+      axios.post(url, { id: id, product: this.editProduct }).then(res => {
+        console.log(res);
+      });
+      // this.updateFile = null;
+      // this.updateFileUrl = null;
     },
     addProduct() {
       this.product.options.map(e => {
@@ -430,6 +450,7 @@ export default {
     const url2 = "/admin/api/allproduct";
     axios.get(url2).then(res => {
       this.productList = res.data;
+      this.tableData = res.data;
     });
   }
 };
