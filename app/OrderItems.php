@@ -12,9 +12,27 @@ class OrderItems extends Model
     protected $guarded = []; // tum kolonlarin degistirilebilir olmasini saglar
     public $timestamps = false ;
 
+    const WAITING = 0;
+    const SUCCESS = 1;
+    const CANCEL = 2;
+    const KURYEVERILDI = 5;
+
     protected $casts = [
         'orders' => 'array'
     ];
 
+    public function kurye()
+    {
+        return $this->hasOneThrough('App\Kurye', 'App\KuryeTakip', 'order_id', 'id', 'order_id', 'kurye_id');
+    }
 
+    public function user()
+    {
+        return $this->hasOne('App\Users', 'id', 'user_id');
+    }
+
+    public function address()
+    {
+        return $this->hasOne('App\UserAddress', 'id', 'adress');
+    }
 }

@@ -10,6 +10,7 @@ class Feature extends Model
     protected $primaryKey = 'id';
     protected $hidden = []; //bu kolonlarin gormez olmasini saglar
     protected $guarded = []; // tum kolonlarin degistirilebilir olmasini saglar
+    public $timestamps = false ;
 
     protected $casts = [
         'content' => 'array'

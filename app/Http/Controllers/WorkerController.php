@@ -9,6 +9,22 @@ use Illuminate\Http\Request;
 
 class WorkerController extends Controller
 {
+    public function loginPage()
+    {
+        return view('worker.login');
+    }
+    public function login(Request $request)
+    {
+        $worker = Worker::where('email', $request['email'])->first();
+
+        if(!password_verify($request->password, $worker->password)){
+            return redirect('/admin/giris');
+        }
+
+        session()->push('workerId', $worker->id);
+        return redirect('calisan');
+    }
+
     public function index()
     {
         return view('worker.index');
@@ -54,4 +70,5 @@ class WorkerController extends Controller
         $worker = Worker::with('store')->get();
         return response()->json($worker);
     }
+
 }

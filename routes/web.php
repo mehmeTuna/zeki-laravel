@@ -13,12 +13,12 @@
 
 //Route::get('tasi', 'FrontendController@tasi');
 //Route::get('adress', 'FrontendController@addressKayit');
-Route::get('fis', 'OrderController@orderFis');
-
 
 Route::get('admin/giris', 'AdminController@loginPage');
 Route::post('admin/giris', 'AdminController@login');
-Route::get('calisan', 'WorkerController@index');
+
+Route::get('calisan/giris', 'WorkerController@loginPage');
+Route::post('calisan/giris', 'WorkerController@login');
 
 Route::get('user/me', 'UserController@me');
 Route::get('api/menu', 'FrontendController@menu');
@@ -28,6 +28,13 @@ Route::get('user/sepetDel/{id}', 'UserController@sepetDeleteItem');
 Route::get('addressList', 'FrontendController@getAddress');
 Route::post('user/register', 'UserController@register');
 Route::post('rezervasyon/add', 'FrontendController@registerRezervasyon');
+
+Route::middleware(['worker'])->group(function (){
+    Route::get('calisan', 'WorkerController@index');
+    Route::get('rezervasyon/list', 'RezervasyonController@getRezervasyon');
+    Route::get('order/list', 'OrderController@getOrder');
+    Route::get('order/fis/{id}', 'OrderController@orderFis');
+});
 
 Route::middleware(['user'])->group(function(){
     Route::get('user/orders', 'UserController@orders');
@@ -79,11 +86,11 @@ Route::middleware(['admin'])->group(function () {
     Route::post('category/list', 'CategoryController@list');
     Route::post('product/list', 'ProductController@list');
     Route::post('product/update', 'ProductController@update');
-    Route::get('store/list', 'StoreController@list'); 
-    Route::post('store/create', 'StoreController@create'); //name , [address]
-    Route::delete('store/delete/{id}', 'StoreController@delete'); // id  
-    Route::post('store/update', 'StoreController@update'); // name, [address][add] -> eklenecekler [address][delete] -> silinecekler
-    Route::post('site/update', 'AdminController@siteUpdate'); // online değişkeni 0 ve 1 gönderilecek
+    Route::get('store/list', 'StoreController@list');
+    Route::post('store/create', 'StoreController@create');
+    Route::delete('store/delete/{id}', 'StoreController@delete');
+    Route::post('store/update', 'StoreController@update');
+    Route::post('site/update', 'AdminController@siteUpdate');
 
     Route::get('/{any}/{two}', 'AdminController@home')->where('any', '.*');
 });

@@ -59,7 +59,9 @@
                 required: false ,
                 default: 'order'
             },
-            updateBtn: Function
+            updateBtn: {
+                required: true
+            }
         },
         data: function () {
             return {

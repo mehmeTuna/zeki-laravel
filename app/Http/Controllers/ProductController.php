@@ -8,6 +8,7 @@ use App\Http\Requests\ProductUpdateRequest;
 use App\ImgResize\ResizeImage;
 use App\Products;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -92,24 +93,26 @@ class ProductController extends Controller
     public function update(ProductUpdateRequest $request)
     {
         $updateData = [];
-
-        if(isset($request['online'])){
-            $updateData['live'] = $request['online'];
+        $features = [];
+        $featureId=  rand(10, 100000);
+        if(isset($request['product']['live'])){
+            $updateData['live'] = $request['product']['live'];
         }
-        if(is_array($request['features']) && count($request['features']) > 0){
-            $features = [];
-            foreach ($request['features'] as $value ){
+        if(is_array($request['product']['options']['content']) && count($request['product']['options']['content']) > 0){
+            foreach ($request['product']['options']['content'] as $value ){
                 $features[] = [
                     'id' => rand(0, 1000),
-                    'content' => $value
+                    'content' => $value['content']
                 ];
             }
 
-            $feature = Feature::create([
-                'id' => rand(10, 100000),
+         /*
+          *    $feature = Feature::create([
+                'id' => $featureId,
                 'content' => $features
             ]);
-            $updateData['features'] = $feature->id;
+          */
+         //   $updateData['features'] = $featureId;
         }
 
         if($request->hasFile('img')){
@@ -160,27 +163,27 @@ class ProductController extends Controller
             $updateData['other_img'][] = '/img/'.$imageName;
         }
 
-       if(isset($request['price']) && (int)$request['price'] > 0){
-           $updateData['price'] = $request['price'];
+       if(isset($request['product']['price']) && (int)$request['product']['price'] > 0){
+           $updateData['price'] = $request['product']['price'];
        }
 
-        if(isset($request['name'])){
-            $updateData['name'] = $request['name'];
+        if(isset($request['product']['name'])){
+            $updateData['name'] = $request['product']['name'];
         }
 
-        if(isset($request['categoryId'])){
-            $updateData['categoryId'] = $request['categoryId'];
+        if(isset($request['product']['categoryId'])){
+            $updateData['categoryId'] = $request['product']['categoryId'];
         }
-        if(isset($request['card_text'])){
-            $updateData['card_text'] = $request['card_text'];
+        if(isset($request['product']['cardText'])){
+            $updateData['card_text'] = $request['product']['cardText'];
         }
-        if(isset($request['long_text'])){
-            $updateData['long_text'] = $request['long_text'];
+        if(isset($request['product']['long_text'])){
+            $updateData['long_text'] = $request['product']['long_text'];
         }
 
         $updateData['date'] = time();
-
         $product = Products::where('id', $request['id'])->update($updateData);
+
         return response()->json(['status' => 'ok']);
     }
 

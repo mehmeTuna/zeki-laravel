@@ -78,13 +78,11 @@ class AdminController extends Controller
         $date = Carbon::now()->startOfDay()->timestamp;
 
         $orders = OrderItems::where('m_status', 5)->where('m_date', '>=', $date)->get();
-        
         if($orders == null || count($orders) == 0){
             return response()->json([
                 'status' => 'not found'
             ]);
         }
-        
 
         foreach ($orders as $key => $value) {
             $result['orderAmount'] += $value['order_amount'];
@@ -112,9 +110,8 @@ class AdminController extends Controller
         foreach ($orders as $key => $value) {
             $result['orderAmount'] += $value['order_amount'];
             $result['status'][$value['order_status']]++;
-            $orderOrders =json_decode($value['orders'], true);
-            foreach($orderOrders as $key => $value){
-                $result['count'] += $value['count'];
+            for ($a = 0; $a < count($value['orders']); $a++) {
+                $result['count'] += $value['orders'][$a]['count'];
             }
         }
         return response()->json($result);

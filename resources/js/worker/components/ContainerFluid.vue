@@ -14,7 +14,7 @@
                                     Gelen Siparişler</div>
                                 <div class="text-xs font-weight-bold text-uppercase mb-1" v-if="BtnType === 'rezer'">
                                     Gelen Rezervasyonlar</div>
-                                <div class="h5 mb-0 font-weight-bold " >0</div>
+                                <div class="h5 mb-0 font-weight-bold " >{{BtnType === 'order' ? orderTabData.wait : rezerTabData.wait}}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-clipboard-list fa-4x "></i>
@@ -32,7 +32,7 @@
                                     Onaylanan Siparişler</div>
                                 <div class="text-xs font-weight-bold text-uppercase mb-1" v-if="BtnType === 'rezer'">
                                     Onaylanan Rezervasyonlar</div>
-                                <div class="h5 mb-0 font-weight-bold " >0</div>
+                                <div class="h5 mb-0 font-weight-bold " >{{BtnType === 'order' ? orderTabData.success : rezerTabData.success}}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-check fa-4x "></i>
@@ -52,8 +52,7 @@
                                     İptal Edilen Rezervasyonlar</div>
                                 <div class="row no-gutters align-items-center">
                                     <div class="col-auto">
-                                        <div class="h5 mb-0 mr-3 font-weight-bold " >0
-                                        </div>
+                                        <div class="h5 mb-0 mr-3 font-weight-bold " >{{BtnType === 'order' ? orderTabData.cancel : rezerTabData.cancel}}</div>
                                     </div>
 
                                 </div>
@@ -65,7 +64,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-md-6 mb-4" v-if="BtnType === 'order'" v-on:click="updateStatus('kurye')">
+            <div class="col-xl-3 col-md-6 mb-4 custBtn" v-if="BtnType === 'order'" v-on:click="updateStatus('kurye')">
                 <div v-bind:class="statusType === 'kurye' ? 'border-left-success text-success card shadow h-100 py-2 bg-success text-light' : 'card border-left-success shadow h-100 py-2'">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -73,7 +72,7 @@
                                 <div class="text-xs font-weight-bold  text-uppercase mb-1" >
                                     Kuryeye Verilen Siparişler
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold">0</div>
+                                <div class="h5 mb-0 font-weight-bold">{{orderTabData.kurye}}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-motorcycle fa-4x"></i>
@@ -95,12 +94,23 @@
                 required: false ,
                 default: 'order'
             },
-            updateStatus: Function,
+            updateStatus: {
+                required: true
+            },
             statusType: {
                 type: String,
                 required: false,
                 default: 'gelen'
+            },
+            orderTabData: {
+                required: true
+            },
+            rezerTabData: {
+                required: true
             }
+        },
+        mounted() {
+
         }
     }
 </script>

@@ -51,57 +51,43 @@
         padding-right:45mm;
     }
     .table-order-name{
-        padding-right:20mm;
+        padding-right:3mm;
+        padding-left: 2mm;
     }
 
 </style>
-
-
-
-
-
-
-
-
-
 <div class='header'>ZEKİ USTA</div>
 <div class='header-alt'>KEBAP</div>
 <div class='siparis-title'>PAKET SİPARİŞİDİR</div>
-<div class='user-title'>Sipariş No:{$orderId} {$OrderDetay['username']}</div>
-<div class='date-line'>Tarih:{$orderDataYear}  Saat:{$orderDataday}  Masa No:Paket</div>
+<div class='user-title'>Sipariş No:{{$order_id}} {{$user['firstname']}} {{$user['lastname']}}</div>
+<div class='date-line'>Tarih:{{date('Y-m-d', $m_date)}}  Saat:{{date('H:i', $m_date)}}  Masa No:Paket</div>
 <table class='urun-title'>
     <tr>
-        <th class='table-ürün-title' >Ürünler</th>
         <th style='padding-right:2mm'>Adet</th>
+        <th class='table-ürün-title'>Ürünler</th>
         <th>Tutar</th>
     </tr>
 </table>
 <hr class='m-hr'>
 <table class='urun-title-content'>
-    <tr>
-        <td class='table-order-name'>{$orderName}</td>
-        <td style='padding-right:1mm'>{$value["count"]}</td>
-        <td>{$value['price']}tl</td>
-    </tr>
-    <tr>
-        <td class='table-order-name'>{$resultOrderName}</td>
-        <td style='padding-right:1mm'>{$resultvalue["count"]}</td>
-        <td>{$value['price']}tl</td>
-    </tr>
+   @foreach($orders as $key => $order)
+        <tr>
+            <td class='table-order-name'>{{$order['count']}}</td>
+            <td style='width: 52mm'>{{$order['name']}}</td>
+            <td style=''>{{$order['price']}} tl</td>
+        </tr>
+    @endforeach
 </table>
 <hr class='m-hr'>
 <table class='adisyon'>
     <tr>
-
         <td>Adisyon Toplam:</td>
-
-        <td>{$OrderDetay['order_amount']} TL</td>
-
+        <td>{{$order_amount}} TL</td>
     </tr>
 </table>
 
-<div style='font-size: 4mm;margin-top: 5mm;margin-bottom: 1mm;margin-left: 8mm'> <u>Ödenecek Toplam Tutar : {$OrderDetay['order_amount']} TL </u></div>
+<div style='font-size: 4mm;margin-top: 5mm;margin-bottom: 1mm;margin-left: 8mm'> <u>Ödenecek Toplam Tutar : {{$order_amount}} TL </u></div>
 <div style='margin-left:25mm;font-size: 3mm'><i>Teşekkür Ederiz</i></div>
 
-<div style='left: 3mm ; margin-top: 10mm;font-size: 4mm'> {$OrderDetay['adress']}</div>
-<div style='font-size: 4mm;left: 3mm;margin-top: 1mm'>Arayan No: {$OrderDetay['phone']}</div>
+<div style='left: 3mm ; margin-top: 10mm;font-size: 4mm'>Adres: {{$address['content']}}</div>
+<div style='font-size: 4mm;left: 3mm;margin-top: 1mm'>Arayan No: {{$user['phone']}}</div>
