@@ -79,11 +79,11 @@ Route::middleware(['admin'])->group(function () {
     Route::post('category/list', 'CategoryController@list');
     Route::post('product/list', 'ProductController@list');
     Route::post('product/update', 'ProductController@update');
-    Route::get('store/list', 'StoreController@list');
-    Route::post('store/create', 'StoreController@create');
-    Route::delete('store/delete/{id}', 'StoreController@delete');
-    Route::post('store/update', 'StoreController@update');
-    Route::post('site/update', 'AdminController@siteUpdate');
+    Route::get('store/list', 'StoreController@list'); 
+    Route::post('store/create', 'StoreController@create'); //name , [address]
+    Route::delete('store/delete/{id}', 'StoreController@delete'); // id  
+    Route::post('store/update', 'StoreController@update'); // name, [address][add] -> eklenecekler [address][delete] -> silinecekler
+    Route::post('site/update', 'AdminController@siteUpdate'); // online değişkeni 0 ve 1 gönderilecek
 
     Route::get('/{any}/{two}', 'AdminController@home')->where('any', '.*');
 });
