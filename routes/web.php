@@ -34,6 +34,8 @@ Route::middleware(['worker'])->group(function (){
     Route::get('rezervasyon/list', 'RezervasyonController@getRezervasyon');
     Route::get('order/list', 'OrderController@getOrder');
     Route::get('order/fis/{id}', 'OrderController@orderFis');
+    Route::post('order/update', 'OrderController@update');
+    Route::get('kurye/list', 'AdminController@allKurye');
 });
 
 Route::middleware(['user'])->group(function(){
@@ -48,7 +50,7 @@ Route::middleware(['admin'])->group(function () {
     Route::get('data/admin', 'AdminController@adminData');
     Route::get('admin/Logout', 'AdminController@logout');
 
-    Route::post('admin/add/product', 'ProductController@create');
+    Route::post('admin/api/newProduct', 'ProductController@create');
     Route::get('admin/api/allWorker', 'WorkerController@list');
     Route::get('admin/api/user/all', 'AdminController@getAllUser');
     Route::get('admin/api/order', 'AdminController@getFullOrder');
@@ -91,8 +93,10 @@ Route::middleware(['admin'])->group(function () {
     Route::delete('store/delete/{id}', 'StoreController@delete');
     Route::post('store/update', 'StoreController@update');
     Route::post('site/update', 'AdminController@siteUpdate');
+    Route::get('site/durum', 'AdminController@siteData');
 
     Route::get('/{any}/{two}', 'AdminController@home')->where('any', '.*');
 });
+
 
 Route::get('/{any}', 'FrontendController@home')->where('any', '.*');

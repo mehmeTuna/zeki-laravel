@@ -4863,10 +4863,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['allProducts'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(["allProducts"])),
   created: function created() {
     this.$store.dispatch("fetchProducts");
   }
@@ -5231,6 +5230,9 @@ axios.post("https://vue-deneme-1fa03.firebaseio.com/posts.json",this.userData)
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
 //
 //
 //
@@ -6001,7 +6003,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.span-indikator {\n  top: 0.1em;\n  font-weight: 400;\n  font-family: Oswald, sans-serif;\n  width: 1.3em;\n  height: 1.3em;\n  margin-right: 0.5rem;\n  background-color: rgb(255, 255, 255);\n  border-radius: 50%;\n  border-width: 2px;\n  border-style: solid;\n  border-color: rgb(224, 224, 224);\n  border-image: initial;\n}\n", ""]);
+exports.push([module.i, "\n.span-indikator {\r\n  top: 0.1em;\r\n  font-weight: 400;\r\n  font-family: Oswald, sans-serif;\r\n  width: 1.3em;\r\n  height: 1.3em;\r\n  margin-right: 0.5rem;\r\n  background-color: rgb(255, 255, 255);\r\n  border-radius: 50%;\r\n  border-width: 2px;\r\n  border-style: solid;\r\n  border-color: rgb(224, 224, 224);\r\n  border-image: initial;\n}\r\n", ""]);
 
 // exports
 
@@ -6077,7 +6079,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\nh6[data-v-9736a7c4] {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  max-width: 200px;\n  display: inline-block;\n}\n", ""]);
+exports.push([module.i, "\nh6[data-v-9736a7c4] {\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\r\n  max-width: 200px;\r\n  display: inline-block;\n}\r\n", ""]);
 
 // exports
 
@@ -6115,7 +6117,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.food-slider--container{\n}\n.kare{\n    border-radius: 5px 20px 5px;\n}\n\n", ""]);
+exports.push([module.i, "\n.food-slider--container {\n}\n.kare {\r\n  border-radius: 5px 20px 5px;\n}\r\n", ""]);
 
 // exports
 
@@ -6153,7 +6155,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.carousel-control-prev-icon,\r\n.carousel-control-next-icon {\r\n  visibility: visible !important;\r\n  opacity: unset;\n}\n.carousel-control-next,\r\n.carousel-control-prev {\r\n  height: 30px;\r\n  width: 50px;\r\n\r\n  padding: 20px 40px;\r\n  cursor: pointer;\r\n\r\n  opacity: 1;\r\n\r\n  top: 50%;\r\n\r\n  border: none;\r\n  outline: none;\r\n  z-index: 2;\n}\n.carousel-item .title {\r\n  font-size: 22px !important;\r\n  margin-top: 10px !important;\r\n  font-weight: 400;\n}\n@media only screen and (max-width: 350px) {\n.carousel-item img {\r\n    max-height: 150px !important;\n}\n}\n@media only screen and (max-width: 450px) {\n.carousel-item img {\r\n    max-height: 150px !important;\n}\n}\n@media only screen and (max-width: 720px) {\n.carousel-control-prev,\r\n  .carousel-control-next {\r\n    display: none !important;\n}\n.slider-container {\r\n    width: 90% !important;\r\n\r\n    margin: 10px auto !important;\n}\n.carousel-item .title {\r\n    font-size: 19px !important;\n}\n}\n.carousel-control-prev:before {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  padding: 20px 15px;\r\n  content: \"<\";\r\n  font-size: 30px;\r\n  transform: translateX(-40px);\r\n  box-shadow: 5px 5px 3px 0 rgba(0, 0, 0, 0.1);\r\n  background-color: #ddae71;\r\n  border-top-left-radius: 6px;\r\n  border-bottom-left-radius: 6px;\r\n  z-index: 99;\r\n  opacity: unset;\n}\n.carousel-control-next:before {\r\n  font-weight: 800;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  padding: 20px 15px;\r\n  content: \">\";\r\n  font-size: 30px;\r\n  transform: translateX(40px);\r\n  box-shadow: -5px 5px 3px 0 rgba(0, 0, 0, 0.1);\r\n  background-color: #ddae71;\r\n  border-top-right-radius: 6px;\r\n  border-bottom-right-radius: 6px;\r\n  z-index: 99;\r\n  opacity: unset;\n}\n.slide img {\r\n  width: 100%;\n}\r\n", ""]);
+exports.push([module.i, "\n.carousel-control-prev-icon,\r\n.carousel-control-next-icon {\r\n    visibility: visible !important;\r\n    opacity: unset;\n}\n.carousel-control-next,\r\n.carousel-control-prev {\r\n    height: 30px;\r\n    width: 50px;\r\n\r\n    padding: 20px 40px;\r\n    cursor: pointer;\r\n\r\n    opacity: 1;\r\n\r\n    top: 50%;\r\n\r\n    border: none;\r\n    outline: none;\r\n    z-index: 2;\n}\n.carousel-item .title {\r\n    font-size: 22px !important;\r\n    margin-top: 10px !important;\r\n    font-weight: 400;\n}\n@media only screen and (max-width: 350px) {\n.carousel-item img {\r\n        max-height: 150px !important;\n}\n}\n@media only screen and (max-width: 450px) {\n.carousel-item img {\r\n        max-height: 150px !important;\n}\n}\n@media only screen and (max-width: 720px) {\n.carousel-control-prev,\r\n    .carousel-control-next {\r\n        display: none !important;\n}\n.slider-container {\r\n        width: 90% !important;\r\n\r\n        margin: 10px auto !important;\n}\n.carousel-item .title {\r\n        font-size: 19px !important;\n}\n}\n.carousel-control-prev:before {\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n    padding: 20px 15px;\r\n    content: \"<\";\r\n    font-size: 30px;\r\n    transform: translateX(-40px);\r\n    box-shadow: 5px 5px 3px 0 rgba(0, 0, 0, 0.1);\r\n    background-color: #ddae71;\r\n    border-top-left-radius: 6px;\r\n    border-bottom-left-radius: 6px;\r\n    z-index: 99;\r\n    opacity: unset;\n}\n.carousel-control-next:before {\r\n    font-weight: 800;\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n    padding: 20px 15px;\r\n    content: \">\";\r\n    font-size: 30px;\r\n    transform: translateX(40px);\r\n    box-shadow: -5px 5px 3px 0 rgba(0, 0, 0, 0.1);\r\n    background-color: #ddae71;\r\n    border-top-right-radius: 6px;\r\n    border-bottom-right-radius: 6px;\r\n    z-index: 99;\r\n    opacity: unset;\n}\n.slide img {\r\n    width: 100%;\n}\r\n", ""]);
 
 // exports
 
@@ -31642,11 +31644,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "menu-categories--item-text" }, [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(product.name) +
-                    "\n                "
-                )
+                _vm._v(_vm._s(product.name))
               ])
             ]
           )
@@ -53086,7 +53084,7 @@ var EventBus = new vue__WEBPACK_IMPORTED_MODULE_0___default.a();
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.config.productionTip = true;
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
   routes: _routes__WEBPACK_IMPORTED_MODULE_3__["routes"],
-  mode: 'history'
+  mode: "history"
 });
 router.afterEach(function () {
   window.scrollTo(0, 0);
@@ -53097,7 +53095,7 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   },
   router: router,
   store: _store_index__WEBPACK_IMPORTED_MODULE_4__["default"]
-}).$mount('#app');
+}).$mount("#app");
 
 /***/ }),
 
@@ -53521,7 +53519,7 @@ var mutations = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\BoraaacaY\Desktop\zeki-usta-laravel\resources\js\frontend\src\main.js */"./resources/js/frontend/src/main.js");
+module.exports = __webpack_require__(/*! C:\Users\Mehmet\Desktop\zeki-usta-laravel\resources\js\frontend\src\main.js */"./resources/js/frontend/src/main.js");
 
 
 /***/ })

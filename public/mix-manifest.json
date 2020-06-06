@@ -1,4 +1,5 @@
 {
     "/dasboard/js/main.js": "/dasboard/js/main.js",
-    "/frontend/js/main.js": "/frontend/js/main.js"
+    "/frontend/js/main.js": "/frontend/js/main.js",
+    "/worker/js/main.js": "/worker/js/main.js"
 }

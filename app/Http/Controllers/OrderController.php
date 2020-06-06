@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Feature;
 use App\OrderItems;
 use App\Products;
+use App\Worker;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +13,30 @@ use PDF ;
 
 class OrderController extends Controller
 {
+    public function update(Request $request)
+    {
+        $orderStatus = ['iptal', 'onay'];
+        $updateData = [];
+        if(!isset($request['id'])){
+            return response()->json(['status' => false, 'text' => 'Gecerli id giriniz']);
+        }
+
+        if(isset($request['status']) && in_array($request['status'], $orderStatus)){
+            switch ($request['status']){
+                case 'iptal':
+                    $updateData['m_status'] = OrderItems::CANCEL;
+                    break;
+                case 'onay':
+                    $updateData['m_status'] = OrderItems::SUCCESS;
+                    break;
+            }
+        }
+
+        $order = OrderItems::where('order_id', $request['id'])->update($updateData);
+
+        return response()->json(['status' => true, 'text' => 'ok']);
+    }
+
     public function thisYear()
     {
         $resultData = [];
@@ -131,16 +156,19 @@ class OrderController extends Controller
             return response()->json(['status' => false, 'text' => 'Id required']);
         }
 
-        $order['orders'] = json_decode($order['orders'], true);
+        if(!is_array($order['orders'])){
+            $order['orders'] = json_decode($order['orders'], true);
+        }
+
         switch ($order['order_status']){
             case 0:
-                $order['order_status'] = 0;
+                $order['order_status'] = 'Kapıda Nakit Ödeme';
                 break;
             case 1:
-                $order['order_status'] = 0;
+                $order['order_status'] = 'Kart İle Kapıda Ödeme';
                 break;
             case 2:
-                $order['order_status'] = 0;
+                $order['order_status'] = 'Kredi Kartı İle Ödeme';
                 break;
         }
 
@@ -160,7 +188,18 @@ class OrderController extends Controller
     public function getOrder()
     {
         $oneDayBeforeTime = time() - 24 * 60 * 60 ;
-        $orders = OrderItems::where('m_date', '>=', $oneDayBeforeTime)->with(['kurye', 'user', 'address'])->whereIn('m_status', [0, 1, 2, 3, 4, 5])->orderBy('m_date', 'DESC')->get();
+        $worker = Worker::where('id', session('workerId'))->with(['store.locations'])->first();
+        $addressIdList = [];
+        foreach ($worker->store->locations as $key => $value){
+            $addressIdList[] = $value['address_id'];
+        }
+        $orders = OrderItems::where('m_date', '>=', $oneDayBeforeTime)
+            ->with(['kurye', 'user', 'address'])
+            ->whereIn('adress', $addressIdList)
+            ->whereIn('m_status', [0, 1, 2, 3, 4, 5])
+            ->orderBy('m_date', 'DESC')
+            ->get();
+
         $data = [
             'wait' => 0,
             'success' => 0,
@@ -180,6 +219,18 @@ class OrderController extends Controller
             if(!is_array($order['orders'])){
                 $order['orders'] = json_decode($order['orders'], true);
            }
+
+            switch ($order['order_status']){
+                case 0:
+                    $order['order_status'] = 'Kapıda Nakit Ödeme';
+                    break;
+                case 1:
+                    $order['order_status'] = 'Kart İle Kapıda Ödeme';
+                    break;
+                case 2:
+                    $order['order_status'] = 'Kredi Kartı İle Ödeme';
+                    break;
+            }
 
             $order['m_date'] = date('H:i', $order['m_date']);
             switch ($order->m_status){

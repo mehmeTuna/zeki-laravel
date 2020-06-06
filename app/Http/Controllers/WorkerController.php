@@ -42,7 +42,8 @@ class WorkerController extends Controller
             'name' => $request['name'],
             'm_date' => time(),
             'ip' => $request->getClientIp(),
-            'authority' => $request['authority']
+            'authority' => $request['authority'],
+            'store_id' => $request['storeId']
         ]);
         return response()->json(['status' => 'ok']);
     }

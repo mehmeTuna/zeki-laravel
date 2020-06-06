@@ -35,7 +35,7 @@ class StoreController extends Controller
 
     public function delete(Request $request)
     {
-        $store = Store::where('id', $request['id'])->update(['active', 0]);
+        $store = Store::where('id', $request['id'])->update(['active' => 0]);
         return response()->json(['status' => true]);
     }
 
@@ -51,7 +51,7 @@ class StoreController extends Controller
         }
 
         if(isset($request['address'])){
-            if(isset($request['address']['add'])){
+            if(isset($request['address'][0])){
                 foreach ($request['address']['add'] as $key => $value){
                     $address = StoreAddress::create([
                         'store_id' => $store->id,
@@ -59,9 +59,9 @@ class StoreController extends Controller
                     ]);
                 }
             }
-            if(isset($request['address']['delete'])){
+            if(isset($request['address'][1])){
                 foreach ($request['address']['delete'] as $key => $value){
-                    $address = StoreAddress::where('id', $value)->update(['active', 1]);
+                    $address = StoreAddress::where('id', $value)->update(['active' => 0]);
                 }
             }
         }

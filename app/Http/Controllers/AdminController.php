@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+
     public function loginPage()
     {
         return view('admin.login');
@@ -342,6 +343,11 @@ class AdminController extends Controller
     {
         $site = Site::where('id', 1)->update(['site_online', $request['online']]);
         return response()->json(['status' => true]);
+    }
+
+    public function siteData()
+    {
+        return Site::where('id', 1)->first();
     }
 
 }
