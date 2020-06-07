@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Feature;
+use App\Kurye;
+use App\KuryeTakip;
 use App\OrderItems;
 use App\Products;
 use App\Worker;
@@ -27,12 +29,24 @@ class OrderController extends Controller
                     $updateData['m_status'] = OrderItems::CANCEL;
                     break;
                 case 'onay':
-                    $updateData['m_status'] = OrderItems::SUCCESS;
+                    $updateData['m_status'] = OrderItems::KURYEVERILDI;
                     break;
             }
         }
 
+        $kurye = Kurye::where('id', $request['kuryeId'])->first();
+        if($kurye == null){
+            return response()->json(['status' => false, 'text' => 'Gecerli kurye id si giriniz']);
+        }
+
         $order = OrderItems::where('order_id', $request['id'])->update($updateData);
+        if ($order){
+            KuryeTakip::create([
+                'order_id' => $request['id'],
+                'kurye_id' => $kurye->id,
+                'start_date' => time()
+            ]);
+        }
 
         return response()->json(['status' => true, 'text' => 'ok']);
     }
