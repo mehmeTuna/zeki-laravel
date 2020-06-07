@@ -27,25 +27,28 @@ class OrderController extends Controller
             switch ($request['status']){
                 case 'iptal':
                     $updateData['m_status'] = OrderItems::CANCEL;
+                    $order = OrderItems::where('order_id', $request['id'])->update($updateData);
+                    return response()->json(['status' => true]);
                     break;
                 case 'onay':
                     $updateData['m_status'] = OrderItems::KURYEVERILDI;
+                    $kurye = Kurye::where('id', $request['kuryeId'])->first();
+                
+                    if($kurye == null){
+                        return response()->json(['status' => false, 'text' => 'Gecerli kurye id si giriniz']);
+                    }
+            
+                    $order = OrderItems::where('order_id', $request['id'])->update($updateData);
+                    if ($order){
+                        KuryeTakip::create([
+                            'order_id' => $request['id'],
+                            'kurye_id' => $kurye->id,
+                            'start_date' => time()
+                        ]);
+                    }
                     break;
             }
-        }
-
-        $kurye = Kurye::where('id', $request['kuryeId'])->first();
-        if($kurye == null){
-            return response()->json(['status' => false, 'text' => 'Gecerli kurye id si giriniz']);
-        }
-
-        $order = OrderItems::where('order_id', $request['id'])->update($updateData);
-        if ($order){
-            KuryeTakip::create([
-                'order_id' => $request['id'],
-                'kurye_id' => $kurye->id,
-                'start_date' => time()
-            ]);
+           
         }
 
         return response()->json(['status' => true, 'text' => 'ok']);
@@ -215,7 +218,7 @@ class OrderController extends Controller
             ->orderBy('m_date', 'DESC')
             ->get();
         $queries = \DB::getQueryLog();
-        //return dd($queries);
+       // return dd($queries);
         $data = [
             'wait' => 0,
             'success' => 0,
@@ -238,10 +241,10 @@ class OrderController extends Controller
 
             switch ($order['order_status']){
                 case 0:
-                    $order['order_status'] = 'Kapıda Nakit Ödeme';
+                    $order['order_status'] = 'Kart İle Kapıda Ödeme';
                     break;
                 case 1:
-                    $order['order_status'] = 'Kart İle Kapıda Ödeme';
+                    $order['order_status'] = 'Kapıda Nakit Ödeme';
                     break;
                 case 2:
                     $order['order_status'] = 'Kredi Kartı İle Ödeme';

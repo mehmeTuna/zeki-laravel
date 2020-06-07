@@ -46,4 +46,25 @@ class RezervasyonController extends Controller
             'data' => $data
         ]);
     }
+    public function update(Request $request)
+    {
+        $rezerType = ['iptal', 'onay'];
+        $updateData = [];
+        if(in_array($request['status'], $rezerType)){
+            switch ($request['status']){
+                case 'onay':
+                    $updateData['m_status']= 1;
+                    break;
+                case 'iptal':
+                     $updateData['m_status'] = 2;
+                     break;
+            }
+            $rezervasyon = Rezervasyon::where('id', $request['id'])->update($updateData);
+            if($rezervasyon){
+                return  response()->json(['status' => true , 'text' => 'basarili']);
+            }
+        }
+
+        return response()->json(['status' => false , 'text' => 'gecersiz id']);
+    }
 }

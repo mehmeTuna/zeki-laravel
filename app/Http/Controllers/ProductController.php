@@ -16,7 +16,7 @@ class ProductController extends Controller
     {
         $createData = [];
 
-        if(is_array($request['features']) && count($request['features']) > 0){
+        if(false && (is_array($request['features']) && count($request['features']) > 0)){
             $features = [];
             foreach ($request['features'] as $value ){
                 $features[] = [
@@ -32,9 +32,9 @@ class ProductController extends Controller
             $createData['features'] = $feature->id;
         }
 
-        if($request->hasFile('img')){
-            $imageName = time().'.'.request()->img->getClientOriginalExtension();
-            request()->img->move(public_path('img'), $imageName);
+        if($request->hasFile('image')){
+            $imageName = time().'.'.request()->image->getClientOriginalExtension();
+            request()->image->move(public_path('img'), $imageName);
 
             $img = new ResizeImage();
             $img->load(public_path('img').'/'. $imageName);
@@ -80,14 +80,16 @@ class ProductController extends Controller
             $createData['other_img'][] = '/img/'.$imageName;
         }
 
-        $createData['price'] = $request['price'];
-        $createData['name'] = $request['name'];
+        $request['product'] = json_decode($request['product'], true);
+        $createData['price'] = $request['product']['price'];
+        $createData['name'] = $request['product']['name'];
         $createData['date'] = time();
-        $createData['categoryId'] = $request['categoryId'];
-        $createData['card_text'] = isset($request['card_text']) ? $request['card_text'] : '';
-        $createData['long_text'] = isset($request['long_text']) ? $request['long_text'] : '';
+        $createData['categoryId'] = $request['product']['categoryId'];
+        $createData['card_text'] = isset($request['product']['card_text']) ? $request['product']['card_text'] : '';
+        $createData['long_text'] = isset($request['product']['long_text']) ? $request['product']['long_text'] : '';
 
         $product = Products::create($createData);
+        return response()->json(['status' => true]);
     }
 
     public function update(ProductUpdateRequest $request)
@@ -98,7 +100,7 @@ class ProductController extends Controller
         if(isset($request['product']['live'])){
             $updateData['live'] = $request['product']['live'];
         }
-        if(is_array($request['product']['options']['content']) && count($request['product']['options']['content']) > 0){
+        if(false &&(is_array($request['product']['options']['content']) && count($request['product']['options']['content']) > 0)){
             foreach ($request['product']['options']['content'] as $value ){
                 $features[] = [
                     'id' => rand(0, 1000),

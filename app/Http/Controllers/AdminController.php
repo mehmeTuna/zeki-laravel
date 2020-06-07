@@ -95,8 +95,10 @@ class AdminController extends Controller
         foreach ($orders as $key => $value) {
             $result['orderAmount'] += $value['order_amount'];
             $result['status'][$value['order_status']]++;
-            $orderOrders =json_decode($value['orders'], true);
-            foreach($orderOrders as $key => $value){
+            $inOrders = $value['orders'];
+            if(!is_array($value['orders']))
+                $inOrders = json_decode($value['orders'], true);
+            foreach($inOrders as $key => $value){
                 $result['count'] += $value['count'];
             }
         }
@@ -118,15 +120,18 @@ class AdminController extends Controller
         $date = Carbon::now()->startOfMonth()->timestamp;
 
         $orders = OrderItems::where('m_status', 5)->where('m_date', '>=', $date)->get();
-        if(count($orders) == 0){
+        if($orders == null || count($orders) == 0 ){
             return response()->json($result);
         }
 
         foreach ($orders as $key => $value) {
             $result['orderAmount'] += $value['order_amount'];
             $result['status'][$value['order_status']]++;
-            for ($a = 0; $a < count($value['orders']); $a++) {
-                $result['count'] += $value['orders'][$a]['count'];
+            $inOrders = $value['orders'];
+            if(!is_array($value['orders']))
+                $inOrders = json_decode($value['orders'], true);
+            foreach($inOrders as $key => $value){
+                $result['count'] += $value['count'];
             }
         }
         return response()->json($result);

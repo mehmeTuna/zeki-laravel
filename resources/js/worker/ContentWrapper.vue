@@ -1,7 +1,7 @@
 <template>
     <div id="content-wrapper" class="d-flex flex-column">
         <div id="content">
-            <Topbar  />
+            <Topbar :workerData="workerData"  />
             <div class="container-fluid">
                 <ContainerFluid :BtnType="BtnType" :orderTabData="orderTabData" :rezerTabData="rezerTabData" :statusType="statusType" :updateStatus="updateStatus" />
                 <div v-if="BtnType === 'order'">
@@ -24,6 +24,9 @@
     export default {
         name: "ContentWrapper",
         props: {
+            workerData: {
+              required: true
+            },
             BtnType: {
                 type: String,
                 required: false ,

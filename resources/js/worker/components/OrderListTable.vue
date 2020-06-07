@@ -228,10 +228,8 @@ export default {
                 kuryeId: this.kuryeId,
                 status: "onay"
             }).then(res => {
-                let kurye = this.kuryeList.filter(e =>  e.id === this.kuryeId);
-                console.log(kurye)
                 swal({
-                    title: `Sipariş ${kurye.firstname} ${kurye.lastname} kuryeye verildi`
+                    title: `Sipariş kuryeye verildi`
                 });
             });
         },

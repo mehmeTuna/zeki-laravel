@@ -39,7 +39,7 @@ class FrontendController extends Controller
                 $item['price'] = $dataItem['price'];
                 $item['category_name'] = $data['name'];
                 $item['quantity'] = 1;
-                $item['options'] = $dataItem['option']['content'];
+                //$item['options'] = $dataItem['option']['content'];
                 $item['description'] = $dataItem['card_text'];
                 $item['img'] = $dataItem['img'];
                 $items[] = $item;

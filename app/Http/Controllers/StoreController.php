@@ -52,7 +52,7 @@ class StoreController extends Controller
 
         if(isset($request['address'])){
             if(isset($request['address'][0])){
-                foreach ($request['address']['add'] as $key => $value){
+                foreach ($request['address'][0] as $key => $value){
                     $address = StoreAddress::create([
                         'store_id' => $store->id,
                         'address_id' => $value
@@ -60,7 +60,7 @@ class StoreController extends Controller
                 }
             }
             if(isset($request['address'][1])){
-                foreach ($request['address']['delete'] as $key => $value){
+                foreach ($request['address'][1] as $key => $value){
                     $address = StoreAddress::where('id', $value)->update(['active' => 0]);
                 }
             }

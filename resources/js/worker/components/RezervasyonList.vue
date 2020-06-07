@@ -49,6 +49,9 @@
 </template>
 
 <script>
+    import swal from "sweetalert";
+    import Axios from "axios";
+
     export default {
         name: "RezervasyonList",
         props: {
@@ -64,11 +67,52 @@
             }
         },
         mounted() {
-            console.log(this.rezerData)
+
         },
         methods: {
             editRezer: function(val){
-                console.log(val)
+                swal({
+                    title: `${val.id} nolu Rezervasyonu onaylamak istiyormusunuz ?`,
+                    buttons: {
+                        iptal: {
+                            text: "Iptal Et",
+                            value: "iptal",
+                            className: "btn-danger"
+                        },
+                        onayla:{
+                            text: 'Onayla',
+                            value: 'onay',
+                            className: 'btn-success'
+                        },
+                        vazgec: {
+                            text: "vazgec",
+                            value: "vazgec"
+                        }
+                    }
+                }).then(value => {
+                    switch (value) {
+                        case "iptal":
+                            Axios.post("/rezervasyon/update", {
+                                id: val.id,
+                                status: "iptal"
+                            }).then(res => {
+                                swal({
+                                    title: "Rezervasyon Iptal Edildi"
+                                });
+                            });
+                            break;
+                            case 'onay':
+                                Axios.post("/rezervasyon/update", {
+                                    id: val.id,
+                                    status: "onay"
+                                }).then(res => {
+                                    swal({
+                                        title: "Rezervasyon Onaylandi"
+                                    });
+                                });
+                                break;
+                    }
+                });
             }
         }
     }

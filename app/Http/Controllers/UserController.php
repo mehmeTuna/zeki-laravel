@@ -169,7 +169,7 @@ class UserController extends Controller
                     $data['m_status'] = '';
             }
             $data['totalPrice'] = $value['order_amount'];
-            $data['orders'] = $value['orders'];
+            $data['orders'] = json_decode($value['orders'], true);
             $data['id'] = $value['order_id'];
             $result[] = $data;
         }
@@ -238,19 +238,37 @@ class UserController extends Controller
             $user->email = $request['email'];
         }
 
-        if(isset($request['address'])){
-            $updateAddress = [];
-            if(isset($request['address']['title'])){
-                $updateAddress['title'] = $request['address']['title'];
+        if(isset($request['address']) && isset($request['address']['address'])){
+            $adress = UserAddress::where('id', $request['address']['id'])->first();
+            if($adress == null){
+                return response()->json(['status' => false, 'text' => 'gecerli adres idsi giriniz']);
             }
-            if(isset($request['address']['content'])){
-                $updateAddress['content'] = $request['address']['content'];
-            }
-           if(isset($request['address']['address'])){
-               $updateAddress['address_id'] = $request['address']['address']['id'];
-           }
-            $adress = UserAddress::where('user_id', session('userId'))->where('id', $request['address']['address']['id'])->update($updateAddress);
+
+            if(isset($request['address']['address']['id']))
+            $adress->address_id = $request['address']['address']['id'];
+
+            if(isset($request['address']['content']) && strlen($request['address']['content']) > 0)
+             $adress->content = $request['address']['content'];
+
+             if(isset($request['address']['title']) && strlen($request['address']['title']) > 0 )
+             $adress->title = $request['address']['title'];
+             $adress->save();
+
+        }else if(isset($request['address'])){
+            $updateLocation = [];
+            $updateLocation['user_id'] = session('userId');
+            if(isset($request['address']['id']))
+            $updateLocation['address_id'] = $request['address']['id'];
+
+            if(isset($request['content']) && strlen($request['content']) > 0)
+             $updateLocation['content'] = $request['content'];
+
+             if(isset($request['title']) && strlen($request['title']) > 0 )
+             $updateLocation['title'] = $request['title'];
+
+             $address = UserAddress::create($updateLocation);
         }
+
         $user->save();
 
         return response()->json(['status' => 'ok']);

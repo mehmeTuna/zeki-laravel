@@ -13,6 +13,17 @@ class WorkerController extends Controller
     {
         return view('worker.login');
     }
+
+    public function me()
+    {
+        $worker = Worker::where('id', session('workerId'))->with('store')->first();
+
+        if($worker == null){
+            return response()->json(['status' => false, 'data' => []]);
+        }
+        return response()->json(['status' => true, 'data' => $worker]);
+    }
+
     public function login(Request $request)
     {
         $worker = Worker::where('email', $request['email'])->first();
@@ -46,7 +57,7 @@ class WorkerController extends Controller
             'm_date' => time(),
             'ip' => $request->getClientIp(),
             'authority' => $request['authority'],
-            'store_id' => $request['store']
+            'store_id' => $request['storeId']
         ]);
         return response()->json(['status' => 'ok']);
     }

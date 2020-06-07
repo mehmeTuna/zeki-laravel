@@ -28,7 +28,7 @@ class WorkerCreateRequest extends FormRequest
             'password' => 'required|min:5',
             'name' => 'required|min:3',
             'authority' => 'required',
-            'store' => 'required'
+            'storeId' => 'required'
         ];
     }
 }

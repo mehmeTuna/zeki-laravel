@@ -24,13 +24,6 @@ class ProductCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'features' => 'sometimes',
-            'price' => 'required',
-            'name' => 'required|min:3',
-            'numberOfProduct' => 'required',
-            'categoryId' => 'required',
-            'card_text' => 'required|min:3',
-            'long_text' => 'sometimes|min:3',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'img_1' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg',
             'img_2' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg',

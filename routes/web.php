@@ -38,6 +38,8 @@ Route::middleware(['worker'])->group(function (){
     Route::post('order/update', 'OrderController@update');
     Route::get('kurye/list', 'AdminController@allKurye');
     Route::get('calisan/cikis-yap', 'WorkerController@logout');
+    Route::post('rezervasyon/update', 'RezervasyonController@update');
+    Route::get('worker/me', 'WorkerController@me');
 });
 
 Route::middleware(['user'])->group(function(){
