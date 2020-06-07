@@ -127,7 +127,10 @@
                     <el-transfer
                       v-model="updateStore.locations[0]"
                       :data="this.adressList"
-                      :props="{ key: 'id', label: 'name' }"
+                      :props="{
+                                                key: 'id',
+                                                label: 'name'
+                                            }"
                       :button-texts="['Sola', 'Sağa']"
                       filterable
                     ></el-transfer>
@@ -161,7 +164,7 @@ export default {
       updateStore: {
         id: "",
         name: "",
-        locations: [[]]
+        locations: [[], []]
       }
     };
   },

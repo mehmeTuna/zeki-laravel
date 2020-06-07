@@ -65,29 +65,38 @@
                           style="color:222;font-weight:500;font-size:23px;"
                         >
                           <i class="ti ti-user icon icon-primary"></i>
-                          {{userInfos.firstname}}
-                          {{userInfos.lastname}}
+                          {{ userInfos.firstname }}
+                          {{ userInfos.lastname }}
                         </h3>
                         <p class="name" style="color:222;font-weight:500;font-size:23px;">
                           <i class="ti ti-mobile icon icon-primary"></i>
-                          {{userInfos.phone}}
+                          {{ userInfos.phone }}
                         </p>
                         <p
-                          v-if="userInfos.adress != null"
+                          v-if="
+                                                        userInfos.adress != null
+                                                    "
                           class="text-truncated"
                           style="color:222;font-weight:500;font-size:23px;"
                         >
                           <i class="ti ti-location-pin icon icon-primary"></i>
-                          {{userInfos.adress.content}}
+                          {{
+                          userInfos.adress.content
+                          }}
                         </p>
                         <p class="lead" style="color:222;font-weight:500;font-size:23px;">
                           <i class="ti ti-bookmark icon icon-primary"></i>
-                          {{userInfos.email}}
+                          {{ userInfos.email }}
                         </p>
                       </div>
                       <div class="col-12 col-lg-4 col-md-6 text-center">
                         <img
-                          :src="'https://ui-avatars.com/api/?size=200&name='+userInfos.firstname+'+'+userInfos.lastname"
+                          :src="
+                                                        'https://ui-avatars.com/api/?size=200&name=' +
+                                                            userInfos.firstname +
+                                                            '+' +
+                                                            userInfos.lastname
+                                                    "
                           alt
                           class="mx-auto rounded-circle img-fluid mt-5"
                         />
@@ -96,7 +105,13 @@
                       </div>
 
                       <div class="col-12 col-lg-4 ml-4">
-                        <h3 class="mb-0">{{$store.state.products.userInfos.orderCount}}</h3>
+                        <h3 class="mb-0">
+                          {{
+                          $store.state.products
+                          .userInfos
+                          .orderCount
+                          }}
+                        </h3>
                         <small class="text-primary">Sipariş Sayısı</small>
                       </div>
                     </div>
@@ -123,19 +138,19 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(infos,index) in (userOrderInfos)" :key="infos.id">
-                  <td>{{index}}</td>
+                <tr v-for="(infos, index) in userOrderInfos" :key="infos.id">
+                  <td>{{ index }}</td>
                   <td></td>
-                  <td>{{infos.id}}</td>
+                  <td>{{ infos.id }}</td>
                   <td>
                     <label v-for="order in infos.orders" :key="order.id">
-                      {{order.count}}x -
-                      {{order.name}}
+                      {{ order.count }}x -
+                      {{ order.name }}
                     </label>
                   </td>
 
-                  <td>{{infos.totalPrice}}</td>
-                  <td>{{infos.m_status}}</td>
+                  <td>{{ infos.totalPrice }}</td>
+                  <td>{{ infos.m_status }}</td>
                 </tr>
               </tbody>
             </table>
@@ -210,10 +225,7 @@
                 </div>
 
                 <div class="form-group col-md-8">
-                  <button class="btn btn-primary" @click="sendNewPassword">
-                    Değişiklikleri
-                    Kaydet
-                  </button>
+                  <button class="btn btn-primary" @click="sendNewPassword">Değişiklikleri Kaydet</button>
                 </div>
               </div>
             </div>
@@ -247,10 +259,10 @@
                     :key="adress.id"
                   >
                     <div class="mt-4">
-                      <h4 class="text-center">{{adress.title}}</h4>
+                      <h4 class="text-center">{{ adress.title }}</h4>
 
                       <div>
-                        <h6>{{adress.content}}</h6>
+                        <h6>{{ adress.content }}</h6>
                       </div>
 
                       <input class="form-control" v-model="adress.address.name" disabled="disabled" />
@@ -259,7 +271,13 @@
                       <div class="col-3"></div>
                       <div class="col-4 mt-4" data-toggle="modal" data-target="#addAdress">
                         <button type="button" class="btn btn-info btn-sm">
-                          <span @click="setAdressModal(adress)">Düzenle</span>
+                          <span
+                            @click="
+                                                            setAdressModal(
+                                                                adress
+                                                            )
+                                                        "
+                          >Düzenle</span>
                         </button>
                       </div>
                     </div>
@@ -311,14 +329,15 @@
                 <div class="form-group">
                   <label for="exampleFormControlTextarea1">Mahalle Seçiniz</label>
 
-                  <select class="form-control" v-model="adress.address.id">
+                  <select class="form-control" v-model="adress.address">
                     <option
-                      v-for="street in streets "
+                      v-for="street in streets"
                       :key="street.id"
-                      :value="street.id"
-                    >{{street.name}}</option>
+                      :value="street"
+                    >{{ street.name }}</option>
                   </select>
                 </div>
+                {{ adress.address }}
               </form>
             </div>
             <div class="modal-footer">
@@ -346,7 +365,8 @@ export default {
       adressTitle: "",
       adress: {
         address: {
-          id: ""
+          id: "",
+          name: ""
         }
       },
       oldPassword: "",
@@ -464,7 +484,7 @@ export default {
 };
 </script>
 
-<style  scoped>
+<style scoped>
 h6 {
   white-space: nowrap;
   overflow: hidden;
