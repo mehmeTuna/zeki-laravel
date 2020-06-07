@@ -10,7 +10,7 @@ class RezervasyonController extends Controller
     public function getRezervasyon()
     {
         $oneDayBeforeTime = time() - 24 * 60 * 60 ;
-        $rezervasyon = Rezervasyon::where('m_status', '>=', 0)->get();
+        $rezervasyon = Rezervasyon::where('time', '>=', $oneDayBeforeTime)->get();
 
         $data = [
             'wait' => 0, //0

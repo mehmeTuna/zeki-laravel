@@ -202,6 +202,7 @@ class OrderController extends Controller
     public function getOrder()
     {
         $oneDayBeforeTime = time() - 24 * 60 * 60 ;
+        DB::connection()->enableQueryLog();
         $worker = Worker::where('id', session('workerId'))->with(['store.locations'])->first();
         $addressIdList = [];
         foreach ($worker->store->locations as $key => $value){
@@ -213,7 +214,8 @@ class OrderController extends Controller
             ->whereIn('m_status', [0, 1, 2, 3, 4, 5])
             ->orderBy('m_date', 'DESC')
             ->get();
-
+        $queries = \DB::getQueryLog();
+        //return dd($queries);
         $data = [
             'wait' => 0,
             'success' => 0,

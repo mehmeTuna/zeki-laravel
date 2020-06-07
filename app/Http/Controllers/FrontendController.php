@@ -8,6 +8,7 @@ use App\Http\Requests\RezervasyonRegisterRequest;
 use App\Http\Requests\UserPaymentRequest;
 use App\OrderItems;
 use App\Rezervasyon;
+use App\Site;
 use App\UserAddress;
 use App\Users;
 use App\Cupon;
@@ -121,7 +122,14 @@ class FrontendController extends Controller
         }
         $orderData = [];
         if(isset($request['adress'])){
-            $orderData['adress'] = $request['adress'];
+            $address = UserAddress::where('id', $request['adress'])->where('user_id', session('userId'))->first();
+            if($address == null){
+                return  response()->json(['status' => false, 'text' => 'gecersiz adres']);
+            }
+            if($address->address_id == null){
+                return  response()->json(['status' => false, 'text' => 'Lokasyon seciniz Siparis vermeden once']);
+            }
+            $orderData['adress'] = $address->address_id;
         }
         if(isset($request['cardNumber']) && isset($request['cvv']) && isset($request['month']) && isset($request['year']) && isset($request['name'])){
             //return response()->json(['status' => 'Kart ile odeme aktif degil']);
@@ -152,5 +160,11 @@ class FrontendController extends Controller
             'status' => true,
             'code' => $orders->order_id
         ]);
+    }
+
+    public function getCupon()
+    {
+        $site = Cupon::where('id', 1)->first();
+        return response()->json(['cupon' => $site->cart_cupon]);
     }
 }

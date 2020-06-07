@@ -16,9 +16,12 @@ class WorkerController extends Controller
     public function login(Request $request)
     {
         $worker = Worker::where('email', $request['email'])->first();
+        if($worker == null){
+            return redirect('/calisan/giris');
+        }
 
         if(!password_verify($request->password, $worker->password)){
-            return redirect('/admin/giris');
+            return redirect('/calisan/giris');
         }
 
         session()->push('workerId', $worker->id);
@@ -43,7 +46,7 @@ class WorkerController extends Controller
             'm_date' => time(),
             'ip' => $request->getClientIp(),
             'authority' => $request['authority'],
-            'store_id' => $request['storeId']
+            'store_id' => $request['store']
         ]);
         return response()->json(['status' => 'ok']);
     }
@@ -70,6 +73,12 @@ class WorkerController extends Controller
     {
         $worker = Worker::with('store')->get();
         return response()->json($worker);
+    }
+
+    public function logout()
+    {
+        session()->forget('workerId');
+        return redirect('calisan');
     }
 
 }

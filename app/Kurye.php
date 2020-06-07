@@ -16,4 +16,10 @@ class Kurye extends Model
 
     public $timestamps = false;
 
+    public function orderCount()
+    {
+        return $this->hasMany('App\KuryeTakip', 'kurye_id', 'id')->count();
+    }
+
+
 }

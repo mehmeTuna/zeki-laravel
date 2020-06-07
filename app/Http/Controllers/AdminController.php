@@ -75,14 +75,21 @@ class AdminController extends Controller
 
     public function thisDayOrder(Request $request)
     {
-        $result = array('orderAmount' => 0, 'count' => 0, 'status' => array(0 => 0, 1 => 0, 2 => 0), 'orderStatus' => array());
+        $result = [
+            'orderAmount' => 0,
+            'count' => 0,
+            'status' => [
+                0 => 0,
+                1 => 0,
+                2 => 0
+            ],
+            'orderStatus' =>[]
+        ];
         $date = Carbon::now()->startOfDay()->timestamp;
 
         $orders = OrderItems::where('m_status', 5)->where('m_date', '>=', $date)->get();
-        if($orders == null || count($orders) == 0){
-            return response()->json([
-                'status' => 'not found'
-            ]);
+        if($orders == null || count($orders) == 0 ){
+            return response()->json($result);
         }
 
         foreach ($orders as $key => $value) {
@@ -98,14 +105,21 @@ class AdminController extends Controller
 
     public function thisMonthOrder(Request $request)
     {
-        $result = array('orderAmount' => 0, 'count' => 0, 'status' => array(0 => 0, 1 => 0, 2 => 0), 'orderStatus' => array());
+        $result = [
+            'orderAmount' => 0,
+            'count' => 0,
+            'status' => [
+                0 => 0,
+                1 => 0,
+                2 => 0
+            ],
+            'orderStatus' =>[]
+        ];
         $date = Carbon::now()->startOfMonth()->timestamp;
 
         $orders = OrderItems::where('m_status', 5)->where('m_date', '>=', $date)->get();
         if(count($orders) == 0){
-            return response()->json([
-                'status' => 'not found'
-            ]);
+            return response()->json($result);
         }
 
         foreach ($orders as $key => $value) {
@@ -120,14 +134,16 @@ class AdminController extends Controller
 
     public function thisDayPayment()
     {
-        $result = array('kapidaNakit' => 0, 'kapidaKartla' => 0, 'krediKarti' => 0);
+        $result = [
+            'kapidaNakit' => 0,
+            'kapidaKartla' => 0,
+            'krediKarti' => 0
+        ];
         $date = Carbon::now()->startOfDay()->timestamp;
 
         $orders = OrderItems::where('m_status', 5)->where('m_date', '>=', $date)->get();
         if(count($orders) == 0){
-            return response()->json([
-                'status' => 'not found'
-            ]);
+            return response()->json($result);
         }
 
         foreach ($orders as $key => $value) {
@@ -147,14 +163,16 @@ class AdminController extends Controller
 
     public function thisMonthPayment()
     {
-        $result = array('kapidaNakit' => 0, 'kapidaKartla' => 0, 'krediKarti' => 0);
+        $result = [
+            'kapidaNakit' => 0,
+            'kapidaKartla' => 0,
+            'krediKarti' => 0
+        ];
         $date = Carbon::now()->startOfMonth()->timestamp;
 
         $orders = OrderItems::where('m_status', 5)->where('m_date', '>=', $date)->get();
         if(count($orders) == 0){
-            return response()->json([
-                'status' => 'not found'
-            ]);
+            return response()->json($result);
         }
 
         foreach ($orders as $key => $value) {
@@ -174,34 +192,18 @@ class AdminController extends Controller
 
     public function iptalOrder()
     {
-        $result = array('iptalCount' => 0);
         $date = Carbon::now()->startOfDay()->timestamp;
-        $orders = OrderItems::where('m_status', 2)->where('m_date', '>=', $date)->get();
-        if(count($orders) == 0){
-            return response()->json($result);
-        }
+        $orders = OrderItems::where('m_status', 2)->where('m_date', '>=', $date)->count();
 
-        foreach ($orders as $key => $value) {
-            $result['iptalCount'] = $value['count(*)'];
-        }
-
-        return response()->json($result);
+        return response()->json(['iptalCount' => $orders]);
     }
 
     public function iptalOrderMonth()
     {
-        $result = array('iptalCount' => 0);
         $date = Carbon::now()->startOfMonth()->timestamp;
-        $orders = OrderItems::where('m_status', 2)->where('m_date', '>=', $date)->get();
-        if(count($orders) == 0){
-            return response()->json($result);
-        }
+        $orders = OrderItems::where('m_status', 2)->where('m_date', '>=', $date)->count();
 
-        foreach ($orders as $key => $value) {
-            $result['iptalCount'] = $value['count(*)'];
-        }
-
-        return response()->json($result);
+        return response()->json(['iptalCount' => $orders]);
     }
 
     public function thisDayMany()
@@ -223,16 +225,14 @@ class AdminController extends Controller
     public function allCategory()
     {
         $category = Category::all();
-
         return response()->json($category);
     }
 
     public function allKurye()
     {
         $kurye = Kurye::where('active', 1)->get();
-
         foreach ($kurye as $key => $value){
-            $kurye[$key]['siparis'] = KuryeTakip::where('kurye_id', $value['id'])->count();
+            $kurye[$key]['siparis'] = $value->orderCount();
         }
 
         return response()->json($kurye);
@@ -260,7 +260,7 @@ class AdminController extends Controller
 
     public function allRezervasyonCount()
     {
-        $rezervasyonCount = Rezervasyon::all()->count();
+        $rezervasyonCount = Rezervasyon::where('m_status', 1)->count();
         return response()->json(['count' => $rezervasyonCount]);
     }
 
@@ -268,11 +268,12 @@ class AdminController extends Controller
     {
         $date = Carbon::now()->startOfDay()->timestamp;
         $rezervasyon = Rezervasyon::where('time', '>=', $date)->get();
+        $result = array('toplam' => $rezervasyon->count(), 'wait' => 0, 'ok' => 0, 'red' => 0, 'usercount' => 0);
 
         if(count($rezervasyon) == 0){
-            return response()->json(['status' => 'not found']);
+            return response()->json($result);
         }
-        $result = array('toplam' => $rezervasyon->count(), 'wait' => 0, 'ok' => 0, 'red' => 0, 'usercount' => 0);
+
         foreach ($rezervasyon as $key => $value) {
             if ($value['m_status'] == '0') {
                 $result['wait'] = $result['wait'] + 1;
@@ -293,11 +294,12 @@ class AdminController extends Controller
     {
         $date = Carbon::now()->startOfMonth()->timestamp;
         $rezervasyon = Rezervasyon::where('time', '>=', $date)->get();
+        $result = array('toplam' => $rezervasyon->count(), 'wait' => 0, 'ok' => 0, 'red' => 0, 'usercount' => 0);
 
         if(count($rezervasyon) == 0){
-            return response()->json(['status' => 'not found']);
+            return response()->json($result);
         }
-        $result = array('toplam' => $rezervasyon->count(), 'wait' => 0, 'ok' => 0, 'red' => 0, 'usercount' => 0);
+
         foreach ($rezervasyon as $key => $value) {
             if ($value['m_status'] == '0') {
                 $result['wait'] = $result['wait'] + 1;
@@ -318,11 +320,12 @@ class AdminController extends Controller
     {
         $date = Carbon::now()->startOfYear()->timestamp;
         $rezervasyon = Rezervasyon::where('time', '>=', $date)->get();
+        $result = array('toplam' => $rezervasyon->count(), 'wait' => 0, 'ok' => 0, 'red' => 0, 'usercount' => 0);
 
         if(count($rezervasyon) == 0){
-            return response()->json(['status' => 'not found']);
+            return response()->json($result);
         }
-        $result = array('toplam' => $rezervasyon->count(), 'wait' => 0, 'ok' => 0, 'red' => 0, 'usercount' => 0);
+
         foreach ($rezervasyon as $key => $value) {
             if ($value['m_status'] == '0') {
                 $result['wait'] = $result['wait'] + 1;

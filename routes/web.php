@@ -28,6 +28,7 @@ Route::get('user/sepetDel/{id}', 'UserController@sepetDeleteItem');
 Route::get('addressList', 'FrontendController@getAddress');
 Route::post('user/register', 'UserController@register');
 Route::post('rezervasyon/add', 'FrontendController@registerRezervasyon');
+Route::get('cart/cupon', 'FrontendController@getCupon');
 
 Route::middleware(['worker'])->group(function (){
     Route::get('calisan', 'WorkerController@index');
@@ -36,6 +37,7 @@ Route::middleware(['worker'])->group(function (){
     Route::get('order/fis/{id}', 'OrderController@orderFis');
     Route::post('order/update', 'OrderController@update');
     Route::get('kurye/list', 'AdminController@allKurye');
+    Route::get('calisan/cikis-yap', 'WorkerController@logout');
 });
 
 Route::middleware(['user'])->group(function(){
