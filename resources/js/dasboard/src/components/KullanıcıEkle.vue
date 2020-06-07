@@ -54,13 +54,13 @@
                 <div class="col-md-6 pl-md-1">
                   <div class="form-group">
                     <label>Mağaza</label>
-                    <select class="form-control" v-model="kullanici.store">
+                    <select class="form-control" v-model="kullanici.storeId">
                       <option disabled value>Seçiniz</option>
                       <option
                         :value="store.id"
                         v-for="store in stores"
                         :key="store.id"
-                      >{{store.name}}</option>
+                      >{{ store.name }}</option>
                     </select>
                   </div>
                 </div>
@@ -69,11 +69,10 @@
                     <label>Yetki</label>
                     <select class="form-control" v-model="kullanici.authority">
                       <option disabled value>Seçiniz</option>
-                      <option
-                        :value="yetki.number"
-                        v-for="yetki in yetkiList"
-                        :key="yetki.number"
-                      >{{yetki.derece}} - {{yetki.number}}</option>
+                      <option :value="yetki.number" v-for="yetki in yetkiList" :key="yetki.number">
+                        {{ yetki.derece }} -
+                        {{ yetki.number }}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -105,13 +104,19 @@
                 </thead>
                 <tbody>
                   <tr v-for="user in userList" :key="user.id">
-                    <td>{{user.id}}</td>
-                    <td>{{user.email}}</td>
-                    <td>{{user.name}}</td>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.name }}</td>
                     <td class="text-center">
                       <toggle-button
-                        @change="updateRoles(0 , user.id)"
-                        :value="user.authority == 0 ? true : false"
+                        @change="
+                                                    updateRoles(0, user.id)
+                                                "
+                        :value="
+                                                    user.authority == 0
+                                                        ? true
+                                                        : false
+                                                "
                         color="#82C7EB"
                         :sync="true"
                         :labels="true"
@@ -119,8 +124,15 @@
                     </td>
                     <td class="text-center">
                       <toggle-button
-                        @change="updateRoles(1 ,user.id)"
-                        :value="(user.authority == 1 || user.authority == 2  ) ? true : false "
+                        @change="
+                                                    updateRoles(1, user.id)
+                                                "
+                        :value="
+                                                    user.authority == 1 ||
+                                                    user.authority == 2
+                                                        ? true
+                                                        : false
+                                                "
                         color="#82C7EB"
                         :sync="true"
                         :labels="true"
@@ -128,8 +140,14 @@
                     </td>
                     <td class="text-center">
                       <toggle-button
-                        @change="updateRoles(2 ,user.id )"
-                        :value="user.authority == 2 ? true : false "
+                        @change="
+                                                    updateRoles(2, user.id)
+                                                "
+                        :value="
+                                                    user.authority == 2
+                                                        ? true
+                                                        : false
+                                                "
                         color="#82C7EB"
                         :sync="true"
                         :labels="true"
@@ -137,7 +155,12 @@
                     </td>
 
                     <td class="text-center">
-                      <button @click="deleteKullanici(user.id)" class="btn btn-fill btn-info">Sil</button>
+                      <button
+                        @click="
+                                                    deleteKullanici(user.id)
+                                                "
+                        class="btn btn-fill btn-info"
+                      >Sil</button>
                     </td>
                   </tr>
                 </tbody>
@@ -166,7 +189,8 @@ export default {
         email: "",
         password: "",
         name: "",
-        authority: ""
+        authority: "",
+        storeId: ""
       }
     };
   },
@@ -283,5 +307,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

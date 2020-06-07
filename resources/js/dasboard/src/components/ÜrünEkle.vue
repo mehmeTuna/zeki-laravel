@@ -49,7 +49,10 @@
                         :value="category.id"
                         v-for="category in categoryList"
                         :key="category.id"
-                      >{{category.id}} : {{category.name}}</option>
+                      >
+                        {{ category.id }} :
+                        {{ category.name }}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -58,7 +61,11 @@
                     <img
                       height="128"
                       class="img-responsive text-center mb-3"
-                      :src="fileUrl == null ? './admin/assets/default.png' : fileUrl "
+                      :src="
+                                                fileUrl == null
+                                                    ? './admin/assets/default.png'
+                                                    : fileUrl
+                                            "
                     />
                     <input
                       class="form-control"
@@ -89,7 +96,11 @@
                   <div class="form-group">
                     <label>Opsiyon Ekleme-Silme</label>
                     <ul class="nav nav-main">
-                      <li v-for="(option,index) in product.options" :key="option.id">
+                      <li
+                        v-for="(option,
+                                                index) in product.options"
+                        :key="option.id"
+                      >
                         <input
                           type="text"
                           class="form-control"
@@ -133,17 +144,25 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="product in productList.slice((page-1)*displayAmount,displayAmount*page)"
+                    v-for="product in productList.slice(
+                                            (page - 1) * displayAmount,
+                                            displayAmount * page
+                                        )"
                     :key="product.id"
                   >
-                    <td>{{product.name}}</td>
-                    <td>{{product.price}}</td>
-                    <td>{{product.categoryName}}</td>
-                    <td class="text-center">{{product.cardText}}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>{{ product.categoryName }}</td>
+                    <td class="text-center">{{ product.cardText }}</td>
 
                     <td></td>
                     <td class="text-center">
-                      <button @click="deleteProduct(product.id)" class="btn btn-fill btn-danger">Sil</button>
+                      <button
+                        @click="
+                                                    deleteProduct(product.id)
+                                                "
+                        class="btn btn-fill btn-danger"
+                      >Sil</button>
                     </td>
                     <td class="text-center">
                       <button
@@ -161,8 +180,12 @@
                 background
                 :current-page="page"
                 layout="pager"
-                :page-count="Math.ceil(productList.length/displayAmount)"
-              ></el-pagination>
+                :page-count="
+                                    Math.ceil(
+                                        productList.length / displayAmount
+                                    )
+                                "
+              ></el-pagination>SA
             </div>
           </div>
         </div>
@@ -180,7 +203,26 @@
                 :key="category.id"
                 type="button"
                 class="btn btn-fill btn-info btn-sm m-1"
-              >{{category.name}}</button>
+              >{{ category.name }}</button>
+            </div>
+            <div class="mt-4">
+              <el-transfer
+                :titles="['Eski Liste', 'Yeni Liste']"
+                :button-texts="['Sola', 'Sağa']"
+                filterable
+                filter-placeholder="Ürün Arayınız!"
+                v-model="value"
+                :props="{ key: 'id', label: 'name' }"
+                :data="data"
+              ></el-transfer>
+              {{ value }}
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-fill btn-info"
+                  @click="updateCategoryProductQueue"
+                >SIRALA</button>
+              </div>
             </div>
           </div>
         </div>
@@ -231,16 +273,34 @@
                 class="form-control text-center"
                 style="color:#606266"
                 type="text"
-                v-model="editProduct.card_text"
+                v-model="editProduct.cardText"
               />
             </div>
+            <div class="col-12">
+              <label style="color:black">Açıklama</label>
+              <el-tooltip content="Durumu Değiştir" placement="top">
+                <el-switch
+                  v-model="editProduct.live"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949"
+                  active-value="1"
+                  inactive-value="0"
+                ></el-switch>
+              </el-tooltip>
+              {{ editProduct.live }}
+            </div>
+
             <div class="col-12">
               <div class="col-12">
                 <label style="color:black">Resim</label>
                 <img
                   height="128"
                   class="img-responsive text-center mb-3"
-                  :src="updateFileUrl == null ? './admin/assets/default.png' : updateFileUrl "
+                  :src="
+                                        updateFileUrl == null
+                                            ? './admin/assets/default.png'
+                                            : updateFileUrl
+                                    "
                 />
                 <input
                   class="form-control"
@@ -264,7 +324,7 @@
               class="btn btn-info"
               @click="updateProduct(editProduct.id)"
             >Değişikleri Kaydet</button>
-            {{editProduct}}
+            {{ editProduct }}
           </div>
         </div>
       </div>
@@ -279,6 +339,8 @@ import axios from "axios";
 export default {
   data() {
     return {
+      value: [],
+      data: [],
       page: 1,
       displayAmount: 10,
       categoryList: [],
@@ -293,12 +355,14 @@ export default {
         id: "",
         name: "",
         price: "",
-        card_text: "",
-        selectedImage: null
+        cardText: "",
+        selectedImage: null,
+        live: ""
       },
 
       product: {
         id: "",
+        live: "",
         name: "",
         price: "",
         card_text: "",
@@ -312,12 +376,19 @@ export default {
     };
   },
   methods: {
+    updateCategoryProductQueue() {
+      const url = "/product/list";
+      axios.post(url, { data: this.value }).then(res => {
+        console.log(res);
+      });
+    },
     sortCategory(category) {
       console.log(category);
       const result = this.productList.filter(
-        product => category.name == product.name
+        product => product.categoryName == category.name
       );
       console.log(result);
+      this.data = result;
     },
     filterCategory() {},
     handleCurrentChange(value) {
@@ -384,9 +455,9 @@ export default {
       console.log(this.product.features);
 
       const fd = new FormData();
-      fd.append("image", this.file, this.file.name);
+      fd.append("image", this.file);
       fd.append("product", JSON.stringify(this.product));
-      console.log(this.product.selectedImage);
+      console.log(this.product);
 
       const url = "/admin/api/newProduct";
       if (
@@ -456,5 +527,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
