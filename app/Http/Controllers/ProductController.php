@@ -6,9 +6,13 @@ use App\Feature;
 use App\Http\Requests\ProductCreateRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\ImgResize\ResizeImage;
+use App\OrderItems;
 use App\Products;
+
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use PDF;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class ProductController extends Controller
 {
@@ -89,7 +93,6 @@ class ProductController extends Controller
         $createData['long_text'] = isset($request['product']['long_text']) ? $request['product']['long_text'] : '';
 
         $product = Products::create($createData);
-        return response()->json(['status' => true]);
     }
 
     public function update(ProductUpdateRequest $request)
@@ -100,7 +103,7 @@ class ProductController extends Controller
         if(isset($request['product']['live'])){
             $updateData['live'] = $request['product']['live'];
         }
-        if(false &&(is_array($request['product']['options']['content']) && count($request['product']['options']['content']) > 0)){
+        if(is_array($request['product']['options']['content']) && count($request['product']['options']['content']) > 0){
             foreach ($request['product']['options']['content'] as $value ){
                 $features[] = [
                     'id' => rand(0, 1000),
@@ -199,7 +202,7 @@ class ProductController extends Controller
 
     public function allProduct()
     {
-        $products = Products::where('live', 1)->with(['category', 'option'])->get();
+        $products = Products::with(['category', 'option'])->get();
         $result = [];
 
         foreach ($products as $data){
@@ -210,7 +213,7 @@ class ProductController extends Controller
             $product['numberOfProduct'] = $data['numberOfProduct'];
             $product['categoryName'] = isset($data['category']['name']) ? $data['category']['name'] : 'Kategori Silindi';
             $product['live'] = $data['live'];
-            $product['cardText'] = $data['cardText'];
+            $product['cardText'] = $data['card_text'];
             $product['stores'] = $data['stores'];
             $product['options'] = json_decode($data['option']);
             $product['img'] = $data['img'];
@@ -230,5 +233,167 @@ class ProductController extends Controller
         }
 
         return response()->json(['status' => 'ok']);
+    }
+
+    public function pdfList()
+    {
+        $dateDay = Carbon::now()->startOfDay()->timestamp;
+        $dateWeek = Carbon::now()->startOfWeek()->timestamp;
+        $dateMonth = Carbon::now()->startOfMonth()->timestamp;
+        $dateYear = Carbon::now()->startOfYear()->timestamp;
+        $allOrders = [];
+        $orders = OrderItems::where('m_status', 5)->where('m_date', '>=', $dateYear)->get();
+
+        foreach ($orders as $key => $value){
+            if(!is_array($value['orders']))
+                $value['orders'] = json_decode($value['orders'], true);
+            foreach ($value['orders'] as $itemQueue => $item){
+                $haveOrder = false ;
+                foreach ($allOrders as $orderId => $orderItem){
+                    if($orderItem['id'] == $item['id']){
+                        $haveOrder = true;
+                        if($value['m_date'] > $dateDay){
+                            $allOrders[$orderId]['day'] += $item['count'];
+                        }
+                        if($value['m_date'] > $dateWeek){
+                            $allOrders[$orderId]['week'] += $item['count'];
+                        }
+                        if($value['m_date'] > $dateMonth){
+                            $allOrders[$orderId]['month'] += $item['count'];
+                        }
+                        if($value['m_date'] > $dateYear){
+                            $allOrders[$orderId]['year'] += $item['count'];
+                        }
+                    }
+                }
+                if(!$haveOrder){
+                    if($value['m_date'] > $dateDay){
+                        $allOrders[] = [
+                            'id' => $item['id'],
+                            'name' => $item['name'],
+                            'day' => $item['count'],
+                            'week' => 0,
+                            'month' => 0,
+                            'year' => 0
+                        ];
+                    }
+                    if($value['m_date'] > $dateWeek){
+                        $allOrders[] = [
+                            'id' => $item['id'],
+                            'name' => $item['name'],
+                            'day' => 0,
+                            'week' =>  $item['count'],
+                            'month' => 0,
+                            'year' => 0
+                        ];
+                    }
+                    if($value['m_date'] > $dateMonth){
+                        $allOrders[] = [
+                            'id' => $item['id'],
+                            'name' => $item['name'],
+                            'day' => 0,
+                            'week' => 0,
+                            'month' =>  $item['count'],
+                            'year' => 0
+                        ];
+                    }
+                    if($value['m_date'] > $dateYear){
+                        $allOrders[] = [
+                            'id' => $item['id'],
+                            'name' => $item['name'],
+                            'day' =>0,
+                            'week' => 0,
+                            'month' => 0,
+                            'year' =>  $item['count']
+                        ];
+                    }
+                }
+            }
+        }
+
+        $pdf = PDF::loadView('pdfTemplate.productList', ['order' => $allOrders],[], [
+            'mode' => 'utf-8',
+            "default_font_size"=>10,
+        ]);
+        return $pdf->stream('kuryeList.pdf');
+    }
+
+    public function excelList()
+    {
+        $dateDay = Carbon::now()->startOfDay()->timestamp;
+        $dateWeek = Carbon::now()->startOfWeek()->timestamp;
+        $dateMonth = Carbon::now()->startOfMonth()->timestamp;
+        $dateYear = Carbon::now()->startOfYear()->timestamp;
+        $allOrders = [];
+        $orders = OrderItems::where('m_status', 5)->where('m_date', '>=', $dateYear)->get();
+
+        foreach ($orders as $key => $value){
+            if(!is_array($value['orders']))
+                $value['orders'] = json_decode($value['orders'], true);
+            foreach ($value['orders'] as $itemQueue => $item){
+                $haveOrder = false ;
+                foreach ($allOrders as $orderId => $orderItem){
+                    if($orderItem['id'] == $item['id']){
+                        $haveOrder = true;
+                        if($value['m_date'] > $dateDay){
+                            $allOrders[$orderId]['day'] += $item['count'];
+                        }
+                        if($value['m_date'] > $dateWeek){
+                            $allOrders[$orderId]['week'] += $item['count'];
+                        }
+                        if($value['m_date'] > $dateMonth){
+                            $allOrders[$orderId]['month'] += $item['count'];
+                        }
+                        if($value['m_date'] > $dateYear){
+                            $allOrders[$orderId]['year'] += $item['count'];
+                        }
+                    }
+                }
+                if(!$haveOrder){
+                    if($value['m_date'] > $dateDay){
+                        $allOrders[] = [
+                            'id' => $item['id'],
+                            'name' => $item['name'],
+                            'day' => $item['count'],
+                            'week' => 0,
+                            'month' => 0,
+                            'year' => 0
+                        ];
+                    }
+                    if($value['m_date'] > $dateWeek){
+                        $allOrders[] = [
+                            'id' => $item['id'],
+                            'name' => $item['name'],
+                            'day' => 0,
+                            'week' =>  $item['count'],
+                            'month' => 0,
+                            'year' => 0
+                        ];
+                    }
+                    if($value['m_date'] > $dateMonth){
+                        $allOrders[] = [
+                            'id' => $item['id'],
+                            'name' => $item['name'],
+                            'day' => 0,
+                            'week' => 0,
+                            'month' =>  $item['count'],
+                            'year' => 0
+                        ];
+                    }
+                    if($value['m_date'] > $dateYear){
+                        $allOrders[] = [
+                            'id' => $item['id'],
+                            'name' => $item['name'],
+                            'day' =>0,
+                            'week' => 0,
+                            'month' => 0,
+                            'year' =>  $item['count']
+                        ];
+                    }
+                }
+            }
+        }
+
+        return (new FastExcel($allOrders))->download('Siparisler.xlsx');
     }
 }

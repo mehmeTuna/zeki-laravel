@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Products extends Model
@@ -43,5 +44,29 @@ class Products extends Model
     public function setOther_ImgAttribute($value)
     {
         $this->attributes['other_img'] = json_encode($value, JSON_UNESCAPED_UNICODE);
+    }
+
+    public function dayOrderCount()
+    {
+        $date = Carbon::now()->startOfDay()->timestamp;
+        return $this->hasMany('App\OrderItems', 'product_id', 'id')->where('order_items.m_date', '>=', $date);
+    }
+
+    public function weekOrderCount()
+    {
+        $date = Carbon::now()->startOfWeek()->timestamp;
+        return $this->hasMany('App\OrderItems', 'product_id', 'id')->where('order_items.m_date', '>=', $date);
+    }
+
+    public function monthOrderCount()
+    {
+        $date = Carbon::now()->startOfMonth()->timestamp;
+        return $this->hasMany('App\OrderItems', 'product_id', 'id')->where('order_items.m_date', '>=', $date);
+    }
+
+    public function yearOrderCount()
+    {
+        $date = Carbon::now()->startOfYear()->timestamp;
+        return $this->hasMany('App\OrderItems', 'product_id', 'id')->where('order_items.m_date', '>=', $date);
     }
 }

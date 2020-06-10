@@ -29,6 +29,11 @@ class Users extends Model
         return $this->hasMany('App\OrderItems', 'user_id', 'id')->where('order_items.m_status', 5)->count();
     }
 
+    public function ordersSum()
+    {
+        return $this->hasMany('App\OrderItems', 'user_id', 'id')->where('order_items.m_status', 5)->sum('order_amount') ;
+    }
+
     public function setAdressAttribute($value)
     {
         $this->attributes['adress'] = json_encode($value, JSON_UNESCAPED_UNICODE);

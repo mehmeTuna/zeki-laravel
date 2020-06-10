@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Kurye extends Model
@@ -21,5 +22,21 @@ class Kurye extends Model
         return $this->hasMany('App\KuryeTakip', 'kurye_id', 'id')->count();
     }
 
+    public function dayOrderCount()
+    {
+        $date = Carbon::now()->startOfDay()->timestamp;
+        return $this->hasMany('App\KuryeTakip', 'kurye_id', 'id')->where('kurye_takip.start_date', '>=', $date);
+    }
 
+    public function monthOrderCount()
+    {
+        $date = Carbon::now()->startOfMonth()->timestamp;
+        return $this->hasMany('App\KuryeTakip', 'kurye_id', 'id')->where('kurye_takip.start_date', '>=', $date);
+    }
+
+    public function yearOrderCount()
+    {
+        $date = Carbon::now()->startOfYear()->timestamp;
+        return $this->hasMany('App\KuryeTakip', 'kurye_id', 'id')->where('kurye_takip.start_date', '>=', $date);
+    }
 }

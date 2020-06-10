@@ -33,6 +33,6 @@ class OrderItems extends Model
 
     public function address()
     {
-        return $this->hasOne('App\UserAddress', 'address_id', 'adress')->where('user_address.user_id', session('userId'));
+        return $this->hasOne('App\UserAddress', 'id', 'adress');
     }
 }

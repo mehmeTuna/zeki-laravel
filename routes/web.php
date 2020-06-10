@@ -14,11 +14,16 @@
 //Route::get('tasi', 'FrontendController@tasi');
 //Route::get('adress', 'FrontendController@addressKayit');
 
+Route::get('clear', function (){
+   // $exitCode = Artisan::call('cache:clear');
+});
+
 Route::get('admin/giris', 'AdminController@loginPage');
 Route::post('admin/giris', 'AdminController@login');
 
 Route::get('calisan/giris', 'WorkerController@loginPage');
 Route::post('calisan/giris', 'WorkerController@login');
+
 
 Route::get('user/me', 'UserController@me');
 Route::get('api/menu', 'FrontendController@menu');
@@ -40,6 +45,7 @@ Route::middleware(['worker'])->group(function (){
     Route::get('calisan/cikis-yap', 'WorkerController@logout');
     Route::post('rezervasyon/update', 'RezervasyonController@update');
     Route::get('worker/me', 'WorkerController@me');
+    Route::get('day/zrapor', 'FrontendController@dayzrapor');
 });
 
 Route::middleware(['user'])->group(function(){
@@ -82,7 +88,7 @@ Route::middleware(['admin'])->group(function () {
     Route::post('admin/api/newCalisan', 'WorkerController@create');
     Route::post('admin/api/updatecalisan', 'WorkerController@update');
     Route::get('admin/api/delCalisan/{id}', 'WorkerController@delete');
-    Route::get('admin/api/orderDetay/year', 'OrderController@thisYear');
+    Route::get('admin/admin/api/orderDetay/year', 'OrderController@thisYear');
     Route::get('admin/api/orderDetay/month', 'OrderController@thisMonth');
     Route::get('admin/api/orderDetay/week', 'OrderController@thisWeek');
     Route::get('admin/api/orderDetay/day', 'OrderController@thisDay');
@@ -98,6 +104,13 @@ Route::middleware(['admin'])->group(function () {
     Route::post('store/update', 'StoreController@update');
     Route::post('site/update', 'AdminController@siteUpdate');
     Route::get('site/durum', 'AdminController@siteData');
+    Route::get('admin/admin/api/write/order/data', 'Productcontroller@pdfList');
+    Route::get('admin/admin/api/write/order/data/excel', 'ProductController@excelList');
+    Route::get('admin/admin/api/write/kurye/data', 'KuryeController@pdfList');
+    Route::get('admin/api/write/kurye/data', 'KuryeController@list');
+    Route::get('rapor/zrapor', 'FrontendController@zrapor');
+    Route::get('day/zrapor', 'FrontendController@dayzrapor');
+    Route::get('user/excel', 'AdminController@getAllUserExcel');
 
     Route::get('/{any}/{two}', 'AdminController@home')->where('any', '.*');
 });

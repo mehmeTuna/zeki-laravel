@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Requests;
+use App\Site ;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -13,7 +14,8 @@ class UserPaymentRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $site = Site::where('id', 1)->first();
+        return $site->site_online;
     }
 
     /**

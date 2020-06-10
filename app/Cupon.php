@@ -10,5 +10,6 @@ class Cupon extends Model
     protected $primaryKey = 'id';
     protected $hidden = ['id']; //bu kolonlarin gormez olmasini saglar
     protected $guarded = []; // tum kolonlarin degistirilebilir olmasini saglar
+    public $timestamps = false ;
 
 }

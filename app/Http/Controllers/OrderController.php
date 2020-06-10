@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Feature;
 use App\Kurye;
 use App\KuryeTakip;
 use App\OrderItems;
-use App\Products;
 use App\Worker;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use PDF ;
 
 class OrderController extends Controller
@@ -33,11 +30,11 @@ class OrderController extends Controller
                 case 'onay':
                     $updateData['m_status'] = OrderItems::KURYEVERILDI;
                     $kurye = Kurye::where('id', $request['kuryeId'])->first();
-                
+
                     if($kurye == null){
                         return response()->json(['status' => false, 'text' => 'Gecerli kurye id si giriniz']);
                     }
-            
+
                     $order = OrderItems::where('order_id', $request['id'])->update($updateData);
                     if ($order){
                         KuryeTakip::create([
@@ -48,7 +45,6 @@ class OrderController extends Controller
                     }
                     break;
             }
-           
         }
 
         return response()->json(['status' => true, 'text' => 'ok']);
@@ -58,108 +54,119 @@ class OrderController extends Controller
     {
         $resultData = [];
         $date = Carbon::now()->startOfYear()->timestamp;
+        $allOrders = [];
         $orders = OrderItems::where('m_status', 5)->where('m_date', '>=', $date)->get();
-        foreach ($orders as $key => $value) {
-            foreach ($value["orders"] as $value) {
-                //satılan urunlerın kacar adet satıldıgı hesaplanacak
-                if (isset($resultData[$value["id"]])) {
-                    $resultData[$value["id"]] = $resultData[$value["id"]] + $value["count"];
-                } else {
-                    $resultData[$value["id"]] = $value["count"];
+
+        foreach ($orders as $key => $value){
+            if(!is_array($value['orders']))
+                $value['orders'] = json_decode($value['orders'], true);
+            foreach ($value['orders'] as $itemQueue => $item){
+                $haveOrder = false ;
+                foreach ($allOrders as $orderId => $orderItem){
+                    if($orderItem['id'] == $item['id']){
+                        $haveOrder = true;
+                        $allOrders[$orderId]['count'] += $item['count'];
+                    }
+                }
+                if(!$haveOrder){
+                    $allOrders[] = [
+                        'id' => $item['id'],
+                        'name' => $item['name'],
+                        'count' =>  $item['count'],
+                    ];
                 }
             }
         }
-        $response = [];
-        foreach ($resultData as $key => $val) {
-            $product = Products::where('id', $key)->select('name')->first();
-            $response[] = [
-                'name' => $product != null ? $product->name : '',
-                "count" => $val,
-                "id" => $key
-            ];
-        }
-        return response()->json($response);
+        return response()->json($allOrders);
     }
 
     public function thisMonth()
     {
         $resultData = [];
         $date = Carbon::now()->startOfMonth()->timestamp;
+        $allOrders = [];
         $orders = OrderItems::where('m_status', 5)->where('m_date', '>=', $date)->get();
-        foreach ($orders as $key => $value) {
-            foreach ($value["orders"] as $value) {
-                //satılan urunlerın kacar adet satıldıgı hesaplanacak
-                if (isset($resultData[$value["id"]])) {
-                    $resultData[$value["id"]] = $resultData[$value["id"]] + $value["count"];
-                } else {
-                    $resultData[$value["id"]] = $value["count"];
+
+        foreach ($orders as $key => $value){
+            if(!is_array($value['orders']))
+                $value['orders'] = json_decode($value['orders'], true);
+            foreach ($value['orders'] as $itemQueue => $item){
+                $haveOrder = false ;
+                foreach ($allOrders as $orderId => $orderItem){
+                    if($orderItem['id'] == $item['id']){
+                        $haveOrder = true;
+                        $allOrders[$orderId]['count'] += $item['count'];
+                    }
+                }
+                if(!$haveOrder){
+                    $allOrders[] = [
+                        'id' => $item['id'],
+                        'name' => $item['name'],
+                        'count' =>  $item['count'],
+                    ];
                 }
             }
         }
-        $response = [];
-        foreach ($resultData as $key => $val) {
-            $product = Products::where('id', $key)->select('name')->first();
-            $response[] = [
-                'name' => $product != null ? $product->name : '',
-                "count" => $val,
-                "id" => $key
-            ];
-        }
-        return response()->json($response);
+        return response()->json($allOrders);
     }
 
     public function thisWeek()
     {
-        $resultData = [];
         $date = Carbon::now()->startOfWeek()->timestamp;
+        $allOrders = [];
         $orders = OrderItems::where('m_status', 5)->where('m_date', '>=', $date)->get();
-        foreach ($orders as $key => $value) {
-            foreach ($value["orders"] as $value) {
-                //satılan urunlerın kacar adet satıldıgı hesaplanacak
-                if (isset($resultData[$value["id"]])) {
-                    $resultData[$value["id"]] = $resultData[$value["id"]] + $value["count"];
-                } else {
-                    $resultData[$value["id"]] = $value["count"];
+
+        foreach ($orders as $key => $value){
+            if(!is_array($value['orders']))
+                $value['orders'] = json_decode($value['orders'], true);
+            foreach ($value['orders'] as $itemQueue => $item){
+                $haveOrder = false ;
+                foreach ($allOrders as $orderId => $orderItem){
+                    if($orderItem['id'] == $item['id']){
+                        $haveOrder = true;
+                            $allOrders[$orderId]['count'] += $item['count'];
+                    }
+                }
+                if(!$haveOrder){
+                        $allOrders[] = [
+                            'id' => $item['id'],
+                            'name' => $item['name'],
+                            'count' =>  $item['count'],
+                        ];
                 }
             }
         }
-        $response = [];
-        foreach ($resultData as $key => $val) {
-            $product = Products::where('id', $key)->select('name')->first();
-            $response[] = [
-                'name' => $product != null ? $product->name : '',
-                "count" => $val,
-                "id" => $key
-            ];
-        }
-        return response()->json($response);
+        return response()->json($allOrders);
     }
 
     public function thisDay()
     {
         $resultData = [];
         $date = Carbon::now()->startOfDay()->timestamp;
+        $allOrders = [];
         $orders = OrderItems::where('m_status', 5)->where('m_date', '>=', $date)->get();
-        foreach ($orders as $key => $value) {
-            foreach ($value["orders"] as $value) {
-                //satılan urunlerın kacar adet satıldıgı hesaplanacak
-                if (isset($resultData[$value["id"]])) {
-                    $resultData[$value["id"]] = $resultData[$value["id"]] + $value["count"];
-                } else {
-                    $resultData[$value["id"]] = $value["count"];
+
+        foreach ($orders as $key => $value){
+            if(!is_array($value['orders']))
+                $value['orders'] = json_decode($value['orders'], true);
+            foreach ($value['orders'] as $itemQueue => $item){
+                $haveOrder = false ;
+                foreach ($allOrders as $orderId => $orderItem){
+                    if($orderItem['id'] == $item['id']){
+                        $haveOrder = true;
+                        $allOrders[$orderId]['count'] += $item['count'];
+                    }
+                }
+                if(!$haveOrder){
+                    $allOrders[] = [
+                        'id' => $item['id'],
+                        'name' => $item['name'],
+                        'count' =>  $item['count'],
+                    ];
                 }
             }
         }
-        $response = [];
-        foreach ($resultData as $key => $val) {
-            $product = Products::where('id', $key)->select('name')->first();
-            $response[] = [
-                'name' => $product != null ? $product->name : '',
-                "count" => $val,
-                "id" => $key
-            ];
-        }
-        return response()->json($response);
+        return response()->json($allOrders);
     }
 
     public function orderFis(Request $request)
@@ -205,7 +212,6 @@ class OrderController extends Controller
     public function getOrder()
     {
         $oneDayBeforeTime = time() - 24 * 60 * 60 ;
-        DB::connection()->enableQueryLog();
         $worker = Worker::where('id', session('workerId'))->with(['store.locations'])->first();
         $addressIdList = [];
         foreach ($worker->store->locations as $key => $value){
@@ -213,12 +219,10 @@ class OrderController extends Controller
         }
         $orders = OrderItems::where('m_date', '>=', $oneDayBeforeTime)
             ->with(['kurye', 'user', 'address'])
-            ->whereIn('adress', $addressIdList)
+            ->whereIn('address_id', $addressIdList)
             ->whereIn('m_status', [0, 1, 2, 3, 4, 5])
-            ->orderBy('m_date', 'DESC')
+            ->orderBy('m_date', 'ASC')
             ->get();
-        $queries = \DB::getQueryLog();
-       // return dd($queries);
         $data = [
             'wait' => 0,
             'success' => 0,

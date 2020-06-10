@@ -6,16 +6,15 @@ use App\Admin;
 use App\Category;
 use App\Http\Requests\AdminLogin;
 use App\Http\Requests\SiteUpdateRequest;
-use App\Http\Requests\UpdateWorkerRequest;
 use App\Kurye;
-use App\KuryeTakip;
 use App\OrderItems;
 use App\Rezervasyon;
 use App\Site;
 use App\Users;
-use App\Worker;
+use App\Cupon ;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class AdminController extends Controller
 {
@@ -39,6 +38,10 @@ class AdminController extends Controller
     public function login(AdminLogin $request)
     {
         $admin = Admin::where('username', $request['email'])->first();
+        
+        if($admin == null){
+            return redirect('admin/giris');
+        }
 
         if(!password_verify($request->password, $admin->password)){
             return redirect('/admin/giris');
@@ -61,11 +64,30 @@ class AdminController extends Controller
 
     public function getAllUser(Request $request)
     {
-        $user = Users::all();
-        foreach ($user as $key => $value ){
-            $user[$key]['adress'] = isset($value['adress']['content']) ? $value['adress']['content'] : '';
+        $users = Users::with(['address'])->get();
+
+        foreach ($users as $key => $user ){
+            $users[$key]['addressContent'] = $user->address != null ? $user->address[0]->content : '';
+            $user['ordersPriceTotal'] = round($user->ordersSum(), 2);
         }
-        return response()->json($user);
+        return response()->json($users);
+    }
+
+
+    public function getAllUserExcel(Request $request)
+    {
+        $users = Users::with(['address'])->get();
+
+        $resultUsers = [];
+        foreach ($users as $key => $user ){
+            $data = [];
+            $data['ad'] = $user->firstname .' '. $user->lastname ;
+            $data['adres'] = $user->address != null ? $user->address[0]->content : '';
+            $data['ToplamHarcama'] = round($user->ordersSum(), 2);
+            $resultUsers[] = $data;
+        }
+
+        return (new FastExcel($resultUsers))->download('Users.xlsx');
     }
 
     public function getFullOrder()
@@ -120,7 +142,7 @@ class AdminController extends Controller
         $date = Carbon::now()->startOfMonth()->timestamp;
 
         $orders = OrderItems::where('m_status', 5)->where('m_date', '>=', $date)->get();
-        if($orders == null || count($orders) == 0 ){
+        if(count($orders) == 0){
             return response()->json($result);
         }
 
@@ -349,7 +371,12 @@ class AdminController extends Controller
 
     public function siteUpdate(SiteUpdateRequest $request)
     {
-        $site = Site::where('id', 1)->update(['site_online', $request['online']]);
+        if(isset($request['online']))
+            $site = Site::where('id', 1)->update(['site_online'=> $request['online']]);
+
+        if($request['cupon'])
+            $site = Cupon::where('id', 1)->update(['cart_cupon'=>$request['cupon']]);
+
         return response()->json(['status' => true]);
     }
 

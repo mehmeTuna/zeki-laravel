@@ -24,7 +24,8 @@ class SiteUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'online' => 'required'
+            'online' => 'sometimes',
+            'cupon' => 'sometimes'
         ];
     }
 }

@@ -169,6 +169,8 @@ class UserController extends Controller
                     $data['m_status'] = '';
             }
             $data['totalPrice'] = $value['order_amount'];
+            $data['orders'] = $value['orders'];
+            if(!is_array($value['orders']))
             $data['orders'] = json_decode($value['orders'], true);
             $data['id'] = $value['order_id'];
             $result[] = $data;
@@ -243,32 +245,30 @@ class UserController extends Controller
             if($adress == null){
                 return response()->json(['status' => false, 'text' => 'gecerli adres idsi giriniz']);
             }
-
             if(isset($request['address']['address']['id']))
-            $adress->address_id = $request['address']['address']['id'];
+                $adress->address_id = $request['address']['address']['id'];
 
             if(isset($request['address']['content']) && strlen($request['address']['content']) > 0)
-             $adress->content = $request['address']['content'];
+                $adress->content = $request['address']['content'];
 
-             if(isset($request['address']['title']) && strlen($request['address']['title']) > 0 )
-             $adress->title = $request['address']['title'];
-             $adress->save();
+            if(isset($request['address']['title']) && strlen($request['address']['title']) > 0 )
+                $adress->title = $request['address']['title'];
+            $adress->save();
 
         }else if(isset($request['address'])){
             $updateLocation = [];
             $updateLocation['user_id'] = session('userId');
             if(isset($request['address']['id']))
-            $updateLocation['address_id'] = $request['address']['id'];
+                $updateLocation['address_id'] = $request['address']['id'];
 
             if(isset($request['content']) && strlen($request['content']) > 0)
-             $updateLocation['content'] = $request['content'];
+                $updateLocation['content'] = $request['content'];
 
-             if(isset($request['title']) && strlen($request['title']) > 0 )
-             $updateLocation['title'] = $request['title'];
+            if(isset($request['title']) && strlen($request['title']) > 0 )
+                $updateLocation['title'] = $request['title'];
 
-             $address = UserAddress::create($updateLocation);
+            $address = UserAddress::create($updateLocation);
         }
-
         $user->save();
 
         return response()->json(['status' => 'ok']);

@@ -11,5 +11,7 @@ class Address extends Model
     protected $hidden = ['active']; //bu kolonlarin gormez olmasini saglar
     protected $guarded = []; // tum kolonlarin degistirilebilir olmasini saglar
     public $timestamps = false ;
-
+public function deneme (){
+    return '';
+}
 }
