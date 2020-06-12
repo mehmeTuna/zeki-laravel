@@ -112,6 +112,8 @@ Route::middleware(['admin'])->group(function () {
     Route::get('day/zrapor', 'FrontendController@dayzrapor');
     Route::get('user/excel', 'AdminController@getAllUserExcel');
 
+    Route::get('data/get/store', 'StoreController@getStoreData');
+
     Route::get('/{any}/{two}', 'AdminController@home')->where('any', '.*');
 });
 
