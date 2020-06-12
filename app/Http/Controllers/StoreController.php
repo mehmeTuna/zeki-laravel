@@ -267,6 +267,9 @@ class StoreController extends Controller
         $result['week']['totalPrice'] = round($result['week']['totalPrice'], 2);
         $result['day']['totalPrice'] = round($result['day']['totalPrice'], 2);
 
-        return response()->json($result);
+        return response()->json([
+            'status' => true,
+            'data' => $result
+        ]);
     }
 }
