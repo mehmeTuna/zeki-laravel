@@ -102,6 +102,7 @@ class StoreController extends Controller
             'year' => [
                 'totalOrderCount' => 0,
                 'kuryeSuccess' => 0,
+                'kuryeData'=>[],
                 'cancel' => 0,
                 'totalPrice' => 0,
                 'product' => []
@@ -109,6 +110,7 @@ class StoreController extends Controller
             'month' => [
                 'totalOrderCount' => 0,
                 'kuryeSuccess' => 0,
+                'kuryeData'=>[],
                 'cancel' => 0,
                 'totalPrice' => 0,
                 'product' => []
@@ -116,6 +118,7 @@ class StoreController extends Controller
             'week' => [
                 'totalOrderCount' => 0,
                 'kuryeSuccess' => 0,
+                'kuryeData'=>[],
                 'cancel' => 0,
                 'totalPrice' => 0,
                 'product' => []
@@ -123,6 +126,7 @@ class StoreController extends Controller
             'day' => [
                 'totalOrderCount' => 0,
                 'kuryeSuccess' => 0,
+                'kuryeData'=>[],
                 'cancel' => 0,
                 'totalPrice' => 0,
                 'product' => []
@@ -135,6 +139,7 @@ class StoreController extends Controller
         }
 
         $orders = OrderItems::where('m_date', '>=', $yearTimestamp)
+            ->with('kurye')
             ->whereIn('address_id', $addressIdList)
             ->whereIn('m_status', [0, 1, 2, 3, 4, 5])
             ->get();
@@ -149,6 +154,22 @@ class StoreController extends Controller
                     $result['year']['totalOrderCount']++;
                     $result['year']['totalPrice']+= $order->order_amount;
                     $result['year']['kuryeSuccess']++;
+                    $kuryeItemControl = true;
+                    foreach ($result['year']['kuryeData'] as $kuryeKey => $kuryeData){
+                        if($kuryeData['id'] == $order->kurye['id']){
+                            $kuryeItemControl = false ;
+                            $result['year']['kuryeData'][$kuryeKey]['orderCount']++;
+                        }
+                    }
+                    if($kuryeItemControl){
+                        $result['year']['kuryeData'][] = [
+                            'firstname' => $order->kurye['firstname'],
+                            'lastname' => $order->kurye['lastname'],
+                            'id' => $order->kurye['id'],
+                            'orderCount' => 1,
+                            'username' => $order->kurye['username']
+                        ];
+                    }
                     foreach ($orderItem as $key => $item){
                         $itemControl = true ;
                         foreach ($result['year']['product'] as $resultKey => $resultData){
@@ -178,6 +199,22 @@ class StoreController extends Controller
                     $result['month']['totalOrderCount']++;
                     $result['month']['totalPrice']+= $order->order_amount;
                     $result['month']['kuryeSuccess']++;
+                    $kuryeItemControl = true;
+                    foreach ($result['month']['kuryeData'] as $kuryeKey => $kuryeData){
+                        if($kuryeData['id'] == $order->kurye['id']){
+                            $kuryeItemControl = false ;
+                            $result['year']['kuryeData'][$kuryeKey]['orderCount']++;
+                        }
+                    }
+                    if($kuryeItemControl){
+                        $result['month']['kuryeData'][] = [
+                            'firstname' => $order->kurye['firstname'],
+                            'lastname' => $order->kurye['lastname'],
+                            'id' => $order->kurye['id'],
+                            'orderCount' => 1,
+                            'username' => $order->kurye['username']
+                        ];
+                    }
                     foreach ($orderItem as $key => $item){
                         $itemControl = true ;
                         foreach ($result['month']['product'] as $resultKey => $resultData){
@@ -207,6 +244,22 @@ class StoreController extends Controller
                     $result['week']['totalOrderCount']++;
                     $result['week']['totalPrice']+= $order->order_amount;
                     $result['week']['kuryeSuccess']++;
+                    $kuryeItemControl = true;
+                    foreach ($result['week']['kuryeData'] as $kuryeKey => $kuryeData){
+                        if($kuryeData['id'] == $order->kurye['id']){
+                            $kuryeItemControl = false ;
+                            $result['year']['kuryeData'][$kuryeKey]['orderCount']++;
+                        }
+                    }
+                    if($kuryeItemControl){
+                        $result['week']['kuryeData'][] = [
+                            'firstname' => $order->kurye['firstname'],
+                            'lastname' => $order->kurye['lastname'],
+                            'id' => $order->kurye['id'],
+                            'orderCount' => 1,
+                            'username' => $order->kurye['username']
+                        ];
+                    }
                     foreach ($orderItem as $key => $item){
                         $itemControl = true ;
                         foreach ($result['week']['product'] as $resultKey => $resultData){
@@ -236,6 +289,22 @@ class StoreController extends Controller
                     $result['day']['totalOrderCount']++;
                     $result['day']['totalPrice']+= $order->order_amount;
                     $result['day']['kuryeSuccess']++;
+                    $kuryeItemControl = true;
+                    foreach ($result['day']['kuryeData'] as $kuryeKey => $kuryeData){
+                        if($kuryeData['id'] == $order->kurye['id']){
+                            $kuryeItemControl = false ;
+                            $result['year']['kuryeData'][$kuryeKey]['orderCount']++;
+                        }
+                    }
+                    if($kuryeItemControl){
+                        $result['day']['kuryeData'][] = [
+                            'firstname' => $order->kurye['firstname'],
+                            'lastname' => $order->kurye['lastname'],
+                            'id' => $order->kurye['id'],
+                            'orderCount' => 1,
+                            'username' => $order->kurye['username']
+                        ];
+                    }
                     foreach ($orderItem as $key => $item){
                         $itemControl = true ;
                         foreach ($result['day']['product'] as $resultKey => $resultData){
