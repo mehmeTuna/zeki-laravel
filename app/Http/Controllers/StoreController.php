@@ -105,7 +105,11 @@ class StoreController extends Controller
                 'kuryeData'=>[],
                 'cancel' => 0,
                 'totalPrice' => 0,
-                'product' => []
+                'product' => [],
+                'paymentType' => [
+                    'cashPayAtTheDoor' => 0, // kapida nakit odeme 
+                    'paymentByCardAtTheDoor' => 0, //kapida kart ile odeme
+                ]
             ],
             'month' => [
                 'totalOrderCount' => 0,
@@ -113,7 +117,11 @@ class StoreController extends Controller
                 'kuryeData'=>[],
                 'cancel' => 0,
                 'totalPrice' => 0,
-                'product' => []
+                'product' => [],
+                'paymentType' => [
+                    'cashPayAtTheDoor' => 0, 
+                    'paymentByCardAtTheDoor' => 0, 
+                ]
             ],
             'week' => [
                 'totalOrderCount' => 0,
@@ -121,7 +129,11 @@ class StoreController extends Controller
                 'kuryeData'=>[],
                 'cancel' => 0,
                 'totalPrice' => 0,
-                'product' => []
+                'product' => [],
+                'paymentType' => [
+                    'cashPayAtTheDoor' => 0, 
+                    'paymentByCardAtTheDoor' => 0, 
+                ]
             ],
             'day' => [
                 'totalOrderCount' => 0,
@@ -129,7 +141,11 @@ class StoreController extends Controller
                 'kuryeData'=>[],
                 'cancel' => 0,
                 'totalPrice' => 0,
-                'product' => []
+                'product' => [],
+                'paymentType' => [
+                    'cashPayAtTheDoor' => 0,
+                    'paymentByCardAtTheDoor' => 0, 
+                ]
             ],
         ];
 
@@ -151,6 +167,11 @@ class StoreController extends Controller
             }
             if($order->m_date >= $yearTimestamp){
                 if($order->m_status == 5){
+                    if($order->order_status == OrderItems::PAYMENT_BY_CARD_AT_THE_DOOR){
+                        $result['year']['paymentType']['paymentByCardAtTheDoor']++;
+                    }else if($order->order_status == OrderItems::CASH_PAY_AT_THE_DOOR){
+                        $result['year']['paymentType']['cashPayAtTheDoor']++;
+                    }
                     $result['year']['totalOrderCount']++;
                     $result['year']['totalPrice']+= $order->order_amount;
                     $result['year']['kuryeSuccess']++;
@@ -196,6 +217,11 @@ class StoreController extends Controller
             }
             if($order->m_date >= $monthTimestamp){
                 if($order->m_status == 5){
+                    if($order->order_status == OrderItems::PAYMENT_BY_CARD_AT_THE_DOOR){
+                        $result['month']['paymentType']['paymentByCardAtTheDoor']++;
+                    }else if($order->order_status == OrderItems::CASH_PAY_AT_THE_DOOR){
+                        $result['month']['paymentType']['cashPayAtTheDoor']++;
+                    }
                     $result['month']['totalOrderCount']++;
                     $result['month']['totalPrice']+= $order->order_amount;
                     $result['month']['kuryeSuccess']++;
@@ -241,6 +267,11 @@ class StoreController extends Controller
             }
             if($order->m_date >= $weekTimestamp){
                 if($order->m_status == 5){
+                    if($order->order_status == OrderItems::PAYMENT_BY_CARD_AT_THE_DOOR){
+                        $result['week']['paymentType']['paymentByCardAtTheDoor']++;
+                    }else if($order->order_status == OrderItems::CASH_PAY_AT_THE_DOOR){
+                        $result['week']['paymentType']['cashPayAtTheDoor']++;
+                    }
                     $result['week']['totalOrderCount']++;
                     $result['week']['totalPrice']+= $order->order_amount;
                     $result['week']['kuryeSuccess']++;
@@ -286,6 +317,11 @@ class StoreController extends Controller
             }
             if($order->m_date >= $dayTimestamp){
                 if($order->m_status == 5){
+                    if($order->order_status == OrderItems::PAYMENT_BY_CARD_AT_THE_DOOR){
+                        $result['day']['paymentType']['paymentByCardAtTheDoor']++;
+                    }else if($order->order_status == OrderItems::CASH_PAY_AT_THE_DOOR){
+                        $result['day']['paymentType']['cashPayAtTheDoor']++;
+                    }
                     $result['day']['totalOrderCount']++;
                     $result['day']['totalPrice']+= $order->order_amount;
                     $result['day']['kuryeSuccess']++;
