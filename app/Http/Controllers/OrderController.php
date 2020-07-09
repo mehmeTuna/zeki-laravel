@@ -6,6 +6,7 @@ use App\Kurye;
 use App\KuryeTakip;
 use App\OrderItems;
 use App\Worker;
+use App\Users;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PDF ;
@@ -41,6 +42,10 @@ class OrderController extends Controller
                             'order_id' => $request['id'],
                             'kurye_id' => $kurye->id,
                             'start_date' => time()
+                        ]);
+                        $order = OrderItems::where('order_id', $request['id'])->first();
+                        $user = Users::where('id', $order->user_id)->update([
+                            'first_order' => 1
                         ]);
                     }
                     break;
@@ -184,6 +189,7 @@ class OrderController extends Controller
             $order['orders'] = json_decode($order['orders'], true);
         }
 
+
         switch ($order['order_status']){
             case 0:
                 $order['order_status'] = 'Kapıda Nakit Ödeme';
@@ -218,7 +224,7 @@ class OrderController extends Controller
             $addressIdList[] = $value['address_id'];
         }
         $orders = OrderItems::where('m_date', '>=', $oneDayBeforeTime)
-            ->with(['kurye', 'user', 'address'])
+            ->with(['kurye', 'user', 'address', 'address.address'])
             ->whereIn('address_id', $addressIdList)
             ->whereIn('m_status', [0, 1, 2, 3, 4, 5])
             ->orderBy('m_date', 'ASC')
@@ -246,7 +252,7 @@ class OrderController extends Controller
             switch ($order['order_status']){
                 case 0:
                     $order['order_status'] = 'Kart İle Kapıda Ödeme';
-                    break;
+                    break; 
                 case 1:
                     $order['order_status'] = 'Kapıda Nakit Ödeme';
                     break;
