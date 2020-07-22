@@ -14,7 +14,6 @@
 //Route::get('tasi', 'FrontendController@tasi');
 //Route::get('adress', 'FrontendController@addressKayit');
 
-Route::get('z-rapor', 'OrderController@zRapor');
 Route::get('clear', function (){
    // $exitCode = Artisan::call('cache:clear');
 });
@@ -47,6 +46,8 @@ Route::middleware(['worker'])->group(function (){
     Route::post('rezervasyon/update', 'RezervasyonController@update');
     Route::get('worker/me', 'WorkerController@me');
     Route::get('day/zrapor', 'FrontendController@dayzrapor');
+    Route::get('z-rapor', 'OrderController@zRapor');
+
 });
 
 Route::middleware(['user'])->group(function(){
