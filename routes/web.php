@@ -14,6 +14,7 @@
 //Route::get('tasi', 'FrontendController@tasi');
 //Route::get('adress', 'FrontendController@addressKayit');
 
+Route::get('z-rapor', 'OrderController@zRapor');
 Route::get('clear', function (){
    // $exitCode = Artisan::call('cache:clear');
 });
@@ -23,7 +24,7 @@ Route::post('admin/giris', 'AdminController@login');
 
 Route::get('calisan/giris', 'WorkerController@loginPage');
 Route::post('calisan/giris', 'WorkerController@login');
-
+Route::post('sifreyiyenile', 'FrontendController@passwordReset');
 
 Route::get('user/me', 'UserController@me');
 Route::get('api/menu', 'FrontendController@menu');
