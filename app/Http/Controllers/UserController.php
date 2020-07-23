@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRegisterRequest;
+use App\Http\Requests\UserSepetUpdate;
 use App\Http\Requests\UserUpdateRequest;
 use App\OrderItems;
 use App\Products;
 use App\Users;
 use App\UserAddress;
 use Illuminate\Http\Request;
+
 
 class UserController extends Controller
 {
@@ -34,7 +36,7 @@ class UserController extends Controller
         return response()->json($response);
     }
 
-    public function sepet(Request $request)
+    public function sepet(UserSepetUpdate $request)
     {
         if(!session()->has('userId')){
             return response()->json(['status' => 'login degil']);
@@ -113,6 +115,7 @@ class UserController extends Controller
         foreach ($cart as $key => $value){
             $cartTotal += $value['price'];
         }
+
 
         session()->forget(['cart', 'cartTotal']);
         session()->put('cart', $cart);

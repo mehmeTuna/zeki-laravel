@@ -9,8 +9,8 @@ class Products extends Model
 {
     protected $table = 'products';
     protected $primaryKey = 'id';
-    protected $hidden = []; //bu kolonlarin gormez olmasini saglar
-    protected $guarded = []; // tum kolonlarin degistirilebilir olmasini saglar
+    protected $hidden = ['location_id']; //bu kolonlarin gormez olmasini saglar
+    protected $guarded = ['id']; // tum kolonlarin degistirilebilir olmasini saglar
     public $timestamps = false ;
 
     protected $casts = [
@@ -22,7 +22,6 @@ class Products extends Model
         'numberOfProduct' => 100,
         'unlimited' => 1,
         'live' => 1,
-        'stores' => 'Adana'
     ];
 
 
