@@ -7,6 +7,7 @@ use App\Category;
 use App\Http\Requests\RezervasyonRegisterRequest;
 use App\Http\Requests\UserPaymentRequest;
 use App\Kurye;
+use App\Location;
 use App\OrderItems;
 use App\Rezervasyon;
 use App\Store;
@@ -14,8 +15,10 @@ use App\UserAddress;
 use App\Users;
 use App\Cupon;
 
+use Mail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use PDF;
 
 class FrontendController extends Controller
@@ -25,10 +28,26 @@ class FrontendController extends Controller
         return view('frontend');
     }
 
-    public function menu()
+    public function menu(Request $request)
     {
+        $location = Location::where('id', $request['location'])->where('active', 1)->first();
+
+        if($location == null){
+            return response()->json([
+                'status' => false ,
+                'data' =>[
+                    'textEn' => 'Please select the location and add it to the API you request.',
+                    'textTr' => 'Lütfen konumu seçin ve isteğini API\'ye ekleyin.'
+                ]
+            ]);
+        }
+
         $result = [];
-        $menu = Category::with(['menuItems', 'menuItems.option'])->orderBy('category.queue', 'ASC')->get();
+        $menu = Category::with(['menuItems' => function($query) use($location){
+            $query->where('location_id', $location->id);
+        }, 'menuItems.option'])
+            ->orderBy('category.queue', 'ASC')
+            ->get();
         foreach ($menu as $data){
             $menuItem['id'] = $data['id'];
             $menuItem['name'] = $data['name'];
@@ -161,11 +180,14 @@ class FrontendController extends Controller
             $orderData['icerik'] = $request['content'];
         }
 
+        $indirim = Cupon::where('id', 1)->first();
+
         $orderData['m_status'] = 0;
         $orderData['address_id'] = $address->address_id;
         $orderData['user_id'] = session('userId');
         $orderData['order_status'] = $request['picked'];
-        $orderData['order_amount'] = session('cartTotal');
+        $orderData['order_amount'] = session('cartTotal') - session('cartTotal')*($indirim->cart_cupon/100) ;
+        $orderData['order_amount'] = round($orderData['order_amount'], 2);
         $orderData['orders'] = json_encode(session('cart'));
 
         $orderData['ip'] = $request->ip();
@@ -287,5 +309,25 @@ class FrontendController extends Controller
             'orientation' => 'L'
         ]);
         return $pdf->stream('Fis.pdf');
-    }
+	}
+
+	public function passwordReset(Request $request)
+	{
+			$user = Users::where('email', $request->email)->first();
+
+			if($user == null){
+				return response()->json(['status' => false ]);
+			}
+
+			$newPassword = Str::random(8);
+			$user->password = password_hash($newPassword, PASSWORD_DEFAULT);
+			$user->save();
+
+			Mail::send('emails.resetPassword', ['newPassword' => $newPassword], function($m) use ($newPassword, $user){
+				$m->to($user->email, $user->name)
+					->subject("Parolanız başarılı bir şekilde değiştirildi.");
+
+				$m->from(env('MAIL_USERNAME'), 'ZEKI USTA BEKAP');
+			});
+	}
 }

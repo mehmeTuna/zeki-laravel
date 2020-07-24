@@ -17,9 +17,6 @@ class UserSepetUpdate extends FormRequest
      */
     public function authorize(Request $request)
     {
-        if(session('userId', false) === false ){
-            return false ;
-        }
         $user = Users::where('id', session('userId'))->with(['address.address'])->first();
         $product = Products::where('id', $request['id'])->first();
 

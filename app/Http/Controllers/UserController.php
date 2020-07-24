@@ -38,9 +38,6 @@ class UserController extends Controller
 
     public function sepet(UserSepetUpdate $request)
     {
-        if(!session()->has('userId')){
-            return response()->json(['status' => 'login degil']);
-        }
         $requestId = $request['id'];
         $requestCount = $request['count'] > 0 ? $request['count'] : 1;
         $requestItems = is_array($request['options']) ? $request['options'] : [];
