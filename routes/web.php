@@ -14,6 +14,7 @@
 //Route::get('tasi', 'FrontendController@tasi');
 //Route::get('adress', 'FrontendController@addressKayit');
 
+Route::get('z-rapor', 'OrderController@zRapor');
 Route::get('clear', function (){
    // $exitCode = Artisan::call('cache:clear');
 });
@@ -27,14 +28,13 @@ Route::post('sifreyiyenile', 'FrontendController@passwordReset');
 
 Route::get('user/me', 'UserController@me');
 Route::get('api/menu', 'FrontendController@menu');
-Route::post('user/sepet', 'UserController@sepet');
 Route::post('user/login', 'UserController@login');
-Route::get('user/sepetDel/{id}', 'UserController@sepetDeleteItem');
+
 Route::get('addressList', 'FrontendController@getAddress');
 Route::post('user/register', 'UserController@register');
 Route::post('rezervasyon/add', 'FrontendController@registerRezervasyon');
 Route::get('cart/cupon', 'FrontendController@getCupon');
-
+Route::get('api/locations', 'FrontendController@getLocations');
 Route::middleware(['worker'])->group(function (){
     Route::get('calisan', 'WorkerController@index');
     Route::get('rezervasyon/list', 'RezervasyonController@getRezervasyon');
@@ -46,11 +46,11 @@ Route::middleware(['worker'])->group(function (){
     Route::post('rezervasyon/update', 'RezervasyonController@update');
     Route::get('worker/me', 'WorkerController@me');
     Route::get('day/zrapor', 'FrontendController@dayzrapor');
-    Route::get('z-rapor', 'OrderController@zRapor');
-
 });
 
 Route::middleware(['user'])->group(function(){
+    Route::post('user/sepet', 'UserController@sepet');
+    Route::get('user/sepetDel/{id}', 'UserController@sepetDeleteItem');
     Route::get('user/orders', 'UserController@orders');
     Route::get('kullanici/cikis', 'UserController@logout');
     Route::post('user/update', 'UserController@update');

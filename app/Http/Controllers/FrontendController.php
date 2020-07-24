@@ -28,6 +28,11 @@ class FrontendController extends Controller
         return view('frontend');
     }
 
+    public function getLocations()
+    {
+       return response()->json(Location::where('active', 1)->get());
+    }
+
     public function menu(Request $request)
     {
         $location = Location::where('id', $request['location'])->where('active', 1)->first();
