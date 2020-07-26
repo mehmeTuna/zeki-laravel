@@ -20,7 +20,7 @@ class UserController extends Controller
         if($userId == ''){
             return response()->json(['status' => 'login değil']);
         }
-        $user = Users::where('id', $userId)->with(['address', 'address.address'])->first();
+        $user = Users::where('id', $userId)->with(['address', 'address.address', 'address.address.location'])->first();
         $response = [
             'username' => $user->id,
             'firstname' => $user->firstname,

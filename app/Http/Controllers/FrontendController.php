@@ -78,9 +78,9 @@ class FrontendController extends Controller
         return response()->json($result);
     }
 
-    public function getAddress()
+    public function getAddress(Request $request)
     {
-        $address = Address::where('active', 1)->get();
+        $address = Address::where('active', 1)->where('location_id', $request['location'])->get();
         return response()->json($address);
     }
 
