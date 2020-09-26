@@ -1,5 +1,6 @@
 <template>
     <div id="wrapper">
+        {{ jobInfo }}
         <Sidebar v-bind:BtnType="BtnType" :updateBtn="updateBtn" />
         <ContentWrapper
             v-bind:BtnType="BtnType"
@@ -12,9 +13,9 @@
             :updateStatus="updateStatus"
             :workerData="workerData"
         />
-        <audio preload="none">
+        <!-- <audio muted autoplay preload="auto">
             <source type="audio/mp3" :src="audioUrl" />
-        </audio>
+    </audio>-->
     </div>
 </template>
 
@@ -22,11 +23,13 @@
 import Sidebar from "./Sidebar";
 import ContentWrapper from "./ContentWrapper";
 import Axios from "axios";
-
+import { myWebWorker } from "./myWebWorker";
 export default {
     name: "App",
     data: function() {
         return {
+            myWorker: null,
+            jobInfo: {},
             audioUrl: "/public/alert.wav",
             audio: "",
             BtnType: "order",
@@ -49,16 +52,24 @@ export default {
                 store: {
                     name: ""
                 }
-            }
+            },
+            waitOrderDataList: []
         };
+    },
+    sockets: {
+        jobCounter(data) {
+            console.log(data);
+        },
+        jobInfo(data) {
+            this.jobInfo = data;
+            console.log(data);
+            console.log("calisti");
+        }
     },
     mounted() {
         axios.get("/worker/me").then(e => (this.workerData = e.data.data));
         this.audio = this.$el.querySelectorAll("audio")[0];
         this.updateDataControl();
-        setInterval(() => {
-            this.updateDataControl();
-        }, 10000);
     },
     components: {
         Sidebar: Sidebar,
@@ -66,8 +77,8 @@ export default {
     },
     methods: {
         playToSong() {
-            this.audio.pause();
-            this.audio.play();
+            let sound = new Audio(this.audioUrl);
+            sound.play();
         },
         updateBtn: function(val) {
             this.BtnType = val;
@@ -97,7 +108,7 @@ export default {
                         let control = false;
                         data.data["waitList"].map(newData => {
                             if (
-                                this.orderData.filter(
+                                this.waitOrderDataList.filter(
                                     e => e.order_id === newData.order_id
                                 ).length === 0
                             ) {
@@ -105,10 +116,11 @@ export default {
                             }
                         });
                         if (control) {
-                            console.log("yeni siparis var");
+                            console.log("yeni siparis varrr");
                             this.playToSong();
                         }
                         this.orderData = data.data["waitList"];
+                        this.waitOrderDataList = data.data["waitList"];
                         break;
                     case "onay":
                         this.orderData = data.data["successList"];
@@ -154,6 +166,23 @@ export default {
             this.updateTime();
             this.getOrderData();
             this.controlOrderData();
+        }
+    },
+    created() {
+        let self = this;
+        if (typeof Worker !== undefined) {
+            window.URL = window.URL || window.webkitURL; // polyfill
+            // Register the web worker
+            const worker = new Worker(window.URL.createObjectURL(myWebWorker));
+            // Receiving data from the Worker
+            worker.onmessage = function(e) {
+                // console.log(`From worker> ${e.data}`);
+                self.updateDataControl();
+            };
+            // Example of sending data from Main to Worker
+            setTimeout(() => {
+                worker.postMessage("hello");
+            }, 5000);
         }
     }
 };

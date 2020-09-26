@@ -130,9 +130,9 @@
                                                 <img
                                                     :src="
                                                         'https://ui-avatars.com/api/?size=200&name=' +
-                                                        userInfos.firstname +
-                                                        '+' +
-                                                        userInfos.lastname
+                                                            userInfos.firstname +
+                                                            '+' +
+                                                            userInfos.lastname
                                                     "
                                                     alt
                                                     class="mx-auto rounded-circle img-fluid mt-5"
@@ -308,18 +308,18 @@
                                     ></i
                                     >Adres Bilgileri
                                 </h4>
-                                <div class="row mb-5">
-                                    <div class="col-md-4">
-                                        <div>
-                                            <button
-                                                data-toggle="modal"
-                                                data-target="#addAdress"
-                                                class="btn btn-primary"
-                                            >
-                                                Adres Ekle
-                                            </button>
-                                        </div>
+                                <div class="col-md-4 m-1">
+                                    <div>
+                                        <button
+                                            data-toggle="modal"
+                                            data-target="#addAdress"
+                                            class="btn btn-primary"
+                                        >
+                                            Adres Ekle
+                                        </button>
                                     </div>
+                                </div>
+                                <div class="row mb-5">
                                     <div
                                         v-if="userInfos.address == null"
                                         class="col-md-4"
@@ -472,7 +472,6 @@
                                         >
                                     </select>
                                 </div>
-                                {{ adressUpdate.address }}
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -563,7 +562,6 @@
                                         >
                                     </select>
                                 </div>
-                                {{ newAdress.address }}
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -600,8 +598,8 @@ export default {
             adress: {
                 address: {
                     id: "",
-                    name: "",
-                },
+                    name: ""
+                }
             },
             newAdress: {
                 content: "",
@@ -609,8 +607,8 @@ export default {
 
                 address: {
                     id: "",
-                    name: "",
-                },
+                    name: ""
+                }
             },
             adressUpdate: {},
             oldPassword: "",
@@ -623,7 +621,7 @@ export default {
             streets: [],
 
             url:
-                "https://ui-avatars.com/api/?name=`{userInfos.firstname +userInfos.lastname}`",
+                "https://ui-avatars.com/api/?name=`{userInfos.firstname +userInfos.lastname}`"
         };
     },
 
@@ -631,8 +629,15 @@ export default {
         ...mapActions(["fetchUserInfo", "fetchUserOrder"]),
         sendNewAdress() {
             const url = "/user/update";
-            axios.post(url, this.newAdress).then((res) => {
-                console.log(res);
+            axios.post(url, this.newAdress).then(res => {
+                if (res.data.status === "ok") {
+                    swal("Adres Başarıyla Güncellendi !", "", "success", {
+                        button: "Devam Et!",
+                        timer: 1500
+                    }).then(() => {
+                        location.reload();
+                    });
+                }
             });
         },
         sendNewPassword() {
@@ -644,12 +649,12 @@ export default {
                 axios
                     .post(url, {
                         newPassword: this.newPassword,
-                        oldPassword: this.oldPassword,
+                        oldPassword: this.oldPassword
                     })
-                    .then((obj) => {
+                    .then(obj => {
                         swal("Şifre Başarıyla Değiştirildi !", "", "success", {
                             button: "Devam Et!",
-                            timer: 1500,
+                            timer: 1500
                         }).then(() => {
                             location.reload();
                         });
@@ -662,10 +667,17 @@ export default {
             const url = "/user/update";
             axios
                 .post(url, {
-                    address: this.adressUpdate,
+                    address: this.adressUpdate
                 })
-                .then((res) => {
-                    console.log(res.data);
+                .then(res => {
+                    if (res.data.status === "ok") {
+                        swal("Başarıyla  Adres Eklendi !", "", "success", {
+                            button: "Devam Et!",
+                            timer: 1500
+                        }).then(() => {
+                            location.reload();
+                        });
+                    }
                 });
         },
 
@@ -689,13 +701,13 @@ export default {
                     email:
                         this.email == ""
                             ? this.$store.state.products.email
-                            : this.email,
+                            : this.email
                 })
-                .then((obj) => {
+                .then(obj => {
                     swal("Bilgiler Başarıyla Değiştirildi !", "", "success", {
                         button: "Devam Et!",
-                        timer: 1500,
-                    }).then((res) => {
+                        timer: 1500
+                    }).then(res => {
                         if (res.status == "basarili") {
                             location.reload();
                         }
@@ -725,10 +737,10 @@ export default {
         },
         adressInfo() {
             const url = "addressList";
-            axios.get(url).then((res) => {
+            axios.get(url).then(res => {
                 this.streets = res.data;
             });
-        },
+        }
     },
     computed: mapGetters(["userInfos", "userOrderInfos"]),
     created() {
@@ -736,7 +748,7 @@ export default {
         this.adressInfo();
 
         this.fetchUserOrder();
-    },
+    }
 };
 </script>
 
