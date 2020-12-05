@@ -12,9 +12,11 @@
             :key="product.id"
           >
             <div class="menu-categories--item-img">
-              <img :src="product.categoryImage" alt />
+              <img :src="product.categoryImage" alt="" />
             </div>
-            <div class="menu-categories--item-text">{{ product.name }}</div>
+            <div class="menu-categories--item-text">
+              {{ product.name }}
+            </div>
           </div>
         </div>
       </div>
@@ -33,18 +35,24 @@
                     :style="{ backgroundImage: `url(${menuItem.img})` }"
                   ></div>
                   <div class="product-card--body">
-                    <div class="product-card--title">{{ menuItem.name }}</div>
+                    <div class="product-card--title">
+                      {{ menuItem.name }}
+                    </div>
                     <!-- <div class="product-card--desc">
                                         {{menuItem.description}}
-                    </div>-->
+                                    </div> -->
                     <div class="product-card--bottom">
-                      <div class="product-card--price">{{ menuItem.price }} TL</div>
+                      <div class="product-card--price">
+                        {{ menuItem.price }} TL
+                      </div>
                       <div
                         class="btn-add-card"
                         @click="addProduct(menuItem)"
                         data-target="#productModal"
                         data-toggle="modal"
-                      >Sepete Ekle</div>
+                      >
+                        Sepete Ekle
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -56,7 +64,7 @@
               <div class="sepet-title">
                 <div>Sepetim</div>
                 <div class="sepet-title--icon">
-                  <img src="/assets/img/icons/shopping-cart.png" alt />
+                  <img src="/assets/img/icons/shopping-cart.png" alt="" />
                 </div>
               </div>
               <div class="sepet-products">
@@ -66,10 +74,16 @@
                       userInfos.cardTotal === 0
                   "
                 >
-                  <div class="sepet-product" v-for="cartItem in allCartItems" :key="cartItem.id">
+                  <div
+                    class="sepet-product"
+                    v-for="cartItem in allCartItems"
+                    :key="cartItem.id"
+                  >
                     <div class="title">
                       <div class="name">{{ cartItem.name }}</div>
-                      <div class="caption text-muted">x{{ cartItem.count }}</div>
+                      <div class="caption text-muted">
+                        x{{ cartItem.count }}
+                      </div>
                     </div>
                     <div class="price">{{ cartItem.price }} ₺</div>
                     <div class="actions">
@@ -87,8 +101,7 @@
                     @click="$router.push('/alisverisitamamla')"
                     class="panel-cart-action btn btn-secondary btn-block btn-lg"
                   >
-                    &gt;
-                    <span>Alışverişi Tamamla</span>
+                    &gt;<span>Alışverişi Tamamla</span>
                   </div>
                 </template>
 
@@ -96,39 +109,55 @@
                   <div
                     class="title"
                     style="width:100%;padding-top:10px;padding-bottom:10px;"
-                  >Sepetinizde herhangi bir ürün bulunmamaktatır.</div>
+                  >
+                    Sepetinizde herhangi bir ürün bulunmamaktatır.
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="product-sepet--banner">
-              <img src="https://i.hizliresim.com/o1vJSC.png" alt />
-            </div>
+            <div class="product-sepet--banner"></div>
+            <div class="product-sepet--banner"></div>
           </div>
         </div>
       </div>
 
       <!-- Modal / Product -->
-      <div class="modal fade" id="productModal" style="margin-right:0 !important" role="dialog">
-        <div class="modal-dialog" role="document">
+      <div
+        class="modal fade"
+        id="productModal"
+        style="margin-right:0 !important"
+        role="dialog"
+      >
+        <div class="modal-dialog " role="document">
           <div class="modal-content border--primary">
-            <div class="modal-header">
+            <div class="modal-header ">
               <!-- <div class="bg-image"><img src="assets/img/photos/modal-add.jpg" alt=""></div> -->
-              <h3 class="mb-0" style="color:222;font-weight:500;font-size:28px;">{{ product.name }}</h3>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <h3
+                class="mb-0"
+                style="color:222;font-weight:500;font-size:28px;"
+              >
+                {{ product.name }}
+              </h3>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
                 <i class="ti-close"></i>
               </button>
             </div>
             <div class="modal-product-details">
               <div class="modal-product--details-col">
                 <div class="modal-product--img">
-                  <img :src="product.img" alt />
+                  <img :src="product.img" alt="" />
                 </div>
               </div>
               <div class="modal-product--details-col">
                 <div class="text-dark">{{ product.description }}</div>
-                <div
-                  class="modal-product--price"
-                >{{ parseFloat(product.price) * parseInt(product.quantity) }} ₺</div>
+                <div class="modal-product--price">
+                  {{ parseFloat(product.price) * parseInt(product.quantity) }} ₺
+                </div>
               </div>
               <!-- <div class="d-flex align-items-center">
                                 <div class="col-6">
@@ -145,25 +174,38 @@
                                 </div>
                             product.price*product.quantity Sepete bu şekilde gönderilecek
                                 <div class="col-2 text-lg text-danger text-right">{{parseFloat(product.price)*parseInt(product.quantity)}}₺</div>
-              </div>-->
+                            </div> -->
             </div>
             <div class="modal-body panel-details-container">
               <!-- Panel Details / Size -->
               <div class="panel-details" style="border:none;">
-                <h5 class="panel-details-title">Adet</h5>
+                <h5 class="panel-details-title">
+                  Adet
+                </h5>
                 <div id="panelDetailsSize" class="collapse show">
                   <div class="panel-details-content" style="border:none;">
                     <div class="form-group">
                       <div class="custom-control-description">
                         <div class="minusplusnumber">
-                          <div class="mpbtn minus none-select" @click="product.quantity--">-</div>
-                          <div id="field_container">
-                            <span class="text-lg mr-4 ml-4 text-center none-select">
-                              <span class="text-muted text-lg"></span>
-                              {{ product.quantity }}
-                            </span>
+                          <div
+                            class="mpbtn minus none-select"
+                            @click="product.quantity--"
+                          >
+                            -
                           </div>
-                          <div class="mpbtn plus none-select" @click="product.quantity++">+</div>
+                          <div id="field_container">
+                            <span
+                              class="text-lg mr-4 ml-4 text-center none-select"
+                              ><span class="text-muted text-lg"></span
+                              >{{ product.quantity }}</span
+                            >
+                          </div>
+                          <div
+                            class="mpbtn plus none-select"
+                            @click="product.quantity++"
+                          >
+                            +
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -172,8 +214,14 @@
               </div>
               <!-- Panel Details / Additions -->
               <div class="panel-details">
-                <h5 class="panel-details-title">Opsiyonlar</h5>
-                <div id="panelDetailsAdditions" class="collapse show" aria-expanded="true">
+                <h5 class="panel-details-title">
+                  Opsiyonlar
+                </h5>
+                <div
+                  id="panelDetailsAdditions"
+                  class="collapse show"
+                  aria-expanded="true"
+                >
                   <div class="panel-details-content" style="border-top:none">
                     <div class="row">
                       <div class="col-sm-12">
@@ -201,15 +249,19 @@
                               <div class="flip">
                                 <div class="front"></div>
                                 <div class="back">
-                                  <svg width="16" height="14" viewBox="0 0 16 14">
-                                    <path d="M2 8.5L6 12.5L14 1.5" />
+                                  <svg
+                                    width="16"
+                                    height="14"
+                                    viewBox="0 0 16 14"
+                                  >
+                                    <path d="M2 8.5L6 12.5L14 1.5"></path>
                                   </svg>
                                 </div>
                               </div>
                             </label>
-                            <span
-                              class="custom-control-description none-select"
-                            >{{ option.content }}</span>
+                            <span class="custom-control-description none-select"
+                              >{{ option.content }}
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -231,7 +283,7 @@
                                     <textarea cols="30" rows="4" class="form-control" placeholder="Put this any other informations..."></textarea>
                                 </div>
                             </div>
-              -->
+                            -->
             </div>
             <button
               type="button"
@@ -715,23 +767,8 @@ body {
   .menu-categories {
     overflow-x: scroll;
   }
-
   .menu-categories::-webkit-scrollbar {
-    -webkit-appearance: none;
-  }
-
-  .menu-categories-webkit-scrollbar:vertical {
-    width: 11px;
-  }
-
-  .menu-categories-webkit-scrollbar:horizontal {
-    height: 11px;
-  }
-
-  .menu-categories::-webkit-scrollbar-thumb {
-    border-radius: 8px;
-    border: 2px solid white; /* should match background, can't be transparent */
-    background-color: rgba(0, 0, 0, 0.2);
+    display: none;
   }
   .menu-categories--container {
     width: 125%;

@@ -14,8 +14,7 @@ class UserPaymentRequest extends FormRequest
      */
     public function authorize()
     {
-        $site = Site::where('id', 1)->first();
-        return $site->site_online;
+        return true;
     }
 
     /**

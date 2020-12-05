@@ -15,7 +15,7 @@ class OrderController extends Controller
 {
     public function update(Request $request)
     {
-        $orderStatus = ['iptal', 'fis', 'onay'];
+        $orderStatus = ['iptal', 'onay'];
         $updateData = [];
         if(!isset($request['id'])){
             return response()->json(['status' => false, 'text' => 'Gecerli id giriniz']);
@@ -25,11 +25,6 @@ class OrderController extends Controller
             switch ($request['status']){
                 case 'iptal':
                     $updateData['m_status'] = OrderItems::CANCEL;
-                    $order = OrderItems::where('order_id', $request['id'])->update($updateData);
-                    return response()->json(['status' => true]);
-                    break;
-                case 'fis':
-                    $updateData['m_status'] = OrderItems::SUCCESS;
                     $order = OrderItems::where('order_id', $request['id'])->update($updateData);
                     return response()->json(['status' => true]);
                     break;
@@ -220,68 +215,6 @@ class OrderController extends Controller
         return $pdf->stream('Fis.pdf');
     }
 
-    public function zRapor(){
-        $workerId = 8457 ; //session('workerId');
-        $oneDayBeforeTime = Carbon::now()->startOfDay()->timestamp;
-        $worker = Worker::where('id', $workerId)->with(['store.locations'])->first();
-        $addressIdList = [];
-        foreach ($worker->store->locations as $key => $value){
-            $addressIdList[] = $value['address_id'];
-        }
-        $ordersCount = OrderItems::where('m_date', '>=', $oneDayBeforeTime)
-            ->whereIn('address_id', $addressIdList)
-            ->where('m_status', OrderItems::KURYEVERILDI)
-            ->count();
-
-        $cashPayCount = OrderItems::where('m_date', '>=', $oneDayBeforeTime)
-            ->whereIn('address_id', $addressIdList)
-            ->where('m_status', OrderItems::KURYEVERILDI)
-            ->where('order_status', OrderItems::CASH_PAY_AT_THE_DOOR)
-            ->count();
-
-        $cashPaySum = OrderItems::where('m_date', '>=', $oneDayBeforeTime)
-            ->whereIn('address_id', $addressIdList)
-            ->where('m_status', OrderItems::KURYEVERILDI)
-            ->where('order_status', OrderItems::CASH_PAY_AT_THE_DOOR)
-            ->sum('order_amount');
-
-        $creditCartCount = OrderItems::where('m_date', '>=', $oneDayBeforeTime)
-            ->whereIn('address_id', $addressIdList)
-            ->where('m_status', OrderItems::KURYEVERILDI)
-            ->where('order_status', OrderItems::PAYMENT_BY_CARD_AT_THE_DOOR)
-            ->count();
-
-        $creditCartSum = OrderItems::where('m_date', '>=', $oneDayBeforeTime)
-            ->whereIn('address_id', $addressIdList)
-            ->where('m_status', OrderItems::KURYEVERILDI)
-            ->where('order_status', OrderItems::PAYMENT_BY_CARD_AT_THE_DOOR)
-            ->sum('order_amount');
-
-        $data = [
-            'totalCount' =>$ordersCount, // toplam siparis adeti
-            'total' => $ordersCount ,// toplam siparis tutari,
-            'cashPayCount' => $cashPayCount,//nakit odeme adeti
-            'cashPay' => $cashPaySum, // nakit odeme toplami
-            'creditCardCount' => $creditCartCount,//kredi karti odeme adeti
-            'creditCard' => $creditCartSum, //kredi karti odeme toplami
-            'raporNo' => '001',
-            'fisNo' => '001',
-            'storeName' => $worker->store->name
-        ];
-
-        $pdf = PDF::loadView('pdfTemplate.z-rapor', $data,[], [
-            'mode' => 'utf-8',
-            'format' => [1200, 75],
-            "default_font_size"=>10,
-            "margin_top"=>1,
-            "margin_left"=>1,
-            "margin_right"=>4,
-            "margin_bottom"=>3,
-            'orientation' => 'L'
-        ]);
-        return $pdf->stream('Fis.pdf');
-    }
-
     public function getOrder()
     {
         $oneDayBeforeTime = time() - 24 * 60 * 60 ;
@@ -319,7 +252,7 @@ class OrderController extends Controller
             switch ($order['order_status']){
                 case 0:
                     $order['order_status'] = 'Kart İle Kapıda Ödeme';
-                    break;
+                    break; 
                 case 1:
                     $order['order_status'] = 'Kapıda Nakit Ödeme';
                     break;

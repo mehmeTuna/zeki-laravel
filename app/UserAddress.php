@@ -15,5 +15,4 @@ class UserAddress extends Model
     {
         return $this->hasOne('App\Address', 'id', 'address_id');
     }
-
 }

@@ -17,9 +17,6 @@ class OrderItems extends Model
     const CANCEL = 2;
     const KURYEVERILDI = 5;
 
-    const PAYMENT_BY_CARD_AT_THE_DOOR = 0;
-    const CASH_PAY_AT_THE_DOOR = 1;
-
     protected $casts = [
         'orders' => 'array'
     ];

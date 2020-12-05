@@ -20,14 +20,14 @@
                 <router-link class="carousel-item active" to="/urunler" tag="a">
                     <img
                         class="d-block w-100"
-                        src="/public/frontend/assets/img/photos/Slider-3-min.png"
+                        src="assets/img/photos/Slider-3-min.png"
                         alt="Kampanya 3"
                     />
                 </router-link>
                 <router-link class="carousel-item " to="/urunler?7" tag="a">
                     <img
                         class="d-block w-100"
-                        src="/public/frontend/assets/img/photos/Slider-2-min.jpg"
+                        src="assets/img/photos/Slider-2-min.jpg"
                         alt="Kampanya 1"
                     />
                 </router-link>
@@ -35,7 +35,7 @@
                 <router-link class="carousel-item" to="/urunler?7" tag="a">
                     <img
                         class="d-block w-100"
-                        src="/public/frontend/assets/img/photos/Slider-1-min.jpg"
+                        src="assets/img/photos/Slider-1-min.jpg"
                         alt="Kampanya 2"
                     />
                 </router-link>

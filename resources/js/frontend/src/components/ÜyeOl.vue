@@ -17,7 +17,6 @@
           <div class="form-group">
             <label>E-mail</label>
             <input
-              :class="{'errorBorder' : hasError.username}"
               v-model="userData.username"
               name="email"
               type="email"
@@ -30,7 +29,6 @@
 
             <label>Şifre</label>
             <input
-              :class="{'errorBorder' : hasError.password}"
               v-model="userData.password"
               name="Şifre"
               type="password"
@@ -41,30 +39,16 @@
 
             <label>Şifre Tekrar</label>
 
-            <input
-              :class="{'errorBorder' : hasError.rePassword}"
-              v-model="userData.rePassword"
-              name="Şifre"
-              type="password"
-              class="form-control"
-            />
+            <input v-model="userData.rePassword" name="Şifre" type="password" class="form-control" />
             <i class="ti ti-user text-primary mr-2"></i>
 
             <label>Ad</label>
-            <input
-              :class="{'errorBorder' : hasError.name}"
-              v-model="userData.name"
-              name="name"
-              type="text"
-              class="form-control"
-              id="name"
-            />
+            <input v-model="userData.name" name="name" type="text" class="form-control" id="name" />
             <i class="ti ti-user text-primary mr-2"></i>
 
             <label>Soyad</label>
 
             <input
-              :class="{'errorBorder' : hasError.surname}"
               v-model="userData.surname"
               name="surname"
               type="text"
@@ -75,7 +59,6 @@
 
             <label>Telefon</label>
             <input
-              :class="{'errorBorder' : hasError.phone}"
               v-model="userData.phone"
               name="phone"
               type="number"
@@ -94,11 +77,7 @@
             <label>Mahalle</label>
 
             <div class="select-container">
-              <select
-                class="form-control"
-                :class="{'errorBorder' : hasError.selectedAddress}"
-                v-model="userData.selectedAddress"
-              >
+              <select class="form-control" v-model="userData.selectedAddress">
                 <option
                   v-for="street in streets "
                   :key="street.id"
@@ -111,7 +90,6 @@
 
             <label>Adres</label>
             <textarea
-              :class="{'errorBorder' : hasError.adress}"
               v-model="userData.adress"
               name="message"
               id="message"
@@ -267,62 +245,30 @@ export default {
         phone: "",
         selectedAddress: ""
       },
-      streets: [],
-      hasError: {
-        username: false,
-        surname: false,
-        name: false,
-        adress: false,
-        selectedAddress: false,
-        politics: false,
-        password: false,
-        rePassword: false
-      }
+      streets: []
     };
   },
   methods: {
     checkForm: function(e) {
       this.errors = [];
-      if (!this.userData.password) {
-        this.errors.push("Şifre giriniz");
-        this.hasError.password = true;
-      }
-      if (!this.userData.rePassword) {
-        this.errors.push("Tekrar şifre giriniz");
-        this.hasError.rePassword = true;
-      }
+      if (!this.userData.password) this.errors.push("Şifre giriniz.");
       if (!this.userData.username) {
         this.errors.push("Email giriniz.");
-        this.hasError.username = true;
       }
       if (!this.validEmail(this.userData.username)) {
-        this.errors.push("Yanlış email girdiniz");
-        this.hasError.username = true;
+        this.errors.push("Yanlış email girdiniz.");
       }
       if (!this.userData.name) {
         this.errors.push("Ad giriniz");
-        this.hasError.name = true;
       }
       if (!this.userData.adress) {
-        this.errors.push("Adres giriniz");
-        this.hasError.adress = true;
+        this.errors.push("Adress giriniz");
       }
       if (!this.userData.surname) {
         this.errors.push("Soyad giriniz");
-        this.hasError.surname = true;
       }
-      if (!this.userData.phone) {
-        this.errors.push("Telefon giriniz");
-        this.hasError.phone = true;
-      }
-      if (!this.userData.selectedAddress) {
-        this.errors.push("Mahalle Seçiniz");
-        this.hasError.selectedAddress = true;
-      }
-
       if (!this.userData.politics) {
         this.errors.push("Sözleşmeyi Kabul Ediniz");
-        this.hasError.politics = true;
       }
       if (this.validEmail(this.userData.username)) {
         const url = "user/register";
@@ -389,8 +335,3 @@ export default {
   }
 };
 </script>
-<style  scoped>
-.errorBorder {
-  border: 2px solid red !important;
-}
-</style>

@@ -51,6 +51,7 @@
 <div id=app>
 
 </div>
+<script src="/public/frontend/js/main.js"></script>
 <script src=/public/frontend/assets/plugins/jquery/dist/jquery.min.js></script>
 <script src=/public/frontend/assets/plugins/tether/dist/js/tether.min.js></script>
 <script src=/public/frontend/assets/plugins/bootstrap/dist/js/bootstrap.min.js></script>

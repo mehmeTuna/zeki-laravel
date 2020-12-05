@@ -7,9 +7,9 @@ use App\Category;
 use App\Http\Requests\RezervasyonRegisterRequest;
 use App\Http\Requests\UserPaymentRequest;
 use App\Kurye;
-use App\Location;
 use App\OrderItems;
 use App\Rezervasyon;
+use App\Site;
 use App\Store;
 use App\UserAddress;
 use App\Users;
@@ -28,31 +28,10 @@ class FrontendController extends Controller
         return view('frontend');
     }
 
-    public function getLocations()
+    public function menu()
     {
-       return response()->json(Location::where('active', 1)->get());
-    }
-
-    public function menu(Request $request)
-    {
-        $location = Location::where('id', $request['location'])->where('active', 1)->first();
-
-        if($location == null){
-            return response()->json([
-                'status' => false ,
-                'data' =>[
-                    'textEn' => 'Please select the location and add it to the API you request.',
-                    'textTr' => 'Lütfen konumu seçin ve isteğini API\'ye ekleyin.'
-                ]
-            ]);
-        }
-
         $result = [];
-        $menu = Category::with(['menuItems' => function($query) use($location){
-            $query->where('location_id', $location->id);
-        }, 'menuItems.option'])
-            ->orderBy('category.queue', 'ASC')
-            ->get();
+        $menu = Category::with(['menuItems', 'menuItems.option'])->orderBy('category.queue', 'ASC')->get();
         foreach ($menu as $data){
             $menuItem['id'] = $data['id'];
             $menuItem['name'] = $data['name'];
@@ -78,9 +57,9 @@ class FrontendController extends Controller
         return response()->json($result);
     }
 
-    public function getAddress(Request $request)
+    public function getAddress()
     {
-        $address = Address::where('active', 1)->where('location_id', $request['location'])->get();
+        $address = Address::where('active', 1)->get();
         return response()->json($address);
     }
 
@@ -147,24 +126,35 @@ class FrontendController extends Controller
         }
     }
 
-   public function cartCupon()
-   {
-       $cupon = Cupon::where('id', 1)->first();
+    public function cartCupon()
+    {
+        $cupon = Cupon::where('id', 1)->first();
 
-       return response()->json([
-           'cartCupon' => $cupon->cart_cupon
-       ]);
-   }
+        return response()->json([
+            'cartCupon' => $cupon->cart_cupon
+        ]);
+    }
 
     public function payment(UserPaymentRequest $request)
     {
+        $site = Site::where('id', 1)->first();
+        if(!$site->site_online){
+            return response()->json([
+                'status' => false,
+                'text' => 'Sitemiz şuan hizmet vermemektedir!'
+            ]);
+        }
         //odeme yontemi tipi
         //0 = kapida odeme
         //1= kartla kapida odeme
         //2 = kredi karti ile odeme
         $paymentType = [0, 1, 2];
         if(!in_array($request['picked'], $paymentType)){
-            return response('odeme tıpı belırt');
+            return response()->json([
+                'status' => false,
+                'text' => 'Lütfen ödeme tipi belirtiniz!'
+            ]);
+
         }
         $orderData = [];
         $address = '';
@@ -198,7 +188,7 @@ class FrontendController extends Controller
         $orderData['ip'] = $request->ip();
         $orderData['m_date'] = time();
         if(count(session('cart', [])) == 0){
-            return response()->json(['status' => 'sepet bos']);
+            return response()->json(['status' => false, 'text' => 'Sepet boş']);
         }
         $orders = OrderItems::create($orderData);
 
@@ -249,7 +239,7 @@ class FrontendController extends Controller
             $data['name'] = $value['firstname'].' '.$value['lastname'];
             $data['count'] = $value->dayOrderCount()->count();
             if($data['count'] > 0)
-               $kuryeList[] = $data;
+                $kuryeList[] = $data;
         }
 
         foreach ($orders as $key => $value){
@@ -314,25 +304,25 @@ class FrontendController extends Controller
             'orientation' => 'L'
         ]);
         return $pdf->stream('Fis.pdf');
-	}
+    }
 
-	public function passwordReset(Request $request)
-	{
-			$user = Users::where('email', $request->email)->first();
+    public function passwordReset(Request $request)
+    {
+        $user = Users::where('email', $request->email)->first();
 
-			if($user == null){
-				return response()->json(['status' => false ]);
-			}
+        if($user == null){
+            return response()->json(['status' => false ]);
+        }
 
-			$newPassword = Str::random(8);
-			$user->password = password_hash($newPassword, PASSWORD_DEFAULT);
-			$user->save();
+        $newPassword = Str::random(8);
+        $user->password = password_hash($newPassword, PASSWORD_DEFAULT);
+        $user->save();
 
-			Mail::send('emails.resetPassword', ['newPassword' => $newPassword], function($m) use ($newPassword, $user){
-				$m->to($user->email, $user->name)
-					->subject("Parolanız başarılı bir şekilde değiştirildi.");
+        Mail::send('emails.resetPassword', ['newPassword' => $newPassword], function($m) use ($newPassword, $user){
+            $m->to($user->email, $user->name)
+                ->subject("Parolanız başarılı bir şekilde değiştirildi.");
 
-				$m->from(env('MAIL_USERNAME'), 'ZEKI USTA BEKAP');
-			});
-	}
+            $m->from(env('MAIL_USERNAME'), 'ZEKI USTA KEBAP');
+        });
+    }
 }

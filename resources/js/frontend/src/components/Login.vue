@@ -12,14 +12,13 @@
   </div>
    
   <div class="col-md-6">
-   
      <div class="validate-form">
-    
+    <div class="form-group">
      <i class="ti ti-email text-primary mr-2"> </i>
- 
+
         <label>E-mail</label>
         <input v-model="userData.username" name="email" type="email" class="form-control" id="email" >
-    
+    </div>
     <div class="form-group">
      <i class="ti ti-key text-primary mr-2"> </i>
 
@@ -32,7 +31,6 @@
     
     </div>
     </div>
-    
   </div>
   <div class="col-md-3">
     
@@ -58,7 +56,7 @@
 
 <script>
 import axios from 'axios'
-
+import { setInterval } from 'timers';
 import swal from 'sweetalert'
 
 
@@ -85,18 +83,17 @@ export default {
       this.errors = [];
       if(!this.userData.password) this.errors.push("Şifre giriniz.");
       if(!this.userData.username) {
-        this.errors.push("Email giriniz.");
+        this.errors.push("username giriniz.");
       } else if(!this.validEmail(this.userData.username)) {
         this.errors.push("Yanlış email girdiniz.");        
       }
-      else if(this.validEmail(this.userData.username) && this.userData.password != ""){
+      else if(this.validEmail(this.userData.username)){
         const url ="user/login"
        
        
        axios.post(url,this.userData)
       .then(response => {
-        
-        if(response.data.status === false){
+        if(response.data.status === 'false'){
           
                      swal({
                                    title: "Kullanıcı Adı Veya Şifreniz Yanlış!",
@@ -107,7 +104,7 @@ export default {
                               })
 
         }
-        if(response.data.status !== false){
+        if(response.data.status !== 'false'){
           window.location.href = "anasayfa";
         }
       }) 
@@ -131,4 +128,13 @@ export default {
    
   }
 
+
+/* 
+axios.post("https://vue-deneme-1fa03.firebaseio.com/posts.json",this.userData)
+      .then(response => {
+        console.log(response);
+        
+      }) 
+      .catch(e => console.log(e));
+*/
 </script>

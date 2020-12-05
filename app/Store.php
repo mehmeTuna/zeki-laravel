@@ -8,8 +8,9 @@ class Store extends Model
 {
     protected $table = 'store';
     protected $primaryKey = 'id';
-    protected $hidden = ['active', 'location_id']; //bu kolonlarin gormez olmasini saglar
+    protected $hidden = ['active']; //bu kolonlarin gormez olmasini saglar
     protected $guarded = ['id']; // tum kolonlarin degistirilebilir olmasini saglar
+    public $timestamps = false ;
 
     public function locations()
     {

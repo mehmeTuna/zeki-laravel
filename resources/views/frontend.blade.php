@@ -7,7 +7,7 @@
     <!--[if IE]>
 <link rel="icon" href="/public/frontend/assets/img/logo-zekiusta.png">
 <![endif]-->
-    <title>Zeki Usta Adana Kebap</title>
+    <title>Zeki Usta Kebap - Online Yemek Siparişi</title>
     <link rel="shortcut icon" href=/public/frontend/assets/img/logo-zekiusta.png>
     <link rel=apple-touch-icon href=/public/frontend/assets/img/logo-zekiusta.png>
     <link rel=apple-touch-icon sizes=76x76 href=/public/frontend/assets/img/logo-zekiusta.png>
@@ -22,6 +22,7 @@
     <link rel=icon type=image/png sizes=32x32 href=/public/frontend/img/icons/favicon-32x32.png>
     <link rel=icon type=image/png sizes=16x16 href=/public/frontend/img/icons/favicon-16x16.png>
     <link rel=manifest href=/public/frontend/manifest.json>
+    <meta name="Zeki Usta Online Yemek Sipariş" content="Zeki Usta Kebap Online Yemek Sipariş Sistemi İstediğiniz zaman tek tıkla kapınıza siparişinizi getiriyoruz.Sadece sitemize özel %10 indirimden yararlanın! ">
     <meta name=theme-color content=#4DBA87>
     <meta name=apple-mobile-web-app-capable content=no>
     <meta name=apple-mobile-web-app-status-bar-style content=default>
@@ -31,17 +32,39 @@
     <meta name=msapplication-TileImage content=/public/frontend/img/icons/msapplication-icon-144x144.png>
     <meta name=msapplication-TileColor content=#000000>
 </head>
+<!--Start of Tawk.to Script-->
+<!-- Global site tag (gtag.js) - Google Ads: 952723514 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-952723514"></script>
 <script>
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-        s1.async=true;
-        s1.src='https://embed.tawk.to/5d2606167a48df6da243e5e0/default';
-        s1.charset='UTF-8';
-        s1.setAttribute('crossorigin','*');
-        s0.parentNode.insertBefore(s1,s0);
-    })();
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-952723514');
+
 </script>
+<!-- Event snippet for Satın Alma Başarılı conversion page -->
+<script>
+  gtag('event', 'conversion', {
+      'send_to': 'AW-952723514/UpLhCOqSrNoBELrQpcYD',
+      'value': 20.0,
+      'currency': 'TRY',
+      'transaction_id': ''
+  });
+</script>
+
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/5e905e2d35bcbb0c9aafb7f2/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
 <body class="header-absolute animsition" id=body-wrapper>
 <noscript>
     <strong>
@@ -51,7 +74,7 @@
 <div id=app>
 
 </div>
-<script src="/public/frontend/js/main.js"></script>
+<script src="/public/frontend/js/main_front_2020-08-02-16-03.js"></script>
 <script src=/public/frontend/assets/plugins/jquery/dist/jquery.min.js></script>
 <script src=/public/frontend/assets/plugins/tether/dist/js/tether.min.js></script>
 <script src=/public/frontend/assets/plugins/bootstrap/dist/js/bootstrap.min.js></script>

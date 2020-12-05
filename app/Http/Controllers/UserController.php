@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRegisterRequest;
-use App\Http\Requests\UserSepetUpdate;
 use App\Http\Requests\UserUpdateRequest;
 use App\OrderItems;
 use App\Products;
@@ -20,7 +19,7 @@ class UserController extends Controller
         if($userId == ''){
             return response()->json(['status' => 'login değil']);
         }
-        $user = Users::where('id', $userId)->with(['address', 'address.address', 'address.address.location'])->first();
+        $user = Users::where('id', $userId)->with(['address', 'address.address'])->first();
         $response = [
             'username' => $user->id,
             'firstname' => $user->firstname,
@@ -36,8 +35,11 @@ class UserController extends Controller
         return response()->json($response);
     }
 
-    public function sepet(UserSepetUpdate $request)
+    public function sepet(Request $request)
     {
+        if(!session()->has('userId')){
+            return response()->json(['status' => 'login degil']);
+        }
         $requestId = $request['id'];
         $requestCount = $request['count'] > 0 ? $request['count'] : 1;
         $requestItems = is_array($request['options']) ? $request['options'] : [];

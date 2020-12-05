@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Site;
 use Closure;
 
 class UserCheck
@@ -18,6 +19,7 @@ class UserCheck
         if(!session()->has('userId')){
             return redirect('/giris');
         }
+
         return $next($request);
     }
 }

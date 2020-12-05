@@ -32,7 +32,7 @@
         </div>
   </div>-->
   <div class="menu-categories" style="width:100%;background:#fff;">
-    <div class="menu-categories--container frame">
+    <div class="menu-categories--container">
       <div
         @click="$router.push(`/urunler?${catIndex}`)"
         class="menu-categories--item"

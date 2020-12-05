@@ -18,7 +18,7 @@
 
 <body id="page-top">
 <div id="app"></div>
-<script src="/public/worker/js/main.js"></script>
+<script src="/public/worker/js/main_front_2020-07-14-17-28.js"></script>
 <!-- Bootstrap core JavaScript-->
 <script src="/public/worker/vendor/jquery/jquery.min.js"></script>
 <script src="/public/worker/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

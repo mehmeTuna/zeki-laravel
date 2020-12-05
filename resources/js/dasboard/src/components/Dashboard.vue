@@ -26,37 +26,10 @@
           <div class="card card-chart">
             <div class="card-header">
               <div class="row">
-                <div class="col-sm-9 text-center">
-                  <h2 class="card-title">İş Zekası ve Karar Destek</h2>
+                <div class="col-sm-6 text-left">
+                  <h2 class="card-title text-right">İş Zekası ve Karar Destek</h2>
 
                   <h5 class="card-category">Toplam Siparişler</h5>
-                </div>
-                <div class="col-sm-3">
-                  <div class="container">
-                    <div class="row">
-                      <div class="col"></div>
-                      <div class="col">
-                        <div class="form-group">
-                          <div class="row">
-                            <select class="form-control" v-model="store.id">
-                              <option disabled value>Seçiniz</option>
-                              <option
-                                :value="store.id"
-                                v-for="store in storeList"
-                                :key="store.id"
-                              >{{ store.name }}</option>
-                            </select>
-                            {{store.id}}
-                            <button
-                              class="btn btn-info"
-                              type="button"
-                              @click="getStoreData"
-                            >Değiştir</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -87,7 +60,7 @@
                 <div class="col-7">
                   <div style="float:right">
                     <p class="cart-category">Aylık Sipariş Tutarı</p>
-                    <h3 class="card-title">{{ aylikToplamSatis.toFixed(2) }} TL</h3>
+                    <h3 class="card-title">{{ aylikToplamSatis }} TL</h3>
                   </div>
                 </div>
               </div>
@@ -112,12 +85,7 @@
                 <div class="col-7">
                   <div style="float:right">
                     <p class="cart-category">Günlük Sipariş Tutarı</p>
-                    <h3 class="card-title">
-                      {{
-                      günlükToplamSatis.toFixed(2)
-                      }}
-                      TL
-                    </h3>
+                    <h3 class="card-title">{{ günlükToplamSatis }} TL</h3>
                   </div>
                 </div>
               </div>
@@ -259,18 +227,16 @@
                   <div style="float:right">
                     <p class="cart-category">Site Durumunu Güncelle</p>
                     <h3 class="card-title">
-                      <td class="text-center">
-                        <toggle-button
+                      <el-tooltip content="Durumu Değiştir" placement="top">
+                        <el-switch
                           v-model="siteOnlineValue"
-                          :value="siteOnlineValue"
-                          color="#82C7EB"
-                          :sync="true"
-                          :labels="{
-                                                        checked: 'Açık',
-                                                        unchecked: 'Kapalı'
-                                                    }"
-                        />
-                      </td>
+                          active-color="#13ce66"
+                          inactive-color="#ff4949"
+                          active-value="1"
+                          inactive-value="0"
+                        ></el-switch>
+                      </el-tooltip>
+                      {{ siteOnlineValue }}
                     </h3>
                   </div>
                 </div>
@@ -279,7 +245,7 @@
             <div class="card-footer">
               <hr />
               <div class="card-stats">
-                <button type="button" class="btn btn-primary" @click="updateSiteDurum">Güncelle</button>
+                <button type="button" class="btn btn-primary">Güncelle</button>
               </div>
             </div>
           </div>
@@ -302,9 +268,6 @@ export default {
   },
   data() {
     return {
-      store: {
-        id: ""
-      },
       loaded: false,
       aylikLoaded: false,
       chartdata: null,
@@ -328,61 +291,15 @@ export default {
       kuryeToplamSiparis: 0,
       kuryeİsim: [],
       kuryeSiparis: [],
-      updateKureSiparis: [],
-      siteOnlineValue: null,
-      storeList: [],
-      storeStatics: {}
+      siteOnlineValue: null
     };
   },
-  computed: {
-    ...mapGetters(["allDatas"]),
-    kuryeChartData() {
-      return this.kuryeSiparis;
-    }
-  },
-
-  methods: {
-    getStoreData() {
-      if (this.store.id != "") {
-        const url = `/data/get/store?store=${this.store.id}`;
-        axios.get(url).then(res => {
-          this.storeStatics = res.data.data;
-          this.aylikToplamSatis = res.data.data.month.totalPrice;
-          this.günlükToplamSatis = res.data.data.day.totalPrice;
-          this.iptalSiparisData = res.data.data.month.cancel;
-          console.log(this.kuryeSiparis);
-          this.kuryeSiparis = [];
-          this.kuryeİsim = [];
-          res.data.data.month.kuryeData.forEach(element => {
-            this.kuryeİsim.push(
-              `${element.firstname + " " + element.lastname}`
-            );
-            this.kuryeSiparis.push(element.orderCount);
-          });
-          this.chartdata1.datasets[0].data = this.kuryeSiparis;
-          this.chartdata1.labels = this.kuryeİsim;
-        });
-      }
-    },
-    updateSiteDurum() {
-      const url = "/site/update";
-
-      const result = this.siteOnlineValue == false ? 0 : 1;
-      console.log(true);
-      axios.post(url, { online: result }).then(res => {
-        console.log(res);
-      });
-    },
-    getStoreInfo() {
-      let url = "/store/list";
-      axios.get(url).then(res => {
-        this.storeList = res.data;
-        console.log(res);
-      });
-    }
-  },
-
+  computed: mapGetters(["allDatas"]),
+  methods: {},
   async mounted() {
+    await axios.get("/site/durum").then(res => {
+      this.siteOnlineValue = res.data.site_online;
+    });
     await axios.get("admin/api/iptalorder").then(response => {
       this.iptalSiparisData = response.data.iptalCount;
     });
@@ -390,7 +307,6 @@ export default {
       for (let i = 0; i < res.data.length; i++) {
         this.kuryeİsim.push(res.data[i].firstname + " " + res.data[i].lastname);
       }
-
       for (let i = 0; i < res.data.length; i++) {
         this.kuryeSiparis.push(res.data[i].siparis);
       }
@@ -416,7 +332,6 @@ export default {
 
       console.log(numbers);
       var numbers = response.data.status;
-
       function getSum(total, num) {
         return total + num;
       }
@@ -488,7 +403,7 @@ export default {
             pointRadius: 4,
 
             label: "Götürülen Sipariş Sayısı",
-            data: this.kuryeChartData
+            data: this.kuryeSiparis
           }
         ]
       };
@@ -556,13 +471,12 @@ export default {
         this.aylikToplamSatis = response.data.orderAmount;
 
         var numbers2 = response.data.status;
-
         function getSum(total, num) {
           return total + num;
         }
         this.aylikSiparisSayisi = numbers2.reduce(getSum);
         this.chartdataAylik = {
-          labels: ["Nakit", "Kapıda Ödeme", "Kredi Kartı"],
+          labels: ["Nakit", "Kredi Kartı", "Kapıda Ödeme"],
 
           datasets: [
             {
@@ -638,15 +552,8 @@ export default {
       });
   },
   created() {
-    this.getStoreInfo();
     const url = "admin/api/alluser";
-    axios.get("/site/durum").then(res => {
-      if (res.data.site_online === 0) {
-        this.siteOnlineValue = false;
-      } else {
-        this.siteOnlineValue = true;
-      }
-    });
+
     axios.get(url).then(response => {
       this.userCount = response.data;
     });

@@ -67,7 +67,12 @@ class AdminController extends Controller
         $users = Users::with(['address'])->get();
 
         foreach ($users as $key => $user ){
-            $users[$key]['addressContent'] = $user->address != null ? $user->address[0]->content : '';
+            try {
+                $address = $user->adress != null ? $user->adress['content'] : '';
+                $users[$key]['addressContent'] = $address;
+            }catch (\Exception $exception){
+                dd($user->adress['content']);
+            }
             $user['ordersPriceTotal'] = round($user->ordersSum(), 2);
         }
         return response()->json($users);
@@ -82,7 +87,7 @@ class AdminController extends Controller
         foreach ($users as $key => $user ){
             $data = [];
             $data['ad'] = $user->firstname .' '. $user->lastname ;
-            $data['adres'] = $user->address != null ? $user->address[0]->content : '';
+            $data['adres'] = $user->adress != null ? $user->adress['content'] : '';
             $data['ToplamHarcama'] = round($user->ordersSum(), 2);
             $resultUsers[] = $data;
         }
@@ -382,7 +387,15 @@ class AdminController extends Controller
 
     public function siteData()
     {
-        return Site::where('id', 1)->first();
+        $site =  Site::where('id', 1)->first();
+        return response()->json([
+            'site_name' => $site->site_name,
+            'site_description' => $site->site_description,
+            'site_create_date' => $site->site_create_date,
+            'site_url' => $site->site_url,
+            'site_online' => (int)$site->site_online,
+            'site_lisans' => $site->site_lisans
+        ]);
     }
 
 }
